@@ -3,9 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -23,6 +25,37 @@
 	
 	<context:component-scan base-package="edu.fpt.capstone" />
 	
+	<!-- Read properties file -->
+	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="appProperties">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>classpath:config.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
 	
+	<jpa:repositories base-package="edu.fpt.capstone.repository"/>
+	
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<beans:property name="driverClassName" value="${db.driver}"/>
+		<beans:property name="url" value="${db.url}"/>
+		<beans:property name="username" value="${db.user}"/>
+		<beans:property name="password" value="${db.pass}"/>
+	</beans:bean>
+	
+	<!-- Hibernate -->
+	<beans:bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
+		<beans:property name="dataSource" ref="dataSource"/>
+		<beans:property name="packagesToScan" value="edu.fpt.capstone"/>
+		<beans:property name="jpaVendorAdapter">
+			<beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<beans:property name="generateDdl" value="true"/>
+			</beans:bean>
+		</beans:property>
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
+		<beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
+	</beans:bean>
 	
 </beans:beans>

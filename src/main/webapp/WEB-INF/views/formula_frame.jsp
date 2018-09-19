@@ -18,12 +18,10 @@
 		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.min.js"></script>
 		
-		<!-- jqMath -->
-		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=UnifrakturMaguntia">
-		<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/mathscribe/jqmath-0.4.3.css">
-		
-		<%-- <script src="${pageContext.servletContext.contextPath}/resources/mathscribe/jquery-1.4.3.min.js"></script> --%>
-		<script src="${pageContext.servletContext.contextPath}/resources/mathscribe/jqmath-etc-0.4.6.min.js" charset="utf-8"></script>
+		<!-- MathJax -->
+		<script type="text/javascript" 
+				src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?
+					config=TeX-MML-AM_CHTML" async></script>
 	</head>
 	<body>
 		<div>${FORMULA}</div>
