@@ -7,8 +7,6 @@
 		<class>edu.fpt.capstone.entity.Example</class>
 		<class>edu.fpt.capstone.entity.Feedback</class>
 		<class>edu.fpt.capstone.entity.FormulaDetail</class>
-		<class>edu.fpt.capstone.entity.Grade</class>
-		<class>edu.fpt.capstone.entity.Image</class>
 		<class>edu.fpt.capstone.entity.Question</class>
 		<class>edu.fpt.capstone.entity.QuestionChoices</class>
 		<class>edu.fpt.capstone.entity.TipsAndTricks</class>

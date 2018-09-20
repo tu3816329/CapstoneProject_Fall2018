@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "formula_detail", catalog = "math_formulas_admin")
+@Table(name = "formula_detail", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "FormulaDetail.findAll", query = "SELECT f FROM FormulaDetail f")
@@ -41,8 +41,6 @@ public class FormulaDetail implements Serializable {
     @Lob
     @Column(name = "detail", nullable = false, length = 2147483647)
     private String detail;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formualaId")
-//    private List<Image> imageList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulaId")
 //    private List<ErrorFeedback> errorFeedbackList;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "formulaId")
@@ -81,15 +79,6 @@ public class FormulaDetail implements Serializable {
         this.detail = detail;
     }
 
-//    @XmlTransient
-//    public List<Image> getImageList() {
-//        return imageList;
-//    }
-//
-//    public void setImageList(List<Image> imageList) {
-//        this.imageList = imageList;
-//    }
-//
 //    @XmlTransient
 //    public List<ErrorFeedback> getErrorFeedbackList() {
 //        return errorFeedbackList;

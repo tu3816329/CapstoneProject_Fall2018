@@ -4,16 +4,9 @@ CREATE TABLE `division` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `grade` (
-	`id` int NOT NULL AUTO_INCREMENT,
-	`grade_name` varchar(20) NOT NULL,
-	PRIMARY KEY (`id`)
-);
-
 CREATE TABLE `category` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`category_name` varchar(45) NOT NULL,
-	`grade_id` int NOT NULL,
 	`division_id` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
@@ -78,17 +71,7 @@ CREATE TABLE `example` (
 	PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `image` (
-	`id` int NOT NULL AUTO_INCREMENT,
-	`image` blob NOT NULL,
-	`formuala_id` int NOT NULL,
-	`position` int NOT NULL,
-	PRIMARY KEY (`id`)
-);
-
-ALTER TABLE `category` ADD CONSTRAINT `category_fk0` FOREIGN KEY (`grade_id`) REFERENCES `grade`(`id`);
-
-ALTER TABLE `category` ADD CONSTRAINT `category_fk1` FOREIGN KEY (`division_id`) REFERENCES `division`(`id`);
+ALTER TABLE `category` ADD CONSTRAINT `category_fk0` FOREIGN KEY (`division_id`) REFERENCES `division`(`id`);
 
 ALTER TABLE `formula_detail` ADD CONSTRAINT `formula_detail_fk0` FOREIGN KEY (`category_id`) REFERENCES `category`(`id`);
 
@@ -105,6 +88,4 @@ ALTER TABLE `user_question_answer` ADD CONSTRAINT `user_question_answer_fk0` FOR
 ALTER TABLE `user_question_answer` ADD CONSTRAINT `user_question_answer_fk1` FOREIGN KEY (`choice_id`) REFERENCES `question_choices`(`id`);
 
 ALTER TABLE `example` ADD CONSTRAINT `example_fk0` FOREIGN KEY (`formula_id`) REFERENCES `formula_detail`(`id`);
-
-ALTER TABLE `image` ADD CONSTRAINT `image_fk0` FOREIGN KEY (`formuala_id`) REFERENCES `formula_detail`(`id`);
 

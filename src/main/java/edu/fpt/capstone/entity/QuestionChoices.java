@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "question_choices", catalog = "math_formulas_admin", schema = "")
+@Table(name = "question_choices", catalog = "math_formulas", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "QuestionChoices.findAll", query = "SELECT q FROM QuestionChoices q")
@@ -44,8 +44,8 @@ public class QuestionChoices implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_correct", nullable = false)
     private boolean isCorrect;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "choiceId")
-    private List<UserQuestionAnswer> userQuestionAnswerList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "choiceId")
+//    private List<UserQuestionAnswer> userQuestionAnswerList;
     @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Question questionId;
@@ -87,14 +87,14 @@ public class QuestionChoices implements Serializable {
         this.isCorrect = isCorrect;
     }
 
-    @XmlTransient
-    public List<UserQuestionAnswer> getUserQuestionAnswerList() {
-        return userQuestionAnswerList;
-    }
-
-    public void setUserQuestionAnswerList(List<UserQuestionAnswer> userQuestionAnswerList) {
-        this.userQuestionAnswerList = userQuestionAnswerList;
-    }
+//    @XmlTransient
+//    public List<UserQuestionAnswer> getUserQuestionAnswerList() {
+//        return userQuestionAnswerList;
+//    }
+//
+//    public void setUserQuestionAnswerList(List<UserQuestionAnswer> userQuestionAnswerList) {
+//        this.userQuestionAnswerList = userQuestionAnswerList;
+//    }
 
     public Question getQuestionId() {
         return questionId;

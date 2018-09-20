@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "question", catalog = "math_formulas_admin", schema = "")
+@Table(name = "question", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Question.findAll", query = "SELECT q FROM Question q")
@@ -45,13 +45,13 @@ public class Question implements Serializable {
     @Basic(optional = false)
     @Column(name = "is_answered", nullable = false)
     private boolean isAnswered;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
-    private List<UserQuestionAnswer> userQuestionAnswerList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
+//    private List<UserQuestionAnswer> userQuestionAnswerList;
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Category categoryId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
-    private List<QuestionChoices> questionChoicesList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionId")
+//    private List<QuestionChoices> questionChoicesList;
 
     public Question() {
     }
@@ -90,14 +90,14 @@ public class Question implements Serializable {
         this.isAnswered = isAnswered;
     }
 
-    @XmlTransient
-    public List<UserQuestionAnswer> getUserQuestionAnswerList() {
-        return userQuestionAnswerList;
-    }
-
-    public void setUserQuestionAnswerList(List<UserQuestionAnswer> userQuestionAnswerList) {
-        this.userQuestionAnswerList = userQuestionAnswerList;
-    }
+//    @XmlTransient
+//    public List<UserQuestionAnswer> getUserQuestionAnswerList() {
+//        return userQuestionAnswerList;
+//    }
+//
+//    public void setUserQuestionAnswerList(List<UserQuestionAnswer> userQuestionAnswerList) {
+//        this.userQuestionAnswerList = userQuestionAnswerList;
+//    }
 
     public Category getCategoryId() {
         return categoryId;
@@ -107,14 +107,14 @@ public class Question implements Serializable {
         this.categoryId = categoryId;
     }
 
-    @XmlTransient
-    public List<QuestionChoices> getQuestionChoicesList() {
-        return questionChoicesList;
-    }
-
-    public void setQuestionChoicesList(List<QuestionChoices> questionChoicesList) {
-        this.questionChoicesList = questionChoicesList;
-    }
+//    @XmlTransient
+//    public List<QuestionChoices> getQuestionChoicesList() {
+//        return questionChoicesList;
+//    }
+//
+//    public void setQuestionChoicesList(List<QuestionChoices> questionChoicesList) {
+//        this.questionChoicesList = questionChoicesList;
+//    }
 
     @Override
     public String toString() {

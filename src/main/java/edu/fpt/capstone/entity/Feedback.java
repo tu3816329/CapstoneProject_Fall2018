@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "feedback", catalog = "math_formulas_admin", schema = "")
+@Table(name = "feedback", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
@@ -85,4 +85,5 @@ public class Feedback implements Serializable {
     public String toString() {
         return "aa.Feedback[ id=" + id + " ]";
     }
+    
 }
