@@ -24,6 +24,6 @@
 					config=TeX-MML-AM_CHTML" async></script>
 	</head>
 	<body>
-		<div>${FORMULA}</div>
+		<div>${INPUT}</div>
 	</body>
 </html>

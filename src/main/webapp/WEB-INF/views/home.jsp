@@ -18,6 +18,17 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
+	<!-- Froala Editor -->
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Include Editor JS files. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.pkgd.min.js"></script>
+	
 	<style>
 		body{display: grid; grid-template-columns: 60% 40%}
 		#left{padding-left: 7px}
@@ -25,7 +36,7 @@
 		.dropdown{margin-bottom: 10px; display: inline-block}
 		#btnSave{display: none}
 		textarea{width: 100%}
-		iframe{border: none}
+		iframe{border: none; height: 700px}
 		#keyboard{margin-top: 10px}
 		.tab {overflow: hidden; border: 1px solid #ccc; background-color: #f1f1f1}
 		.tab button {background-color: inherit; float: left; border: none; outline: none; font-weight: bold;
@@ -81,40 +92,7 @@
 		<!-- <input id="imgFile" name="imageFile" type="file" class="form-control-file" 
 					accept="image/*" style="display: none"> -->
 		<button class="btn btn-primary" id="btnSave">Save Formula</button>
-		
-		<script>
-			$("#btnUpload").click(function () {
-				$(this).hide();
-				$("#imgDiv").css("display","block");
-			});
-
-			$("#cancelAddImg").click(function () {
-				$("#btnUpload").show();
-				$("#imgDiv").css("display","none");
-				$("#imgUrl").val('');
-			});
-
-			$("#addImg").click(function () {
-				var imgUrl = $("#imgUrl").val();
-				var xhr = new XMLHttpRequest();
-				xhr.onload = function() {
-					var reader = new FileReader();
-				    reader.onloadend = function() {
-				    	var curText = $("#input").val();
-				    	alert('add image: ' + curText);
-				    	var base64ImgCode = reader.result;
-						$("#input").val(curText + '\n' + base64ImgCode + '\n');
-						$("#input").focus();
-				    }
-				    reader.readAsDataURL(xhr.response);
-				};
-				xhr.open('GET', imgUrl);
-				/* xhr.setRequestHeader('Access-Control-Allow-Origin', '*'); */
-				xhr.responseType = 'blob';
-				xhr.send();
-				$("#cancelAddImg").click();
-			});
-		</script>
+		<button class="btn btn-info" id="btnPreview">Preview</button>
 		
 		<script>
 			$(".div-drop-menu").find("a").click(function (e) {
@@ -162,7 +140,6 @@
 						'id' : 0,
 						'detail' : input
 					};
-					console.log(input);
 					$.ajax({
 						url : 'save-formula?catId=' + $("#catId").val(),
 						type : 'POST',
@@ -180,7 +157,7 @@
 			});
 		</script>
 		
-		<textarea type="text" id="input" rows="8"></textarea>
+		<textarea id="input"></textarea>
 		<div id="keyboard">
 			<div id="general-key">
 				<button class="fkey">\[ \lt \]</button>	
@@ -313,14 +290,97 @@
 	</div>
 	<div id="right">
 		<h3>Preview</h3>
-		<iframe scrolling="no" src="${pageContext.servletContext.contextPath}/showFormula?text=">
+		<iframe scrolling="no" src="${pageContext.servletContext.contextPath}/showFormula">
 		</iframe>
 	</div>
 	
 	<script>
-		$("#input").on("input", function () {
-			var input = encodeURIComponent($("#input").val());
-			$('iframe').attr('src', "${pageContext.request.contextPath}/showFormula?text=" + input);
+		$(document).ready(function () {
+			$.ajax({
+				url: 'get-iframe-content',
+				type: 'POST',
+				dataType: 'json',
+				contentType: 'application/json',
+				data : JSON.stringify({"data" : ""}),
+				fail: function(res) {
+					alert('Preview error!');
+				}
+			});
+			$('iframe').attr('src', '${pageContext.servletContext.contextPath}/showFormula');
+			
+			//initialize editor
+			$('#input').froalaEditor({
+				toolbarButtons : ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
+					'|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 
+					, '-', 'specialCharacters', 'insertHR', '|', 'selectAll', 
+					'clearFormatting', '|', 'undo', 'redo'],
+				height: 150
+			});
+		});
+
+		function resetIframe() {
+			var input = $('#input').froalaEditor('html.get', true);
+			console.log(input);
+			$.ajax({
+				url: 'get-iframe-content',
+				type: 'POST',
+				dataType: 'json',
+				contentType: 'application/json; charset=utf-8',
+				data : JSON.stringify({
+					"data" : input
+				}),
+				fail: function(res) {
+					alert('Preview error!');
+				}
+			});
+			$('iframe').attr('src', '${pageContext.servletContext.contextPath}/showFormula');
+		}
+		
+		// editor change
+		/* $('#input').on('froalaEditor.contentChanged', function (e, editor) {
+			resetIframe();
+		}); */
+
+		$('#btnPreview').click(function () {
+			resetIframe();
+		});
+
+		// click formula button
+		$('.fkey').click(function () {
+			var fkeyText = '\\(' + $(this).find('script').text() + '\\)';
+			$('#input').froalaEditor('html.insert', fkeyText, false);
+		});
+
+		
+		$("#btnUpload").click(function () {
+			$(this).hide();
+			$("#imgDiv").css("display","block");
+		});
+
+		$("#cancelAddImg").click(function () {
+			$("#btnUpload").show();
+			$("#imgDiv").css("display","none");
+			$("#imgUrl").val('');
+		});
+
+		$("#addImg").click(function () {
+			var imgUrl = $("#imgUrl").val();
+			var xhr = new XMLHttpRequest();
+			xhr.onload = function() {
+				var reader = new FileReader();
+			    reader.onloadend = function() {
+			    	var curText = $("#input").val();
+			    	var base64ImgCode = reader.result;
+			    	$('#input').froalaEditor('html.insert', 
+					    	'<img width="150px" src="' + base64ImgCode + '">', false);
+			    }
+			    reader.readAsDataURL(xhr.response);
+			};
+			xhr.open('GET', imgUrl);
+			/* xhr.setRequestHeader('Access-Control-Allow-Origin', '*'); */
+			xhr.responseType = 'blob';
+			xhr.send();
+			$("#cancelAddImg").click();
 		});
 
 		function openCity(evt, cityName) {
@@ -338,15 +398,6 @@
 		}
 
 		document.getElementById("defaultOpen").click();
-
-		$('.fkey').click(function () {
-			var fkeyText = '\\(' + $(this).find('script').text() + '\\)';
-			var curText = $("#input").val();
-			$("#input").val(curText + fkeyText);
-			var input = encodeURIComponent($("#input").val());
-			$('iframe').attr('src', "${pageContext.request.contextPath}/showFormula?text=" + input);
-			$('#input').focus();
-		});
 	</script>
 </body>
 </html>
