@@ -86,31 +86,33 @@
 			$("#btnUpload").click(function () {
 				$(this).hide();
 				$("#imgDiv").css("display","block");
+			});
 
-				$("#addImg").click(function () {
-					var imgUrl = $("#imgUrl").val();
-					var xhr = new XMLHttpRequest();
-					xhr.onload = function() {
-						var reader = new FileReader();
-					    reader.onloadend = function() {
-					    	var curText = $("#input").val();
-					    	var base64ImgCode = reader.result;
-							$("#input").val(curText + '\n' + base64ImgCode + '\n');
-							$("#input").focus();
-					    }
-					    reader.readAsDataURL(xhr.response);
-					};
-					xhr.open('GET', imgUrl);
-					/* xhr.setRequestHeader('Access-Control-Allow-Origin', '*'); */
-					xhr.responseType = 'blob';
-					xhr.send();
-					$("#cancelAddImg").click();
-				});
-				
-				$("#cancelAddImg").click(function () {
-					$("#btnUpload").show();
-					$("#imgDiv").css("display","none");
-				});
+			$("#cancelAddImg").click(function () {
+				$("#btnUpload").show();
+				$("#imgDiv").css("display","none");
+				$("#imgUrl").val('');
+			});
+
+			$("#addImg").click(function () {
+				var imgUrl = $("#imgUrl").val();
+				var xhr = new XMLHttpRequest();
+				xhr.onload = function() {
+					var reader = new FileReader();
+				    reader.onloadend = function() {
+				    	var curText = $("#input").val();
+				    	alert('add image: ' + curText);
+				    	var base64ImgCode = reader.result;
+						$("#input").val(curText + '\n' + base64ImgCode + '\n');
+						$("#input").focus();
+				    }
+				    reader.readAsDataURL(xhr.response);
+				};
+				xhr.open('GET', imgUrl);
+				/* xhr.setRequestHeader('Access-Control-Allow-Origin', '*'); */
+				xhr.responseType = 'blob';
+				xhr.send();
+				$("#cancelAddImg").click();
 			});
 		</script>
 		
