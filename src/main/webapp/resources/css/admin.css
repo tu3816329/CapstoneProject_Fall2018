@@ -1,0 +1,12 @@
+body{
+	padding-left: 7px
+}
+
+.dropdown {
+	margin-bottom: 10px;
+	display: inline-block
+}
+
+#btnSave {
+	display: none
+}
