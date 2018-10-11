@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 
+3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Base Layout -->
+	<definition name="base-layout" template="/WEB-INF/views/tiles/layout/layout.jsp">
+		<put-attribute name="title" value=""/>
+		<!-- <put-attribute name="menu" value="/WEB-INF/views/tiles/templates/menu.jsp"/> -->
+		<put-attribute name="header" value="/WEB-INF/views/tiles/templates/header.jsp"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="js" value=""/>
+	</definition>
+
+	<definition name="empty-layout" template="/WEB-INF/views/tiles/layout/empty-layout.jsp">
+		<put-attribute name="title" value=""/>
+		<put-attribute name="body" value=""/>
+	</definition>
+
+	<!-- Login page -->
+	<definition name="login" extends="empty-layout">
+		<put-attribute name="title" value="Đăng nhập"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp"/>
+	</definition>
+
+	<!-- 403 page -->
+	<definition name="403" extends="base-layout">
+		<put-attribute name="title" value="Error 403"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/403.jsp"/>
+	</definition>
+	
+	<!-- Home page -->
+	<definition name="home" extends="base-layout">
+		<put-attribute name="title" value="Home"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp"/>
+	</definition>
+
+	<!-- Show categories -->
+	<definition name="show-categories" extends="base-layout">
+		<put-attribute name="title" value="Chapter"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/categories.jsp"/>
+	</definition>
+	
+	<!-- Upgrade database version -->
+	<definition name="upgrade-db" extends="base-layout">
+		<put-attribute name="title" value="Nâng cấp"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/upgrade.jsp"/>
+	</definition>
+
+	<!-- Show lessons -->
+	<definition name="show-lessons" extends="base-layout">
+		<put-attribute name="title" value="Công Thức"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/lessons.jsp"/>
+	</definition>
+
+	<!-- Show mathforms -->
+	<definition name="show-mathforms" extends="base-layout">
+		<put-attribute name="title" value="Dạng Bài"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/mathforms.jsp"/>
+	</definition>
+
+	<!-- Mathform detail -->
+	<definition name="mathform-detail" extends="base-layout">
+		<put-attribute name="title" value="Chi tiết"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/mathform-detail.jsp"/>
+	</definition>
+	
+	<!-- Add new formula -->
+	<definition name="add-lesson" extends="base-layout">
+		<put-attribute name="title" value="Thêm Công Thức"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/add-lesson.jsp"/>
+	</definition>
+
+	<!-- Edit lesson -->
+	<definition name="edit-lesson" extends="base-layout">
+		<put-attribute name="title" value="Sửa Công Thức"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/edit-lesson.jsp"/>
+	</definition>
+
+	<!-- Add mathform -->
+	<definition name="add-mathform" extends="base-layout">
+		<put-attribute name="title" value="Thêm Dạng Bài"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/add-mathform.jsp"/>
+	</definition>
+
+	<!-- Edit mathform -->
+	<definition name="edit-mathform" extends="base-layout">
+		<put-attribute name="title" value="Sửa Dạng Bài"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/edit-mathform.jsp"/>
+	</definition>
+
+	<!-- Add new exercise -->
+	<definition name="add-exercise" extends="base-layout">
+		<put-attribute name="title" value="Thêm Bài Tập"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/add-exercise.jsp"/>
+	</definition>
+
+	<!-- Edit exercise -->
+	<definition name="edit-exercise" extends="base-layout">
+		<put-attribute name="title" value="Sửa Bài Tập"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/edit-exercise.jsp"/>
+	</definition>
+
+	<!-- Quizes -->
+	<definition name="show-questions" extends="base-layout">
+		<put-attribute name="title" value="Quizes"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/quizes.jsp"/>
+	</definition>
+
+	<!-- Quiz detail -->
+	<definition name="quiz-detail" extends="base-layout">
+		<put-attribute name="title" value="Quiz - Chi tiết"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/quiz-detail.jsp"/>
+	</definition>
+
+	<!-- Add quiz question -->
+	<definition name="add-question" extends="base-layout">
+		<put-attribute name="title" value="Thêm câu hỏi"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/add-question.jsp"/>
+	</definition>
+
+	<!-- Edit quiz question -->
+	<definition name="edit-question" extends="base-layout">
+		<put-attribute name="title" value="Sửa câu hỏi"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/edit-question.jsp"/>
+	</definition>
+
+	<!-- Show versions -->
+	<definition name="show-versions" extends="base-layout">
+		<put-attribute name="title" value="Phiên bản"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/versions.jsp"/>
+	</definition>
+	
+</tiles-definitions>

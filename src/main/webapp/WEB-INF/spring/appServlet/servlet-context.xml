@@ -4,10 +4,14 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd">
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -16,14 +20,16 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
-
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
 	
 	<context:component-scan base-package="edu.fpt.capstone" />
+	
+	<!-- Tiles 3 -->
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" id="viewResolver">
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer" id="tilesConfigurer">
+		<beans:property name="definitions" value="${tiles.path}" />
+	</beans:bean>
 	
 	<!-- Read properties file -->
 	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="appProperties">
@@ -36,6 +42,7 @@
 	
 	<jpa:repositories base-package="edu.fpt.capstone.repository"/>
 	
+	<!-- MySQL + JPA -->
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<beans:property name="driverClassName" value="${db.driver}"/>
 		<beans:property name="url" value="${db.url}"/>
@@ -43,13 +50,12 @@
 		<beans:property name="password" value="${db.pass}"/>
 	</beans:bean>
 	
-	<!-- Hibernate -->
 	<beans:bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
 		<beans:property name="dataSource" ref="dataSource"/>
-		<beans:property name="packagesToScan" value="edu.fpt.capstone"/>
+		<beans:property name="packagesToScan" value="edu.fpt.capstone.entity"/>
 		<beans:property name="jpaVendorAdapter">
 			<beans:bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<beans:property name="generateDdl" value="true"/>
+				<beans:property name="generateDdl" value="false"/>
 			</beans:bean>
 		</beans:property>
 	</beans:bean>
@@ -58,4 +64,33 @@
 		<beans:property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</beans:bean>
 	
+	<!-- Spring Security -->
+	<security:http auto-config="true" use-expressions="true">
+		<security:csrf disabled="true"/>
+		
+		<security:intercept-url pattern="/login" access="permitAll()"/>
+		<security:intercept-url pattern="/logout" access="permitAll()"/>
+		
+		<security:intercept-url pattern="/" access="hasRole('ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/resources/login/**" access="permitAll()"/>
+		<security:intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')"/>
+		
+		<security:access-denied-handler error-page="/403"/>
+		
+		<security:form-login login-page="/login" login-processing-url="/j_spring_security_check"
+			default-target-url="/" always-use-default-target="true"
+			authentication-failure-url="/login?error=true" username-parameter="username"
+			password-parameter="password"/>
+			
+		<security:logout logout-url="/logout" logout-success-url="/login"
+			delete-cookies="JSESSIONID" invalidate-session="true"/>
+	</security:http>
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select username,password,enabled from users where username=?"
+				authorities-by-username-query="select username, concat('ROLE_', role_name) role_name from user_roles where username=?"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
 </beans:beans>

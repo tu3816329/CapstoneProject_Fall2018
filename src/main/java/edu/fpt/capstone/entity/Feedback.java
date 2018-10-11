@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -21,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "feedback", catalog = "math_formulas")
+@Table(catalog = "math_formulas", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Feedback.findAll", query = "SELECT f FROM Feedback f")
@@ -33,14 +38,14 @@ public class Feedback implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @Lob
-    @Column(name = "content", nullable = false, length = 2147483647)
+    @Column(nullable = false, length = 2147483647)
     private String content;
     @Basic(optional = false)
-    @Column(name = "time", nullable = false)
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
@@ -83,7 +88,7 @@ public class Feedback implements Serializable {
 
     @Override
     public String toString() {
-        return "aa.Feedback[ id=" + id + " ]";
+        return "entity.Feedback[ id=" + id + " ]";
     }
     
 }

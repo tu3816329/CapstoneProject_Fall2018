@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -20,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "example", catalog = "math_formulas")
+@Table(catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Example.findAll", query = "SELECT e FROM Example e")
@@ -31,15 +36,18 @@ public class Example implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @Lob
-    @Column(name = "content", nullable = false, length = 2147483647)
+    @Column(nullable = false, length = 2147483647)
     private String content;
-    @JoinColumn(name = "formula_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private FormulaDetail formulaId;
+    private Lesson lessonId;
+    @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Version versionId;
 
     public Example() {
     }
@@ -69,17 +77,25 @@ public class Example implements Serializable {
         this.content = content;
     }
 
-    public FormulaDetail getFormulaId() {
-        return formulaId;
+    public Lesson getLessonId() {
+        return lessonId;
     }
 
-    public void setFormulaId(FormulaDetail formulaId) {
-        this.formulaId = formulaId;
+    public void setLessonId(Lesson lessonId) {
+        this.lessonId = lessonId;
+    }
+
+    public Version getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(Version versionId) {
+        this.versionId = versionId;
     }
 
     @Override
     public String toString() {
-        return "aa.Example[ id=" + id + " ]";
+        return "entity.Example[ id=" + id + " ]";
     }
     
 }

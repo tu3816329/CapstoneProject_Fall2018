@@ -6,10 +6,13 @@
 		<class>edu.fpt.capstone.entity.ErrorFeedback</class>
 		<class>edu.fpt.capstone.entity.Example</class>
 		<class>edu.fpt.capstone.entity.Feedback</class>
-		<class>edu.fpt.capstone.entity.FormulaDetail</class>
 		<class>edu.fpt.capstone.entity.Question</class>
 		<class>edu.fpt.capstone.entity.QuestionChoices</class>
-		<class>edu.fpt.capstone.entity.TipsAndTricks</class>
-		<class>edu.fpt.capstone.entity.UserQuestionAnswer</class>
+		<class>edu.fpt.capstone.entity.Lesson</class>
+		<class>edu.fpt.capstone.entity.Version</class>
+		<class>edu.fpt.capstone.entity.Grade</class>
+		<class>edu.fpt.capstone.entity.Mathform</class>
+		<class>edu.fpt.capstone.entity.Exercises</class>
+		<class>edu.fpt.capstone.entity.QuestionLevel</class>
 	</persistence-unit>
 </persistence>

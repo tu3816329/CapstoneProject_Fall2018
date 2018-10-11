@@ -1,29 +1,31 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Chip Caber
  */
 @Entity
-@Table(name = "category", catalog = "math_formulas")
+@Table(catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
@@ -35,18 +37,23 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
     @Column(name = "category_name", nullable = false, length = 45)
     private String categoryName;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-//    private List<Question> questionList;
+    @Lob
+    @Column(name = "category_icon")
+    private byte[] categoryIcon;
     @JoinColumn(name = "division_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Division divisionId;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId")
-//    private List<FormulaDetail> formulaDetailList;
+    @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Grade gradeId;
+    @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Version versionId;
 
     public Category() {
     }
@@ -76,14 +83,13 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
     }
 
-//    @XmlTransient
-//    public List<Question> getQuestionList() {
-//        return questionList;
-//    }
-//
-//    public void setQuestionList(List<Question> questionList) {
-//        this.questionList = questionList;
-//    }
+    public byte[] getCategoryIcon() {
+        return categoryIcon;
+    }
+
+    public void setCategoryIcon(byte[] categoryIcon) {
+        this.categoryIcon = categoryIcon;
+    }
 
     public Division getDivisionId() {
         return divisionId;
@@ -93,18 +99,25 @@ public class Category implements Serializable {
         this.divisionId = divisionId;
     }
 
-//    @XmlTransient
-//    public List<FormulaDetail> getFormulaDetailList() {
-//        return formulaDetailList;
-//    }
-//
-//    public void setFormulaDetailList(List<FormulaDetail> formulaDetailList) {
-//        this.formulaDetailList = formulaDetailList;
-//    }
+    public Grade getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(Grade gradeId) {
+        this.gradeId = gradeId;
+    }
+
+    public Version getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(Version versionId) {
+        this.versionId = versionId;
+    }
 
     @Override
     public String toString() {
-        return "aa.Category[ id=" + id + " ]";
+        return "entity.Category[ id=" + id + " | " + categoryName + " | " + divisionId + " | " + gradeId + " ]";
     }
     
 }
