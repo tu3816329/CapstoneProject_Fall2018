@@ -268,11 +268,17 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 
 	@Override
-	public Version addVersion(Version version) {
+	public Version upgradeVersion(Version version) {
 		versionRepository.deactiveOldVersions(false);
 		version.setIsCurrent(true);
 		version.setId(versionRepository.getBiggestVersionId() + 1);
 		return versionRepository.save(version);
+	}
+	
+	@Override
+	public void initializeVersion() {
+		Version version = new Version(0, 0, "None Version", true);
+		versionRepository.save(version);
 	}
 	
 	@Override

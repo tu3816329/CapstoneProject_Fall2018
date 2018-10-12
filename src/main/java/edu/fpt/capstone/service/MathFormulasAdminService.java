@@ -69,7 +69,9 @@ public interface MathFormulasAdminService {
 	
 	public Version getVersionById(int versionId);
 	
-	public Version addVersion(Version version);
+	public void initializeVersion();
+	
+	public Version upgradeVersion(Version version);
 	
 	public void updateDataDbVersion(int latestVersionId);
 	

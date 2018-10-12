@@ -41,8 +41,7 @@ public class AdminController {
 	@PostConstruct
 	protected void init() {
 		if (mathFormulasAdminService.countVersion() == 0) {
-			Version version = new Version(0, 0, "None Version", true);
-			mathFormulasAdminService.addVersion(version);
+			mathFormulasAdminService.initializeVersion();
 		}
 	}
 		
@@ -62,7 +61,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "upgrade-version", method = RequestMethod.POST)
 	public String upgradeVersion(@ModelAttribute("version") Version version) {
-		int latestVersionId = mathFormulasAdminService.addVersion(version).getId();
+		int latestVersionId = mathFormulasAdminService.upgradeVersion(version).getId();
 		mathFormulasAdminService.updateDataDbVersion(latestVersionId);
 		return "redirect:show-versions";
 	}
