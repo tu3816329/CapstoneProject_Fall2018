@@ -31,17 +31,25 @@ public interface MathFormulasAdminService {
 	
 	public boolean isEqualCategory(Category oldCategory, Category newCategory);
 	
+	public void deleteCategory(int categoryId);
+	
+	public void saveCategory(Category category);
+	
 	public void saveCategories(List<Category> categories);
 	
 	public void saveLesson(Lesson lesson);
+	
+	public void deleteLesson(int lessonId);
 	
 	public List<Lesson> getLessonsByCategory(Category category);
 	
 	public Lesson getLessonById(int id);
 	
-	public Mathform getMathformById(int mathformId);
+	public Mathform getMathformById(int mathformId);;
 	
 	public void saveMathform(Mathform mathform);
+	
+	public void deleteMathform(int mathformId);
 	
 	public List<MathFormTable> getMathformTableDataByLesson(Lesson lesson);
 	
@@ -50,6 +58,8 @@ public interface MathFormulasAdminService {
 	public List<Exercises> getExercisesByMathForm(Mathform mathform);
 	
 	public void saveExercise(Exercises exercise);
+	
+	public void deleteExercise(int exerciseId);
 	
 	public List<Quizes> getQuizesData(int categoryId);
 	

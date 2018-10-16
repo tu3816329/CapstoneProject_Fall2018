@@ -165,6 +165,7 @@
 	</form:form>
 </div>
 <div class="lds-dual-ring"></div>
+<input type="file" id="uploadImg" style="display: none">
 
 <script>
     $(document).ready(function() {
@@ -230,6 +231,7 @@
             quickInsertTags: [],
             placeholderText: ''
         });
+        $('.fr-box').css('zoom', '0.8');
 
         //set green check icon for true answers
         $('.is-correct').each(function() {

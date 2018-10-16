@@ -8,5 +8,5 @@ import edu.fpt.capstone.entity.Exercises;
 import edu.fpt.capstone.entity.Mathform;
 
 public interface ExercisesRepository extends CrudRepository<Exercises, Integer> {
-	public List<Exercises> findByMathFormId(Mathform mathform);
+	public List<Exercises> findByMathformId(Mathform mathform);
 }

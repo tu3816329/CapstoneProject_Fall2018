@@ -144,8 +144,9 @@
                 htmlAllowedTags:   ['.*'],
                 htmlAllowedAttrs: ['.*'],
             });
-
             $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+            $('.fr-box').css('zoom', '0.8');
+
             setTimeout(function() {
                 $('.lds-dual-ring').css('display','none');
                 $('form').css('opacity', '1');

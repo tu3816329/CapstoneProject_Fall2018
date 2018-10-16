@@ -9,6 +9,10 @@
         font-weight: bold
     }
 
+    #categories-table, .btn {
+        opacity: 0;
+    }
+
     #btn-save-categories {
         margin-top: 10px;
 		border: none;
@@ -16,13 +20,47 @@
 		border-radius: 0;
 		color: white;
     }
+
+    /* Loading animation */
+	.lds-dual-ring {
+		display: none;
+		width: 100px;
+		height: 100px;
+		margin: auto;
+		position: absolute;
+		top: 80px;
+		left: 50%;
+		transform: translateX(-50%);
+    }
+    
+	.lds-dual-ring:after {
+	content: " ";
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 1px;
+	border-radius: 50%;
+	border: 5px solid #ab0800;
+	border-color: #ab0800 transparent #ab0800 transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 </style>
 
 <div id="categories-table"></div>
 <button class="btn" id="btn-save-categories">Lưu thay đổi</button>
+<div class="lds-dual-ring"></div>
 
 <script>
     $(document).ready(function() {
+        $('.lds-dual-ring').css('display', 'block');
         $('.gn-menu li:nth-child(2)').children('a').css('background','#283242');
         $('h2.w3_inner_tittle').text('Danh sách Chapter');
         $('.w3l_agileits_breadcrumbs_inner>ul')
@@ -32,6 +70,10 @@
         var divisionSource = getDivisionSource();
         var gradeSource = getGradeSource();
         categoriesTableConfig(divisionSource, gradeSource);
+        setTimeout(function() {
+			$('.lds-dual-ring').css('display','none');
+			$('#categories-table, .btn').css('opacity', '1');
+		}, 1000);
     });
 
     function getDivisionSource() {
@@ -82,7 +124,7 @@
             minSpareRows: 1,
             startRows: 4,
             rowHeaders: true,
-            colHeaders: ['ID','Tên chapter','Loại','Lớp','Phiên bản','Chi tiết'],
+            colHeaders: ['ID','Tên chapter','Loại','Lớp','Phiên bản','Hành động','Chi tiết'],
             columns: [{
                 data: 'id',
                 readOnly: true
@@ -101,6 +143,9 @@
                 readOnly: true
             },{
                 renderer: 'html',
+                readOnly: true
+            },{
+                renderer: 'html',
                 readOnly: true,
             }],
             stretchH: 'all',
@@ -116,7 +161,8 @@
             success: function(res) {
                 hstb.loadData(res);
                 for (var i = 0; i < res.length - 1; i++) {
-                    hstb.setDataAtCell(i, 5, '<a href="show-lessons?categoryId=' + res[i].id + '">Xem</a>')
+                    hstb.setDataAtCell(i, 5, '<a href="delete-category?categoryId=' + res[i].id + '">Xoá</a>')
+                    hstb.setDataAtCell(i, 6, '<a href="show-lessons?categoryId=' + res[i].id + '">Xem</a>')
                 }
             },
             error: function(res) {

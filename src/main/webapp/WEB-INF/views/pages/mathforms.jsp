@@ -74,7 +74,8 @@
                 hstb.loadData(res);
                 for (var i = 0; i < res.length; i++) {
                     hstb.setDataAtCell(i, 2, res[i].numOfExercises + ' bài');
-                    hstb.setDataAtCell(i, 4, '<a href="edit-mathform?mathformId=' + res[i].id + '">Sửa</a>');
+                    hstb.setDataAtCell(i, 4, '<a href="delete-mathform?mathformId=' + res[i].id + 
+                                                            '&lessonId=' + $('#l-id').val() + '">Xoá</a>');
                     hstb.setDataAtCell(i, 5, '<a href="mathform-detail?mathformId=' + res[i].id + '">Xem</a>');
                 }
             },

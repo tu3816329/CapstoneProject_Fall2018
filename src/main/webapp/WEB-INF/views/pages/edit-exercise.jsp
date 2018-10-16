@@ -80,6 +80,7 @@
 	<input type="submit" value="Sửa bài tập" class="btn" id="save-exercise">
 </form:form>
 <div class="lds-dual-ring"></div>
+<input type="file" id="uploadImg" style="display: none">
 
 <script>
 	$(document).ready(function () {
@@ -132,6 +133,7 @@
             htmlAllowedAttrs: ['.*'],
         });
         $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+        $('.fr-box').css('zoom', '0.8');
         
         setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');

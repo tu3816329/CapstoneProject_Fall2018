@@ -2,43 +2,87 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a" %>
 
 <style>
-	#forms {
+	#forms, #exercises {
 		opacity: 0
 	}
-
-	#forms .btn {
-		border-radius: 0;
-		background: #ab0800;
-		color: white;
-		float: right;
-	}
 	
-	.fa-pencil-square-o {
-		float: right;
-		color: #ab0800;
-		font-size: 20px
-	}
-	
-	.mf-detail {
-		margin-bottom: 10px;
-		padding: 1em
-	}
-
-	.mf-detail h4, .mf-detail span {
-		font-weight: bold;
-	}
-
-	.mf-detail>span {
-		font-size: 1.2em;
-	}
-	
-	#add-mathform {
-		margin-top: 10px;
+	#add-ex {
 		border: none;
 		background: #ab0800;
 		border-radius: 0;
 		color: white;
+		float: right;
 	}
+
+	/* Mathform */
+	.mf-detail {
+		margin-bottom: 10px;
+		padding: 20px;
+	}
+
+	.mf-detail>a {
+		float: right;
+		font-size: 17px;
+		color: #ab0800;
+	}
+
+	/* Exercises */
+    .exercise-item {
+    	min-height: 100px;
+        display: grid;
+        grid-template-columns: 12% 88%;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    .seq-no {
+        background: #757575;
+        color: white;
+        font-style: italic;
+    }
+
+    .seq-no h1 {
+        height: 100%;
+        position: relative;
+    }
+
+    .seq-no span {
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        font-weight: bold;
+    }
+
+    .exercise-content {
+        background: #f2f2f2;
+        padding-left: 20px;
+        display: grid;
+        grid-template-columns: 85% 5% 5%;
+        grid-column-gap: 2.5%;
+    }
+
+    .exercise-content>span:nth-child(1) {
+        padding-top: 10px;
+    }
+
+    .exercise-content>span:nth-child(2), .exercise-content>span:nth-child(3) {
+        padding-top: 10px;
+        text-align: right;
+    }
+
+    .exercise-content a {
+        margin-right: 15px;
+    }
+
+    .exercise-content .fas {
+        font-size: 17px;
+        color: #555;
+    }
+
+    .fa-times {
+        font-size: 20px !important;
+    }
 	
 	/* Loading animation */
 	.lds-dual-ring {
@@ -74,11 +118,28 @@
 
 <div id="forms">
 	<div class="mf-detail">
-		<a class="btn" href="add-exercise?mathformId=${MATHFORM.id}">Thêm bài tập</a>
-		<span>Nội dung</span>${MATHFORM.mathformContent}
+		<a href="edit-mathform?mathformId=${MATHFORM.id}"><i class="fas fa-edit"></i></a>
+		${MATHFORM.mathformContent}
 	</div>
 	<input type="hidden" value="${MATHFORM.id}" class="m-id">
 	<input type="hidden" value="${MATHFORM.mathformTitle}" class="m-title">
+</div>
+<div id="exercises">
+	<a:forEach items="${exercises}" var="ex" varStatus="counter">
+        <div class="exercise-item">
+            <div class="seq-no"><h1><span>${counter.count}</span></h1></div>
+            <div class="exercise-content">
+                <span>${ex.topic}</span>
+                <span>
+                    <a href="edit-exercise?exId=${ex.id}"><i class="fas fa-edit"></i></a>
+                </span>
+                <span>
+                    <a href="delete-exercise?exId=${ex.id}&mathformId=${ex.mathformId.id}"><i class="fas fa-times"></i></a>
+				</span>
+				<span>Đáp án: ${ex.answer}</span>
+            </div>
+        </div>
+	</a:forEach>
 </div>
 <div class="lds-dual-ring"></div>
 
@@ -86,6 +147,8 @@
     $(document).ready(function() {
 		$('.lds-dual-ring').css('display', 'block');
 		$('h2.w3_inner_tittle').text($('.m-title').val());
+		$('h2.w3_inner_tittle')
+			.append('<a id="add-ex" class="btn" href="add-exercise?mathformId=' + $('.m-id').val() + '">Thêm bài tập</a>');
 		$('.w3l_agileits_breadcrumbs_inner>ul').append($('<li>')
 													.append('Chapter ')
 													.append('<span>«</span>')
@@ -96,40 +159,10 @@
 												)
 												.append($('<li>')
 													.append('Dạng bài')
-												);
-		getMathformDetails();
-		
+												);		
 		setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');
-			$('#forms').css('opacity', '1');
+			$('#forms, #exercises').css('opacity', '1');
 		}, 1000);
     });
-
-	function getMathformDetails() {
-		var mathformId = $('.m-id').val();
-		$.ajax ({
-			type: 'GET',
-			url: 'get-exercises-by-mathform?mathformId=' + mathformId,
-			dataType: 'json',
-			contentType: 'application/json',
-			success: function(res) {
-				if(res.length !== 0) {
-					$('.mf-detail').append('<br/><span>Một số bài tập thực hành</span>');
-				} else {
-					$('.mf-detail').append('<br/><p>Chưa có bài tập nào</p>');
-				}
-				for(var i = 0; i < res.length; i++) {
-					$('.mf-detail')
-						.append('<br/><h5><a href="edit-exercise?exId=' + res[i].id + 
-								'"><span>Bài ' + (i + 1) + 
-								'</span>: ' + res[i].topic + '</a></h5>'
-						)
-						.append('<p><span>Đáp án</span>: ' + res[i].answer + '</p>');
-				}
-			},
-			error: function(res) {
-				alert('Some errors occured while loading mathform data');
-			}
-		});
-	}
 </script>

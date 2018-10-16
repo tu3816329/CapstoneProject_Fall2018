@@ -1,7 +1,9 @@
 package edu.fpt.capstone.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,21 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.fpt.capstone.data.MathFormTable;
 import edu.fpt.capstone.entity.Category;
 import edu.fpt.capstone.entity.Division;
-import edu.fpt.capstone.entity.Exercises;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Grade;
-import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.service.MathFormulasAdminService;
 
 @RestController
 public class AdminRestController {
 	
-//	private static final Logger logger = LoggerFactory.getLogger(AdminRestController.class);
+	private static final Logger log = Logger.getLogger(AdminRestController.class);
 	
 	@Autowired
 	MathFormulasAdminService mathFormulasAdminService;
@@ -115,17 +116,24 @@ public class AdminRestController {
 		return data;
 	}
 	
-	@RequestMapping(value = "get-exercises-by-mathform", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Exercises> getMathformData(@RequestParam("mathformId") int mathformId) {
-		Mathform mathform = mathFormulasAdminService.getMathformById(mathformId);
-		List<Exercises> exercises = mathFormulasAdminService.getExercisesByMathForm(mathform);
-		return exercises;
-	}
-	
 	@RequestMapping(value = "load-versions-table", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Version> loadVersionsTable() {
 		return mathFormulasAdminService.getAllVersion();
+	}
+	
+	@RequestMapping(value = "save-category-image", method = RequestMethod.POST)
+	@ResponseBody
+	public String saveCategoryImage(@RequestParam("categoryId") int categoryId, 
+									@RequestParam("imageFile") MultipartFile imgFile) {
+		Category category = mathFormulasAdminService.getCategoryById(categoryId);
+		try {
+			category.setCategoryIcon(imgFile.getBytes());
+			mathFormulasAdminService.saveCategory(category);
+		} catch (IOException e) {
+			log.error(e.getLocalizedMessage());
+			return "error";
+		}
+		return "success";
 	}
 }

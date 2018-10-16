@@ -127,8 +127,37 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 	
 	@Override
+	public void deleteCategory(int categoryId) {
+		Category category = getCategoryById(categoryId);
+		List<Lesson> lessons = getLessonsByCategory(category);
+		for(Lesson l : lessons) {
+			deleteLesson(l.getId());
+		}
+		List<Question> questions = getQuestionsByCategory(categoryId);
+		for(Question q : questions) {
+			deleteQuizQuestion(q.getId());
+		}
+		categoryRepository.delete(categoryId);
+	}
+	
+	@Override
+	public void saveCategory(Category category) {
+		categoryRepository.save(category);
+	}
+	
+	@Override
 	public void saveLesson(Lesson lesson) {
 		lessonRepository.save(lesson);
+	}
+	
+	@Override
+	public void deleteLesson(int lessonId) {
+		Lesson lesson = getLessonById(lessonId);
+		List<Mathform> mathforms = mathFormRepository.findByLessonId(lesson);
+		for(Mathform m : mathforms) {
+			deleteMathform(m.getId());
+		}
+		lessonRepository.delete(lessonId);
 	}
 
 	@Override
@@ -153,11 +182,21 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 	
 	@Override
+	public void deleteMathform(int mathformId) {
+		Mathform mathform = getMathformById(mathformId);
+		List<Exercises> exercises = getExercisesByMathForm(mathform);
+		for (Exercises e : exercises) {
+			exercisesRepository.delete(e);
+		}
+		mathFormRepository.delete(mathform);
+	}
+	
+	@Override
 	public List<MathFormTable> getMathformTableDataByLesson(Lesson lesson) {
 		List<Mathform> mathforms = mathFormRepository.findByLessonId(lesson);
 		List<MathFormTable> mathFormTables = new ArrayList<MathFormTable>();
 		for (Mathform mathform : mathforms) {
-			int numOfExs = exercisesRepository.findByMathFormId(mathform).size();
+			int numOfExs = exercisesRepository.findByMathformId(mathform).size();
 			MathFormTable data = new MathFormTable(
 					mathform.getId(), mathform.getMathformTitle(), 
 					numOfExs, mathform.getVersionId()
@@ -174,12 +213,17 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	
 	@Override
 	public List<Exercises> getExercisesByMathForm(Mathform mathform) {
-		return exercisesRepository.findByMathFormId(mathform);
+		return exercisesRepository.findByMathformId(mathform);
 	}
 
 	@Override
 	public void saveExercise(Exercises exercise) {
 		exercisesRepository.save(exercise);
+	}
+	
+	@Override
+	public void deleteExercise(int exerciseId) {
+		exercisesRepository.delete(exerciseId);
 	}
 	
 	@Override
@@ -230,10 +274,10 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	public void deleteQuizQuestion(int questionId) {
 		Question question = questionRepository.findOne(questionId);
 		List<QuestionChoices> choices = getQuestionChoicesByQuestion(question);
-		questionRepository.delete(question);
 		for(QuestionChoices c : choices) {
 			questionChoicesRepository.delete(c);
 		}
+		questionRepository.delete(question);
 	}
 	
 	@Override

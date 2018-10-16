@@ -7,6 +7,7 @@
     #quizes {
         width: 95%;
         margin: auto;
+        opacity: 0;
     }
 
     .quiz-item {
@@ -20,12 +21,14 @@
     }
 
     .quiz-image {
+        text-align: center;
         background: #ccc;
         border: 2px solid #fff;
     }
     
     .quiz-image img {
     	max-width: 100%;
+        max-height: 100%;
     }
 
     .quiz-detail {
@@ -57,6 +60,38 @@
     .fas {
         font-size: 19px;
     }
+
+    /* Loading animation */
+	.lds-dual-ring {
+		display: none;
+		width: 100px;
+		height: 100px;
+		margin: auto;
+		position: absolute;
+		top: 80px;
+		left: 50%;
+		transform: translateX(-50%);
+    }
+    
+	.lds-dual-ring:after {
+	content: " ";
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 1px;
+	border-radius: 50%;
+	border: 5px solid #ab0800;
+	border-color: #ab0800 transparent #ab0800 transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 </style>
 
 <div id="quizes">
@@ -77,15 +112,21 @@
 	    </div>
 	</a:forEach>
 </div>
+<div class="lds-dual-ring"></div>
 
 <script>
     $(document).ready(function() {
+        $('.lds-dual-ring').css('display', 'block');
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
 				.append('Quizes')
         	);
         $('h2.w3_inner_tittle').text('Quizes');
         $('.gn-menu li:nth-child(3)').children('a').css('background','#283242');
+        setTimeout(function() {
+			$('.lds-dual-ring').css('display','none');
+			$('#quizes').css('opacity', '1');
+		}, 1000);
     });
 
     $('.quiz-item').each(function() {

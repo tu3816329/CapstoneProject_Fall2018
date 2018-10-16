@@ -9,6 +9,10 @@
         font-weight: bold
     }
 
+    #versions-table {
+        opacity: 0;
+    }
+
     #add-version {
         margin-top: 10px;
 		border: none;
@@ -17,12 +21,46 @@
         color: white;
         float: right;
     }
+
+    /* Loading animation */
+	.lds-dual-ring {
+		display: none;
+		width: 100px;
+		height: 100px;
+		margin: auto;
+		position: absolute;
+		top: 80px;
+		left: 50%;
+		transform: translateX(-50%);
+    }
+    
+	.lds-dual-ring:after {
+	content: " ";
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 1px;
+	border-radius: 50%;
+	border: 5px solid #ab0800;
+	border-color: #ab0800 transparent #ab0800 transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 </style>
 
 <div id="versions-table"></div>
+<div class="lds-dual-ring"></div>
 
 <script>
     $(document).ready(function() {
+        $('.lds-dual-ring').css('display', 'block');
         $('.gn-menu li:nth-child(4)').children('a').css('background','#283242');
         $('h2.w3_inner_tittle').text('Phiên bản');
         $('h2.w3_inner_tittle')
@@ -34,6 +72,10 @@
 				.append('Phiên bản')
         	);
         versionsTableConfig();
+        setTimeout(function() {
+			$('.lds-dual-ring').css('display','none');
+			$('#versions-table').css('opacity', '1');
+		}, 1000);
     });
 
     function versionsTableConfig() {

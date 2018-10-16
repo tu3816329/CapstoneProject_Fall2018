@@ -47,7 +47,7 @@ public class Exercises implements Serializable {
     private String answer;
     @JoinColumn(name = "math_form_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Mathform mathFormId;
+    private Mathform mathformId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
@@ -88,12 +88,12 @@ public class Exercises implements Serializable {
         this.answer = answer;
     }
 
-    public Mathform getMathFormId() {
-        return mathFormId;
+    public Mathform getMathformId() {
+        return mathformId;
     }
 
-    public void setMathFormId(Mathform mathFormId) {
-        this.mathFormId = mathFormId;
+    public void setMathformId(Mathform mathformId) {
+        this.mathformId = mathformId;
     }
 
     public Version getVersionId() {

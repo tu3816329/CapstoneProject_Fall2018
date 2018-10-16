@@ -113,6 +113,7 @@
 	}
 </style>
 
+<input type="file" id="uploadImg" style="display: none">
 <div id="question-input">
 	<form:form action="save-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
         <form:hidden path="categoryId"/>
@@ -224,6 +225,8 @@
             quickInsertTags: [],
             placeholderText: ''
         });
+
+        $('.fr-box').css('zoom', '0.8');
 
         $('.fr-sticky-off').css('border','none');
 

@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <style>
+    #category, #questions {
+        opacity: 0;
+    }
+
     #category {
         width: 95%;
         margin: auto;
@@ -23,12 +27,14 @@
     }
 
     .quiz-image {
+        text-align: center;
         background: #ccc;
         border: 2px solid #fff;
     }
     
     .quiz-image img {
-    	max-width: 100%;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     .quiz-detail {
@@ -146,6 +152,38 @@
     .answer-item>span:nth-child(2) {
         padding: 10px 20px;
     }
+
+    /* Loading animation */
+	.lds-dual-ring {
+		display: none;
+		width: 100px;
+		height: 100px;
+		margin: auto;
+		position: absolute;
+		top: 80px;
+		left: 50%;
+		transform: translateX(-50%);
+    }
+    
+	.lds-dual-ring:after {
+	content: " ";
+	display: block;
+	width: 100px;
+	height: 100px;
+	margin: 1px;
+	border-radius: 50%;
+	border: 5px solid #ab0800;
+	border-color: #ab0800 transparent #ab0800 transparent;
+	animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
 </style>
 
 <div id="category">
@@ -161,7 +199,7 @@
             <a href="add-question?categoryId=${quiz.categoryId}" class="btn" id="add-question">
                 <i class="fas fa-plus-circle"></i> Thêm câu hỏi
             </a>
-	        <span>${quiz.numOfQuestions} Questions</span>
+	        <span>${quiz.numOfQuestions} Câu hỏi</span>
         </div>
 	</div>
 </div>
@@ -198,9 +236,11 @@
         </div>
 	</a:forEach>
 </div>
+<div class="lds-dual-ring"></div>
 
 <script>;
     $(document).ready(function() {
+        $('.lds-dual-ring').css('display', 'block');
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
                 .append($('.quiz-title a').text())
@@ -213,6 +253,10 @@
         if ($('.quiz-image').has('img').length) {
             $('.quiz-image').css('background','#fff');
         }
+        setTimeout(function() {
+			$('.lds-dual-ring').css('display','none');
+			$('#category, #questions').css('opacity', '1');
+		}, 1000);
     });
 
     $('.question-item').click(function() {

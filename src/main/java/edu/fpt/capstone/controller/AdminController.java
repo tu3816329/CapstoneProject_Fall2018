@@ -71,6 +71,12 @@ public class AdminController {
 		return "show-categories";
 	}
 	
+	@RequestMapping(value = "delete-category", method = RequestMethod.GET)
+	public String deleteCategory(@RequestParam("categoryId") int categoryId) {
+		mathFormulasAdminService.deleteCategory(categoryId);
+		return "show-categories";
+	}
+	
 	@RequestMapping(value = "show-lessons", method = RequestMethod.GET)
 	public String showLessons(@RequestParam("categoryId") int categoryId, Model model) {
 		Category category = mathFormulasAdminService.getCategoryById(categoryId);
@@ -138,6 +144,13 @@ public class AdminController {
 		return "redirect:show-lessons?categoryId=" + oldLesson.getCategoryId().getId();
 	}
 	
+	@RequestMapping(value = "delete-lesson", method = RequestMethod.GET)
+	public String deleteLesson(@RequestParam("lessonId") int lessonId,
+								@RequestParam("categoryId") int categoryId) {
+		mathFormulasAdminService.deleteLesson(lessonId);
+		return "redirect:show-lessons?categoryId=" + categoryId;
+	}
+	
 	@RequestMapping(value = "show-mathforms", method = RequestMethod.GET)
 	public String showMathforms(@RequestParam("lessonId") int lessonId, Model model) {
 		model.addAttribute("LESSONID", lessonId);
@@ -181,33 +194,42 @@ public class AdminController {
 			oldMathform.setVersionId(noneVersion);
 			mathFormulasAdminService.saveMathform(oldMathform);
 		}
-		return "redirect:show-mathforms?lessonId=" + oldMathform.getLessonId().getId();
+		return "redirect:mathform-detail?mathformId=" + oldMathform.getId();
 	}
 	
 	@RequestMapping(value = "mathform-detail", method = RequestMethod.GET)
 	public String getMathformDetail(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathFormulasAdminService.getMathformById(mathformId);
 		model.addAttribute("MATHFORM", mathform);
+		List<Exercises> exercises = mathFormulasAdminService.getExercisesByMathForm(mathform);
+		model.addAttribute("exercises", exercises);
 		return "mathform-detail";
+	}
+	
+	@RequestMapping(value = "delete-mathform", method = RequestMethod.GET)
+	public String deleteMathform(@RequestParam("mathformId") int mathformId, 
+								@RequestParam("lessonId") int lessonId) {
+		mathFormulasAdminService.deleteMathform(mathformId);
+		return "redirect:show-mathforms?lessonId=" + lessonId;
 	}
 	
 	@RequestMapping(value = "add-exercise", method = RequestMethod.GET)
 	public String addExercise(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathFormulasAdminService.getMathformById(mathformId);
 		Exercises exercise = new Exercises();
-		exercise.setMathFormId(mathform);
+		exercise.setMathformId(mathform);
 		model.addAttribute("exercise", exercise);
 		return "add-exercise";
 	}
 
 	@RequestMapping(value = "save-new-exercise", method = RequestMethod.POST)
 	public String saveExercise(@ModelAttribute("exercise") Exercises exercise) {
-		Mathform mathform = mathFormulasAdminService.getMathformById(exercise.getMathFormId().getId());
+		Mathform mathform = mathFormulasAdminService.getMathformById(exercise.getMathformId().getId());
 		Version noneVersion = mathFormulasAdminService.getVersionById(0);
-		exercise.setMathFormId(mathform);
+		exercise.setMathformId(mathform);
 		exercise.setVersionId(noneVersion);
 		mathFormulasAdminService.saveExercise(exercise);
-		return "redirect:mathform-detail?mathformId=" + exercise.getMathFormId().getId();
+		return "redirect:mathform-detail?mathformId=" + exercise.getMathformId().getId();
 	}
 	
 	@RequestMapping(value = "edit-exercise", method = RequestMethod.GET)
@@ -228,7 +250,14 @@ public class AdminController {
 			oldExercise.setVersionId(noneVersion);
 			mathFormulasAdminService.saveExercise(oldExercise);
 		}
-		return "redirect:mathform-detail?mathformId=" + oldExercise.getMathFormId().getId();
+		return "redirect:mathform-detail?mathformId=" + oldExercise.getMathformId().getId();
+	}
+	
+	@RequestMapping(value = "delete-exercise", method = RequestMethod.GET)
+	public String deleteExercise(@RequestParam("exId") int exerciseId, 
+								@RequestParam("mathformId") int mathformId) {
+		mathFormulasAdminService.deleteExercise(exerciseId);
+		return "redirect:mathform-detail?mathformId=" + mathformId;
 	}
 	
 	@RequestMapping(value = "show-questions", method = RequestMethod.GET)
