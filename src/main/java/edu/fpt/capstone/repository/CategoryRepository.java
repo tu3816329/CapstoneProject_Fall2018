@@ -21,7 +21,7 @@ public interface CategoryRepository extends CrudRepository<Category, Integer> {
 	public int updateCategoryVersion(@Param("latestVersionId") int latestVersionId);
 	
 	@Transactional
-	@Query("select c from Category c where c.versionId > :userVersion")
+	@Query("select c from Category c where c.versionId.id > :userVersion")
 	public List<Category> getNewCategories(@Param("userVersion") int userVersion);
 	
 	public List<Category> findByVersionId(Version version);

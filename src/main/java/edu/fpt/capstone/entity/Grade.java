@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -39,6 +41,9 @@ public class Grade implements Serializable {
     @Basic(optional = false)
     @Column(name = "grade_name", nullable = false, length = 20)
     private String gradeName;
+    @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Version versionId;
 
     public Grade() {
     }
@@ -47,9 +52,10 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
-    public Grade(Integer id, String gradeName) {
+    public Grade(Integer id, String gradeName, Version versionId) {
         this.id = id;
         this.gradeName = gradeName;
+        this.versionId = versionId;
     }
 
     public Integer getId() {
@@ -68,7 +74,15 @@ public class Grade implements Serializable {
         this.gradeName = gradeName;
     }
 
-    @Override
+    public Version getVersionId() {
+		return versionId;
+	}
+
+	public void setVersionId(Version versionId) {
+		this.versionId = versionId;
+	}
+
+	@Override
     public String toString() {
         return "entity.Grade[ id=" + id + " ]";
     }

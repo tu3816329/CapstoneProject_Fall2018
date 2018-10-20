@@ -2,9 +2,10 @@ package edu.fpt.capstone.service;
 
 import java.util.List;
 
-import edu.fpt.capstone.data.MathFormTable;
+import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.data.QuestionAnswer;
 import edu.fpt.capstone.data.Quizes;
+import edu.fpt.capstone.data.ResponseData;
 import edu.fpt.capstone.entity.Category;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Exercises;
@@ -51,11 +52,11 @@ public interface MathFormulasAdminService {
 	
 	public void deleteMathform(int mathformId);
 	
-	public List<MathFormTable> getMathformTableDataByLesson(Lesson lesson);
+	public List<MathformTable> getMathformTableDataByLesson(Lesson lesson);
 	
 	public Exercises getExerciseById(int exerciseId);
 	
-	public List<Exercises> getExercisesByMathForm(Mathform mathform);
+	public List<Exercises> getExercisesByMathform(Mathform mathform);
 	
 	public void saveExercise(Exercises exercise);
 	
@@ -98,4 +99,6 @@ public interface MathFormulasAdminService {
 	public List<Lesson> getNewLessons(int userVersion);
 		
 	public int countVersion();
+	
+	public ResponseData getNewData(int userVersion);
 }

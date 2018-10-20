@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.fpt.capstone.data.MathFormTable;
+import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.entity.Category;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Lesson;
@@ -28,30 +28,6 @@ public class AdminRestController {
 	
 	@Autowired
 	MathFormulasAdminService mathFormulasAdminService;
-	
-	@RequestMapping(value = "check-database-version", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Version> returnNewVersions(@RequestParam("currentVersion") int userCurrentVersion) {
-		return mathFormulasAdminService.getNewVersions(userCurrentVersion);
-	}
-	
-	@RequestMapping(value = "get-new-divisions", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Division> returnNewDivisions(@RequestParam("currentVersion") int userCurrentVersion) {
-		return mathFormulasAdminService.getNewDivisions(userCurrentVersion);
-	}
-	
-	@RequestMapping(value = "get-new-categories", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Category> returnNewCategories(@RequestParam("currentVersion") int userCurrentVersion) {
-		return mathFormulasAdminService.getNewCategories(userCurrentVersion);
-	}
-	
-	@RequestMapping(value = "get-new-lessons", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Lesson> returnNewFormulas(@RequestParam("currentVersion") int userCurrentVersion) {
-		return mathFormulasAdminService.getNewLessons(userCurrentVersion);
-	}
 	
 	@RequestMapping(value = "get-grades", method = RequestMethod.GET)
 	@ResponseBody
@@ -84,34 +60,11 @@ public class AdminRestController {
 		return isSuccess;
 	}
 	
-	@RequestMapping(value = "get-categories-by-division", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Category> getCategoriesByDivision(@RequestParam("divId") int divId) {
-		Division division = mathFormulasAdminService.getDivisionById(divId);
-		List<Category> categories = mathFormulasAdminService.getCategoriesByDivision(division);
-		return categories;
-	}
-	
-	@RequestMapping(value = "get-lessons-by-category", method = RequestMethod.GET)
-	@ResponseBody
-	public List<Lesson> getFormulasByCategory(@RequestParam("categoryId") int categoryId) {
-		Category category = mathFormulasAdminService.getCategoryById(categoryId);
-		List<Lesson> lessons = mathFormulasAdminService.getLessonsByCategory(category);
-		return lessons;
-	}
-	
-	@RequestMapping(value = "get-formula-by-id", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
-	@ResponseBody
-	public Lesson getFormulaById(@RequestParam("lessonId") int id) {
-		Lesson lesson = mathFormulasAdminService.getLessonById(id);
-		return lesson;
-	}
-	
 	@RequestMapping(value = "load-mathforms-table", method = RequestMethod.GET)
 	@ResponseBody
-	public List<MathFormTable> loadMathformsTable(@RequestParam("lessonId") int lessonId) {
+	public List<MathformTable> loadMathformsTable(@RequestParam("lessonId") int lessonId) {
 		Lesson lesson = mathFormulasAdminService.getLessonById(lessonId);
-		List<MathFormTable> data = 
+		List<MathformTable> data = 
 				mathFormulasAdminService.getMathformTableDataByLesson(lesson);
 		return data;
 	}
@@ -127,8 +80,10 @@ public class AdminRestController {
 	public String saveCategoryImage(@RequestParam("categoryId") int categoryId, 
 									@RequestParam("imageFile") MultipartFile imgFile) {
 		Category category = mathFormulasAdminService.getCategoryById(categoryId);
+		Version noneVersion = mathFormulasAdminService.getVersionById(0);
 		try {
 			category.setCategoryIcon(imgFile.getBytes());
+			category.setVersionId(noneVersion);
 			mathFormulasAdminService.saveCategory(category);
 		} catch (IOException e) {
 			log.error(e.getLocalizedMessage());

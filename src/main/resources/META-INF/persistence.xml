@@ -4,7 +4,6 @@
 		<class>edu.fpt.capstone.entity.Category</class>
 		<class>edu.fpt.capstone.entity.Division</class>
 		<class>edu.fpt.capstone.entity.ErrorFeedback</class>
-		<class>edu.fpt.capstone.entity.Example</class>
 		<class>edu.fpt.capstone.entity.Feedback</class>
 		<class>edu.fpt.capstone.entity.Question</class>
 		<class>edu.fpt.capstone.entity.QuestionChoices</class>

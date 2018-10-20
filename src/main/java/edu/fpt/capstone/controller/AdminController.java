@@ -201,7 +201,7 @@ public class AdminController {
 	public String getMathformDetail(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathFormulasAdminService.getMathformById(mathformId);
 		model.addAttribute("MATHFORM", mathform);
-		List<Exercises> exercises = mathFormulasAdminService.getExercisesByMathForm(mathform);
+		List<Exercises> exercises = mathFormulasAdminService.getExercisesByMathform(mathform);
 		model.addAttribute("exercises", exercises);
 		return "mathform-detail";
 	}
@@ -321,7 +321,12 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "show-versions", method = RequestMethod.GET)
-	public String deleteQuizQuestion() {
+	public String showVersions() {
 		return "show-versions";
+	}
+	
+	@RequestMapping(value = "android/math-editor", method = RequestMethod.GET)
+	public String inputMath() {
+		return "math-editor";
 	}
 }

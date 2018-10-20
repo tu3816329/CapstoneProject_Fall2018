@@ -18,8 +18,8 @@ public interface VersionRepository extends CrudRepository<Version, Integer> {
 	public void deactiveOldVersions(@Param("isCurrent") boolean isCurrent);
 	
 	@Transactional
-	@Query("select v from Version v where databaseVersion > :userVersion")
-	public List<Version> getNewVersions(@Param("userVersion") int userCurrentVersion);
+	@Query("select v from Version v where id > :userVersionId")
+	public List<Version> getNewVersions(@Param("userVersionId") int userCurrentVersionId);
 	
 	@Transactional
 	@Query("select max(v.id) from Version v")

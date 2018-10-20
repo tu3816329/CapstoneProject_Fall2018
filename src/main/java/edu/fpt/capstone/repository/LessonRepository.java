@@ -23,6 +23,6 @@ public interface LessonRepository extends CrudRepository<Lesson, Integer> {
 	public List<Lesson> findByVersionId(Version version);
 	
 	@Transactional
-	@Query("select l from Lesson l where l.versionId > :userVersion")
-	public List<Lesson> getNewFormulas(@Param("userVersion") int userVersion);
+	@Query("select l from Lesson l where l.versionId.id > :userVersion")
+	public List<Lesson> getNewLessons(@Param("userVersion") int userVersion);
 }

@@ -41,9 +41,6 @@ public class QuestionLevel implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false, length = 20)
     private String level;
-    @JoinColumn(name = "question_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Question questionId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
@@ -76,14 +73,6 @@ public class QuestionLevel implements Serializable {
         this.level = level;
     }
 
-    public Question getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Question questionId) {
-        this.questionId = questionId;
-    }
-
     public Version getVersionId() {
         return versionId;
     }
@@ -96,5 +85,4 @@ public class QuestionLevel implements Serializable {
     public String toString() {
         return "entity.QuestionLevel[ id=" + id + " ]";
     }
-    
 }

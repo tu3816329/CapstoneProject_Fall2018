@@ -7,9 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.fpt.capstone.data.MathFormTable;
+import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.data.QuestionAnswer;
 import edu.fpt.capstone.data.Quizes;
+import edu.fpt.capstone.data.ResponseData;
 import edu.fpt.capstone.entity.Category;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Exercises;
@@ -18,6 +19,7 @@ import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.QuestionChoices;
+import edu.fpt.capstone.entity.QuestionLevel;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.CategoryRepository;
 import edu.fpt.capstone.repository.DivisionRepository;
@@ -26,6 +28,7 @@ import edu.fpt.capstone.repository.LessonRepository;
 import edu.fpt.capstone.repository.GradeRepository;
 import edu.fpt.capstone.repository.MathFormRepository;
 import edu.fpt.capstone.repository.QuestionChoicesRepository;
+import edu.fpt.capstone.repository.QuestionLevelRepository;
 import edu.fpt.capstone.repository.QuestionRepository;
 import edu.fpt.capstone.repository.VersionRepository;
 import edu.fpt.capstone.service.MathFormulasAdminService;
@@ -49,6 +52,8 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	QuestionRepository questionRepository;
 	@Autowired
 	QuestionChoicesRepository questionChoicesRepository;
+	@Autowired
+	QuestionLevelRepository questionLevelRepository;
 	@Autowired
 	VersionRepository versionRepository;
 	
@@ -184,7 +189,7 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	@Override
 	public void deleteMathform(int mathformId) {
 		Mathform mathform = getMathformById(mathformId);
-		List<Exercises> exercises = getExercisesByMathForm(mathform);
+		List<Exercises> exercises = getExercisesByMathform(mathform);
 		for (Exercises e : exercises) {
 			exercisesRepository.delete(e);
 		}
@@ -192,12 +197,12 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 	
 	@Override
-	public List<MathFormTable> getMathformTableDataByLesson(Lesson lesson) {
+	public List<MathformTable> getMathformTableDataByLesson(Lesson lesson) {
 		List<Mathform> mathforms = mathFormRepository.findByLessonId(lesson);
-		List<MathFormTable> mathFormTables = new ArrayList<MathFormTable>();
+		List<MathformTable> mathFormTables = new ArrayList<MathformTable>();
 		for (Mathform mathform : mathforms) {
 			int numOfExs = exercisesRepository.findByMathformId(mathform).size();
-			MathFormTable data = new MathFormTable(
+			MathformTable data = new MathformTable(
 					mathform.getId(), mathform.getMathformTitle(), 
 					numOfExs, mathform.getVersionId()
 			);
@@ -212,7 +217,7 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 	
 	@Override
-	public List<Exercises> getExercisesByMathForm(Mathform mathform) {
+	public List<Exercises> getExercisesByMathform(Mathform mathform) {
 		return exercisesRepository.findByMathformId(mathform);
 	}
 
@@ -329,6 +334,11 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	public void updateDataDbVersion(int latestVersionId) {
 		Version noneVersion = versionRepository.findOne(0);
 		Version latestVersion = versionRepository.findOne(latestVersionId);
+		List<Grade> grades = gradeRepository.findByVersionId(noneVersion);
+		for(Grade grade : grades) {
+			grade.setVersionId(latestVersion);
+			gradeRepository.save(grade);
+		}
 		List<Division> divisions = divisionRepository.findByVersionId(noneVersion);
 		for(Division division : divisions) {
 			division.setVersionId(latestVersion);
@@ -343,6 +353,31 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 		for(Lesson lesson : lessons) {
 			lesson.setVersionId(latestVersion);
 			lessonRepository.save(lesson);
+		}
+		List<Mathform> mathforms = mathFormRepository.findByVersionId(noneVersion);
+		for(Mathform mathform : mathforms) {
+			mathform.setVersionId(latestVersion);
+			mathFormRepository.save(mathform);
+		}
+		List<Exercises> exercises = exercisesRepository.findByVersionId(noneVersion);
+		for(Exercises exercise : exercises) {
+			exercise.setVersionId(latestVersion);
+			exercisesRepository.save(exercise);
+		}
+		List<Question> questions = questionRepository.findByVersionId(noneVersion);
+		for(Question question : questions) {
+			question.setVersionId(latestVersion);
+			questionRepository.save(question);
+		}
+		List<QuestionChoices> choices = questionChoicesRepository.findByVersionId(noneVersion);
+		for(QuestionChoices choice : choices) {
+			choice.setVersionId(latestVersion);
+			questionChoicesRepository.save(choice);
+		}
+		List<QuestionLevel> levels = questionLevelRepository.findByVersionId(noneVersion);
+		for(QuestionLevel level : levels) {
+			level.setVersionId(latestVersion);
+			questionLevelRepository.save(level);
 		}
 	}
 
@@ -363,7 +398,7 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 
 	@Override
 	public List<Lesson> getNewLessons(int userVersion) {
-		return lessonRepository.getNewFormulas(userVersion);
+		return lessonRepository.getNewLessons(userVersion);
 	}
 
 	@Override
@@ -379,6 +414,23 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	@Override
 	public Version getCurrentVersion() {
 		return versionRepository.getCurrentVersion();
-		
+	}
+	
+	@Override
+	public ResponseData getNewData(int userVersion) {
+		List<Grade> grades = gradeRepository.getNewGrades(userVersion);
+		List<Division> divisions = divisionRepository.getNewDivisions(userVersion);
+		List<Category> categories = categoryRepository.getNewCategories(userVersion);
+		List<Lesson> lessons = lessonRepository.getNewLessons(userVersion);
+		List<Mathform> mathforms = mathFormRepository.getNewMathforms(userVersion);
+		List<Exercises> exercises  = exercisesRepository.getNewExercises(userVersion);
+		List<Question> questions = questionRepository.getNewQuestions(userVersion);
+		List<QuestionChoices> choices = questionChoicesRepository.getNewQuestionChoices(userVersion);
+		List<QuestionLevel> levels = questionLevelRepository.getNewLevels(userVersion);
+		ResponseData data = new ResponseData(
+				grades, divisions, categories, lessons, mathforms, exercises, questions, 
+				choices, levels
+		);
+		return data;
 	}
 }

@@ -20,7 +20,7 @@ public interface DivisionRepository extends CrudRepository<Division, Integer> {
 	public int updateDivisionVersion(@Param("latestVersionId") int latestVersionId);
 	
 	@Transactional
-	@Query("select d from Division d where d.versionId > :userVersion")
+	@Query("select d from Division d where d.versionId.id > :userVersion")
 	public List<Division> getNewDivisions(@Param("userVersion") int userVersion);
 	
 	public List<Division> findByVersionId(Version version);

@@ -60,6 +60,11 @@
         font-size: 15px;
     }
 
+	.cat-image {
+		background: #ccc;
+		text-align: center;
+	}
+
     .fas {
         font-size: 19px;
     }

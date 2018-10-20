@@ -28,9 +28,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "mathform", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MathForm.findAll", query = "SELECT m FROM Mathform m")
-    , @NamedQuery(name = "MathForm.findById", query = "SELECT m FROM Mathform m WHERE m.id = :id")
-    , @NamedQuery(name = "MathForm.findByTitle", query = "SELECT m FROM Mathform m WHERE m.mathformTitle = :mathformTitle")})
+    @NamedQuery(name = "Mathform.findAll", query = "SELECT m FROM Mathform m")
+    , @NamedQuery(name = "Mathform.findById", query = "SELECT m FROM Mathform m WHERE m.id = :id")
+    , @NamedQuery(name = "Mathform.findByTitle", query = "SELECT m FROM Mathform m WHERE m.mathformTitle = :mathformTitle")})
 public class Mathform implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -108,7 +108,7 @@ public class Mathform implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.MathForm[ id=" + id + " ]";
+        return "entity.Mathform[ id=" + id + " ]";
     }
     
 }
