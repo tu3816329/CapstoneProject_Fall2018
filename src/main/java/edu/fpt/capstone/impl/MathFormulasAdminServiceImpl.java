@@ -334,8 +334,8 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 		gradeRepository.save(grade10);
 		gradeRepository.save(grade11);
 		gradeRepository.save(grade12);
-		Division division1 = new Division(1, "Đại số");
-		Division division2 = new Division(2, "Hình học");
+		Division division1 = new Division(1, "Đại số", version);
+		Division division2 = new Division(2, "Hình học", version);
 		divisionRepository.save(division1);
 		divisionRepository.save(division2);
 	}

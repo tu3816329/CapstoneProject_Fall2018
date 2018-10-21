@@ -52,9 +52,10 @@ public class Division implements Serializable {
         this.id = id;
     }
 
-    public Division(Integer id, String divisionName) {
+    public Division(Integer id, String divisionName, Version versionId) {
         this.id = id;
         this.divisionName = divisionName;
+        this.versionId = versionId;
     }
 
     public Integer getId() {
