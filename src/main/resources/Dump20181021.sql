@@ -19,10 +19,6 @@
 -- Table structure for table `category`
 --
 
-CREATE DATABASE math_formulas CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-use math_formulas;
-
 DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -40,7 +36,7 @@ CREATE TABLE `category` (
   CONSTRAINT `fk0_category` FOREIGN KEY (`division_id`) REFERENCES `division` (`id`),
   CONSTRAINT `fk1_category` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk2_category` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,13 +47,13 @@ DROP TABLE IF EXISTS `division`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `division` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `division_name` varchar(20) NOT NULL,
   `version_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk0_division_idx` (`version_id`),
   CONSTRAINT `fk0_division` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,26 +70,6 @@ CREATE TABLE `error_feedback` (
   PRIMARY KEY (`id`),
   KEY `fk0_error_feedback_idx` (`lesson_id`),
   CONSTRAINT `fk0_error_feedback` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `example`
---
-
-DROP TABLE IF EXISTS `example`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `example` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `content` longtext NOT NULL,
-  `lesson_id` int(11) NOT NULL,
-  `version_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `fk0_example_idx` (`lesson_id`),
-  KEY `fk1_example_idx` (`version_id`),
-  CONSTRAINT `fk0_example` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`),
-  CONSTRAINT `fk1_example` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -115,7 +91,7 @@ CREATE TABLE `exercises` (
   KEY `fk1_exercises_idx` (`version_id`),
   CONSTRAINT `fk0_exercises` FOREIGN KEY (`math_form_id`) REFERENCES `mathform` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk1_exercises` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,10 +117,13 @@ DROP TABLE IF EXISTS `grade`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `grade` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `grade_name` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  `version_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk0_grade_idx` (`version_id`),
+  CONSTRAINT `fk0_grade` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +144,7 @@ CREATE TABLE `lesson` (
   KEY `fk1_formula_idx` (`version_id`),
   CONSTRAINT `fk0_formula` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `fk1_formula` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +165,7 @@ CREATE TABLE `mathform` (
   KEY `fk1_math_form_idx` (`version_id`),
   CONSTRAINT `fk0_math_form` FOREIGN KEY (`lesson_id`) REFERENCES `lesson` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk1_math_form` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +185,7 @@ CREATE TABLE `question` (
   KEY `fk1_question_idx` (`version_id`),
   CONSTRAINT `fk0_question` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
   CONSTRAINT `fk1_question` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +206,7 @@ CREATE TABLE `question_choices` (
   KEY `fk1_question_choices_idx` (`version_id`),
   CONSTRAINT `fk0_question_choices` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`),
   CONSTRAINT `fk1_question_choices` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,12 +219,9 @@ DROP TABLE IF EXISTS `question_level`;
 CREATE TABLE `question_level` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level` varchar(20) NOT NULL,
-  `question_id` int(11) NOT NULL,
   `version_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk0_question_level_idx` (`question_id`),
   KEY `fk1_question_level_idx` (`version_id`),
-  CONSTRAINT `fk0_question_level` FOREIGN KEY (`question_id`) REFERENCES `question` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk1_question_level` FOREIGN KEY (`version_id`) REFERENCES `version` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -311,4 +287,4 @@ CREATE TABLE `version` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-11 19:05:41
+-- Dump completed on 2018-10-21 15:11:53

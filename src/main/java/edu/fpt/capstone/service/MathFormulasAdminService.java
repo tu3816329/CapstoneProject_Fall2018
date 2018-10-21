@@ -80,7 +80,7 @@ public interface MathFormulasAdminService {
 	
 	public Version getVersionById(int versionId);
 	
-	public void initializeVersion();
+	public void initializeData();
 	
 	public Version upgradeVersion(Version version);
 	

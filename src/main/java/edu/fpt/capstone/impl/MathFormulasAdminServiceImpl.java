@@ -325,9 +325,19 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	}
 	
 	@Override
-	public void initializeVersion() {
+	public void initializeData() {
 		Version version = new Version(0, 0, "None Version", true);
-		versionRepository.save(version);
+		version = versionRepository.save(version);
+		Grade grade10 = new Grade(1, "Lớp 10", version);
+		Grade grade11 = new Grade(2, "Lớp 10", version);
+		Grade grade12 = new Grade(3, "Lớp 10", version);
+		gradeRepository.save(grade10);
+		gradeRepository.save(grade11);
+		gradeRepository.save(grade12);
+		Division division1 = new Division(1, "Đại số");
+		Division division2 = new Division(2, "Hình học");
+		divisionRepository.save(division1);
+		divisionRepository.save(division2);
 	}
 	
 	@Override

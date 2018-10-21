@@ -41,8 +41,9 @@ public class AdminController {
 	@PostConstruct
 	protected void init() {
 		if (mathFormulasAdminService.countVersion() == 0) {
-			mathFormulasAdminService.initializeVersion();
+			mathFormulasAdminService.initializeData();
 		}
+		
 	}
 		
 	@RequestMapping(value = "/", method = RequestMethod.GET)
