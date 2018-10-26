@@ -278,19 +278,19 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "quiz-detail", method = RequestMethod.GET)
-	public String quizDetail(@RequestParam("categoryId") int categoryId, Model model) {
-		Quizes quiz = mathFormulasAdminService.getQuizesData(categoryId).get(0);
-		List<QuestionAnswer> quizData = mathFormulasAdminService.getQuizQuestionsByCategory(categoryId);
+	public String quizDetail(@RequestParam("lessonId") int lessonId, Model model) {
+		Quizes quiz = mathFormulasAdminService.getQuizesData(lessonId).get(0);
+		List<QuestionAnswer> quizData = mathFormulasAdminService.getQuizQuestionsByLesson(lessonId);
 		model.addAttribute("quiz", quiz);
 		model.addAttribute("qas", quizData);
 		return "quiz-detail";
 	}
 	
 	@RequestMapping(value = "add-question", method = RequestMethod.GET)
-	public String addQuestion(@RequestParam("categoryId") int categoryId, Model model) {
-		model.addAttribute("categoryId", categoryId);
+	public String addQuestion(@RequestParam("lessonId") int lessonId, Model model) {
+		model.addAttribute("lessonId", lessonId);
 		QuestionAnswer qa = new QuestionAnswer();
-		qa.setCategoryId(categoryId);
+		qa.setLessonId(lessonId);
 		model.addAttribute("qa", qa);
 		return "add-question";
 	}
@@ -298,7 +298,7 @@ public class AdminController {
 	@RequestMapping(value = "save-quiz-question", method = RequestMethod.POST)
 	public String saveNewQuestion(@ModelAttribute("qa") QuestionAnswer qa) {
 		mathFormulasAdminService.saveQuizQuestion(qa);
-		return "redirect:quiz-detail?categoryId=" + qa.getCategoryId();
+		return "redirect:quiz-detail?lessonId=" + qa.getLessonId();
 	}
 	
 	@RequestMapping(value = "edit-question", method = RequestMethod.GET)
@@ -311,14 +311,14 @@ public class AdminController {
 	@RequestMapping(value = "save-edit-quiz-question", method = RequestMethod.POST)
 	public String saveEditQuestion(@ModelAttribute("qa") QuestionAnswer qa) {
 		mathFormulasAdminService.saveQuizQuestion(qa);
-		return "redirect:quiz-detail?categoryId=" + qa.getCategoryId();
+		return "redirect:quiz-detail?lessonId=" + qa.getLessonId();
 	}
 	
 	@RequestMapping(value = "delete-question", method = RequestMethod.GET)
 	public String deleteQuizQuestion(@RequestParam("questionId") int questionId, 
-									@RequestParam("categoryId") int categoryId) {
+									@RequestParam("lessonId") int lessonId) {
 		mathFormulasAdminService.deleteQuizQuestion(questionId);
-		return "redirect:quiz-detail?categoryId=" + categoryId;
+		return "redirect:quiz-detail?lessonId=" + lessonId;
 	}
 	
 	@RequestMapping(value = "show-versions", method = RequestMethod.GET)

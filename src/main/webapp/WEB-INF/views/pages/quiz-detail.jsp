@@ -4,11 +4,11 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <style>
-    #category, #questions {
+    #lesson, #questions {
         opacity: 0;
     }
 
-    #category {
+    #lesson {
         width: 95%;
         margin: auto;
         display: grid;
@@ -24,6 +24,7 @@
 		background: #ab0800;
         border-radius: 0;
         color: white;
+        height: fit-content;
     }
 
     .quiz-image {
@@ -186,17 +187,14 @@
 	}
 </style>
 
-<div id="category">
+<div id="lesson">
 	<div class="quiz-image">
-        <input type="hidden" value="${quiz.categoryIcon}" class="cat-image">
-        <a:if test="${quiz.categoryIcon ne null}">
-    		<img src="${pageContext.servletContext.contextPath}/load-photo?categoryId=${quiz.categoryId}" alt="">
-	    </a:if>
+        
 	</div>
     <div class="quiz-detail">
 	    <div class="quiz-title">
-            <h3><a href="#">${quiz.categoryName}</a></h3>
-            <a href="add-question?categoryId=${quiz.categoryId}" class="btn" id="add-question">
+            <h3><a href="#">${quiz.lessonTitle}</a></h3>
+            <a href="add-question?lessonId=${quiz.lessonId}" class="btn" id="add-question">
                 <i class="fas fa-plus-circle"></i> Thêm câu hỏi
             </a>
 	        <span>${quiz.numOfQuestions} Câu hỏi</span>
@@ -214,7 +212,7 @@
                         <a href="edit-question?questionId=${qa.questionId}"><i class="fas fa-edit"></i></a>
                     </span>
                     <span>
-                        <a href="delete-question?questionId=${qa.questionId}&categoryId=${qa.categoryId}"><i class="fas fa-times"></i></a>
+                        <a href="delete-question?questionId=${qa.questionId}&lessonId=${qa.lessonId}"><i class="fas fa-times"></i></a>
                     </span>
                 </div>
             </div>
@@ -255,7 +253,7 @@
         }
         setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');
-			$('#category, #questions').css('opacity', '1');
+			$('#lesson, #questions').css('opacity', '1');
 		}, 1000);
     });
 

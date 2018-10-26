@@ -116,7 +116,7 @@
 <input type="file" id="uploadImg" style="display: none">
 <div id="question-input">
 	<form:form action="save-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
-        <form:hidden path="categoryId"/>
+        <form:hidden path="lessonId"/>
 	    <label for="input">Câu hỏi (bắt buộc)</label>
 	    <button class="btn" id="save-question">Tạo câu hỏi</button>
 	    <form:textarea id="input" path="questionContent"></form:textarea>

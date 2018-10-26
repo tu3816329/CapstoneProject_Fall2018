@@ -98,14 +98,10 @@
 	<a:forEach items="${QUIZES}" var="q">
 	    <div class="quiz-item">
 	        <div class="quiz-image">
-                <input type="hidden" value="${q.categoryIcon}" class="cat-image">
-                <a:if test="${q.categoryIcon ne null}">
-	        		<img src="${pageContext.servletContext.contextPath}/load-photo?categoryId=${q.categoryId}" alt="">
-	        	</a:if>
 	        </div>
 	        <div class="quiz-detail">
 	            <div class="quiz-title">
-	                <h3><a href="quiz-detail?categoryId=${q.categoryId}">${q.categoryName}</a></h3>
+	                <h3><a href="quiz-detail?lessonId=${q.lessonId}">${q.lessonTitle}</a></h3>
 	                <span>${q.numOfQuestions} Questions</span>
 	            </div>
 	        </div>

@@ -8,17 +8,17 @@ public class QuestionAnswer {
 	private int questionId;
 	private String questionContent;
 	private List<QuestionChoices> choices;
-	private int categoryId; 
+	private int lessonId; 
 
 	public QuestionAnswer() {
 	}
 
-	public QuestionAnswer(int questionId, String questionContent, List<QuestionChoices> choices, int categoryId) {
+	public QuestionAnswer(int questionId, String questionContent, List<QuestionChoices> choices, int lessonId) {
 		super();
 		this.questionId = questionId;
 		this.questionContent = questionContent;
 		this.choices = choices;
-		this.categoryId = categoryId;
+		this.lessonId = lessonId;
 	}
 
 	public int getQuestionId() {
@@ -45,11 +45,11 @@ public class QuestionAnswer {
 		this.choices = choices;
 	}
 	
-	public int getCategoryId() {
-		return categoryId;
+	public int getLessonId() {
+		return lessonId;
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setLessonId(int lessonId) {
+		this.lessonId = lessonId;
 	}
 }

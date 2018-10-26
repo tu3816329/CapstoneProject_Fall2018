@@ -24,6 +24,8 @@ public interface MathFormulasAdminService {
 	
 	public List<Category> getAllCategories();
 	
+	public List<Lesson> getAllLessons();
+	
 	public Division getDivisionById(int id);
 	
 	public List<Category> getCategoriesByDivision(Division division);
@@ -62,9 +64,9 @@ public interface MathFormulasAdminService {
 	
 	public void deleteExercise(int exerciseId);
 	
-	public List<Quizes> getQuizesData(int categoryId);
+	public List<Quizes> getQuizesData(int lessonId);
 	
-	public List<Question> getQuestionsByCategory(int categoryId);
+	public List<Question> getQuestionsByLesson(int lessonId);
 	
 	public List<QuestionChoices> getQuestionChoicesByQuestion(Question question);
 	
@@ -72,7 +74,7 @@ public interface MathFormulasAdminService {
 	
 	public void deleteQuizQuestion(int questionId);
 	
-	public List<QuestionAnswer> getQuizQuestionsByCategory(int categoryId);
+	public List<QuestionAnswer> getQuizQuestionsByLesson(int lessonId);
 	
 	public QuestionAnswer getQuizQuestionByQuestionId(int questionId);
 	

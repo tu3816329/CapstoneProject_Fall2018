@@ -42,9 +42,9 @@ public class Question implements Serializable {
     @Lob
     @Column(nullable = false, length = 2147483647)
     private String content;
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "lesson_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Category categoryId;
+    private Lesson lessonId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
@@ -56,10 +56,10 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public Question(Integer id, String content, Category categoryId, Version versionId) {
+    public Question(Integer id, String content, Lesson lessonId, Version versionId) {
     	this.id = id;
         this.content = content;
-        this.categoryId = categoryId;
+        this.lessonId = lessonId;
         this.versionId = versionId;
     }
 
@@ -79,12 +79,12 @@ public class Question implements Serializable {
         this.content = content;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
+    public Lesson getLessonId() {
+        return lessonId;
     }
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
+    public void setlessonId(Lesson lessonId) {
+        this.lessonId = lessonId;
     }
 
     public Version getVersionId() {

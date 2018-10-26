@@ -1,45 +1,35 @@
 package edu.fpt.capstone.data;
 
 public class Quizes {
-	private int categoryId;
-	private String categoryName;
-	private byte[] categoryIcon;
+	private int lessonId;
+	private String lessonTitle;
 	private int numOfQuestions;
 	
 	public Quizes() {
 		super();
 	}
 	
-	public Quizes(int categoryId, String categoryName, byte[] categoryIcon, int numOfQuestions) {
+	public Quizes(int lessonId, String lessonTitle, int numOfQuestions) {
 		super();
-		this.categoryId = categoryId;
-		this.categoryName = categoryName;
-		this.categoryIcon = categoryIcon;
+		this.lessonId = lessonId;
+		this.lessonTitle = lessonTitle;
 		this.numOfQuestions = numOfQuestions;
 	}
 	
-	public int getCategoryId() {
-		return categoryId;
+	public int getLessonId() {
+		return lessonId;
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setLessonId(int lessonId) {
+		this.lessonId = lessonId;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getLessonTitle() {
+		return lessonTitle;
 	}
 	
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-	
-	public byte[] getCategoryIcon() {
-		return categoryIcon;
-	}
-	
-	public void setCategoryIcon(byte[] categoryIcon) {
-		this.categoryIcon = categoryIcon;
+	public void setLessonTitle(String lessonTitle) {
+		this.lessonTitle = lessonTitle;
 	}
 	
 	public int getNumOfQuestions() {
