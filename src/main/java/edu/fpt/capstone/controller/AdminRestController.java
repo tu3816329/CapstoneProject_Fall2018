@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.fpt.capstone.data.MathformTable;
-import edu.fpt.capstone.entity.Category;
+import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Version;
+import edu.fpt.capstone.service.ChapterService;
+import edu.fpt.capstone.service.DivisionService;
+import edu.fpt.capstone.service.GradeService;
+import edu.fpt.capstone.service.LessonService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
+import edu.fpt.capstone.service.MathformService;
+import edu.fpt.capstone.service.VersionService;
 
 @RestController
 public class AdminRestController {
@@ -27,32 +33,50 @@ public class AdminRestController {
 	private static final Logger log = Logger.getLogger(AdminRestController.class);
 	
 	@Autowired
+	ChapterService chapterService;
+	
+	@Autowired
+	DivisionService divisionService;
+	
+	@Autowired
+	GradeService gradeService;
+	
+	@Autowired
+	LessonService lessonService;
+	
+	@Autowired
+	MathformService mathformService;
+	
+	@Autowired
+	VersionService versionService;
+	
+	@Autowired
 	MathFormulasAdminService mathFormulasAdminService;
 	
 	@RequestMapping(value = "get-grades", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Grade> getAllGrades() {
-		return mathFormulasAdminService.getAllGrades();
+		return gradeService.getAllGrades();
 	}
 	
 	@RequestMapping(value = "get-divisions", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Division> getAllDivision() {
-		return mathFormulasAdminService.getAllDivisions();
+		return divisionService.getAllDivisions();
 	}
 	
-	@RequestMapping(value = "load-categories-table", method = RequestMethod.GET)
+	@RequestMapping(value = "load-chapters-table", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Category> getAllCategories() {
-		return mathFormulasAdminService.getAllCategories();
+	public List<Chapter> getAllChapters() {
+		return chapterService.getAllChapters();
 	}
 	
-	@RequestMapping(value = "save-categories-table", method = RequestMethod.POST)
+	@RequestMapping(value = "save-chapters-table", method = RequestMethod.POST)
 	@ResponseBody
-	public boolean saveCategories(@RequestBody List<Category> categories) {
+	public boolean saveChapters(@RequestBody List<Chapter> chapters) {
 		boolean isSuccess = true;
 		try {
-			mathFormulasAdminService.saveCategories(categories);
+			chapterService.saveChapters(chapters);
 		} catch (Exception e) {
 			e.printStackTrace();
 			isSuccess = false;
@@ -63,28 +87,28 @@ public class AdminRestController {
 	@RequestMapping(value = "load-mathforms-table", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MathformTable> loadMathformsTable(@RequestParam("lessonId") int lessonId) {
-		Lesson lesson = mathFormulasAdminService.getLessonById(lessonId);
+		Lesson lesson = lessonService.getLessonById(lessonId);
 		List<MathformTable> data = 
-				mathFormulasAdminService.getMathformTableDataByLesson(lesson);
+				mathformService.getMathformTableDataByLesson(lesson);
 		return data;
 	}
 	
 	@RequestMapping(value = "load-versions-table", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Version> loadVersionsTable() {
-		return mathFormulasAdminService.getAllVersion();
+		return versionService.getAllVersion();
 	}
 	
-	@RequestMapping(value = "save-category-image", method = RequestMethod.POST)
+	@RequestMapping(value = "save-chapter-image", method = RequestMethod.POST)
 	@ResponseBody
-	public String saveCategoryImage(@RequestParam("categoryId") int categoryId, 
+	public String saveChapterImage(@RequestParam("chapterId") int chapterId, 
 									@RequestParam("imageFile") MultipartFile imgFile) {
-		Category category = mathFormulasAdminService.getCategoryById(categoryId);
-		Version noneVersion = mathFormulasAdminService.getVersionById(0);
+		Chapter chapter = chapterService.getChapterById(chapterId);
+		Version noneVersion = versionService.getVersionById(0);
 		try {
-			category.setCategoryIcon(imgFile.getBytes());
-			category.setVersionId(noneVersion);
-			mathFormulasAdminService.saveCategory(category);
+			chapter.setChapterIcon(imgFile.getBytes());
+			chapter.setVersionId(noneVersion);
+			chapterService.saveChapter(chapter);
 		} catch (IOException e) {
 			log.error(e.getLocalizedMessage());
 			return "error";
