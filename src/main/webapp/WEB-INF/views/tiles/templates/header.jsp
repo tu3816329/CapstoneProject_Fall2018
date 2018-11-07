@@ -25,12 +25,12 @@
                     <ul class="gn-menu agile_menu_drop">
 	                    <li>
                             <a href="${pageContext.servletContext.contextPath}">
-                                <i class="fa fa-home" aria-hidden="true"></i> Trang chủ
+                                <i class="fa fa-home" aria-hidden="true"></i> Home page
 	                        </a>
                         </li>
                         <li>
-                            <a href="show-categories">
-                                <i class="fa fa-tags" aria-hidden="true"></i> Danh mục chapter
+                            <a href="show-chapters">
+                                <i class="fa fa-tags" aria-hidden="true"></i> Chapters
                             </a>
                         </li>
                         <li>
@@ -40,12 +40,7 @@
                         </li>
                         <li>
                             <a href="show-versions">
-                                <i class=" fa fas fa-info" aria-hidden="true"></i> Phiên bản
-                            </a>
-                        </li>
-                        <li>
-                            <a href="show-feedbacks">
-                                <i class="fa fa-users" aria-hidden="true"></i> Phản hồi
+                                <i class=" fa fas fa-info" aria-hidden="true"></i> Version
                             </a>
                         </li>
                     </ul>

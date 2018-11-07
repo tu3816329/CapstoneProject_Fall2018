@@ -96,8 +96,8 @@
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select username,password,enabled from users where username=?"
-				authorities-by-username-query="select username, concat('ROLE_', role_name) role_name from user_roles where username=?"/>
+				users-by-username-query="select username,password,enabled from user where username=?"
+				authorities-by-username-query="select username, concat('ROLE_', role_name) role_name from user_role where username=?"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
 </beans:beans>

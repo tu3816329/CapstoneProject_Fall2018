@@ -117,12 +117,12 @@
 <div id="question-input">
 	<form:form action="save-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
         <form:hidden path="lessonId"/>
-	    <label for="input">Câu hỏi (bắt buộc)</label>
-	    <button class="btn" id="save-question">Tạo câu hỏi</button>
+	    <label for="input">Question</label>
+	    <button class="btn" id="save-question">Save question</button>
 	    <form:textarea id="input" path="questionContent"></form:textarea>
 	    <div id="answers">
 	        <div class="answer-item">
-	            <label for="answer-1"><span>Đáp án 1</span> (bắt buộc)</label>
+	            <label for="answer-1"><span>Answer 1</span></label>
 	            <div class="answer-input">
 	                <form:textarea path="choices[0].content" rows="1" id="answer-1" 
                                     class="answer-textarea"></form:textarea>
@@ -131,7 +131,7 @@
 	            </div>
 	        </div>
 	        <div class="answer-item">
-	            <label for="answer-2"><span>Đáp án 2</span> (bắt buộc)</label>
+	            <label for="answer-2"><span>Answer 2</span></label>
 	            <div class="answer-input">
 	                <form:textarea path="choices[1].content" rows="1" id="answer-2" 
                                     class="answer-textarea"></form:textarea>
@@ -140,7 +140,7 @@
 	            </div>
 	        </div>
 	        <div class="answer-item">
-	            <label for="answer-3"><span>Đáp án 3</span></label>
+	            <label for="answer-3"><span>Answer 3</span></label>
 	            <div class="answer-input">
 	                <form:textarea path="choices[2].content" rows="1" id="answer-3" 
                                     class="answer-textarea"></form:textarea>
@@ -149,7 +149,7 @@
 	            </div>
 	        </div>
 	        <div class="answer-item">
-	            <label for="answer-4"><span>Đáp án 4</span></label>
+	            <label for="answer-4"><span>Answer 4</span></label>
 	            <div class="answer-input">
 	                <form:textarea path="choices[3].content" rows="1" id="answer-4" 
                                     class="answer-textarea"></form:textarea>
@@ -167,7 +167,7 @@
         $('.lds-dual-ring').css('display', 'block');
         $('.w3l_agileits_breadcrumbs_inner>ul')
             .append($('<li>')
-                .append('Thêm câu hỏi')
+                .append('New question')
             );
     
         //Upload image

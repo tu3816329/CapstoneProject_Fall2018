@@ -2,18 +2,18 @@ package edu.fpt.capstone.data;
 
 import java.util.List;
 
-import edu.fpt.capstone.entity.QuestionChoices;
+import edu.fpt.capstone.entity.QuestionChoice;
 
 public class QuestionAnswer {
 	private int questionId;
 	private String questionContent;
-	private List<QuestionChoices> choices;
+	private List<QuestionChoice> choices;
 	private int lessonId; 
 
 	public QuestionAnswer() {
 	}
 
-	public QuestionAnswer(int questionId, String questionContent, List<QuestionChoices> choices, int lessonId) {
+	public QuestionAnswer(int questionId, String questionContent, List<QuestionChoice> choices, int lessonId) {
 		super();
 		this.questionId = questionId;
 		this.questionContent = questionContent;
@@ -37,11 +37,11 @@ public class QuestionAnswer {
 		this.questionContent = questionContent;
 	}
 	
-	public List<QuestionChoices> getChoices() {
+	public List<QuestionChoice> getChoices() {
 		return choices;
 	}
 	
-	public void setChoices(List<QuestionChoices> choices) {
+	public void setChoices(List<QuestionChoice> choices) {
 		this.choices = choices;
 	}
 	

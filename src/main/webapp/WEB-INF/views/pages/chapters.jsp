@@ -9,11 +9,11 @@
         font-weight: bold
     }
 
-    #categories-table, .btn {
+    #chapters-table, .btn {
         opacity: 0;
     }
 
-    #btn-save-categories {
+    #btn-save-chapters {
         margin-top: 10px;
 		border: none;
 		background: #ab0800;
@@ -54,25 +54,25 @@
 	}
 </style>
 
-<div id="categories-table"></div>
-<button class="btn" id="btn-save-categories">Lưu thay đổi</button>
+<div id="chapters-table"></div>
+<button class="btn" id="btn-save-chapters">Save</button>
 <div class="lds-dual-ring"></div>
 
 <script>
     $(document).ready(function() {
         $('.lds-dual-ring').css('display', 'block');
         $('.gn-menu li:nth-child(2)').children('a').css('background','#283242');
-        $('h2.w3_inner_tittle').text('Danh sách Chapter');
+        $('h2.w3_inner_tittle').text('Chapters');
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
-				.append('Danh sách Chapter')
+				.append('Chapters')
         	)
         var divisionSource = getDivisionSource();
         var gradeSource = getGradeSource();
-        categoriesTableConfig(divisionSource, gradeSource);
+        chaptersTableConfig(divisionSource, gradeSource);
         setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');
-			$('#categories-table, .btn').css('opacity', '1');
+			$('#chapters-table, .btn').css('opacity', '1');
 		}, 1000);
     });
 
@@ -110,7 +110,7 @@
         return gradeSource;
     }
 
-    function categoriesTableConfig(divisionSource, gradeSource) {
+    function chaptersTableConfig(divisionSource, gradeSource) {
         var divNames = [];
         for(var i = 0; i < divisionSource.length; i++) {
             divNames.push(divisionSource[i].divisionName);
@@ -119,17 +119,17 @@
         for(var i = 0; i < gradeSource.length; i++) {
             gradeNames.push(gradeSource[i].gradeName);
         }
-        var container = document.getElementById('categories-table');
+        var container = document.getElementById('chapters-table');
         var hstb = new Handsontable(container, {
             minSpareRows: 1,
             startRows: 4,
             rowHeaders: true,
-            colHeaders: ['ID','Tên chapter','Loại','Lớp','Phiên bản','Hành động','Chi tiết'],
+            colHeaders: ['ID','Chapter name','Division','Grade','Version','Action','Detail'],
             columns: [{
                 data: 'id',
                 readOnly: true
             },{
-                data: 'categoryName'
+                data: 'chapterName'
             },{
                 type: 'dropdown',
                 data: 'divisionId.divisionName',
@@ -154,15 +154,15 @@
         });
 
         $.ajax ({
-            url: 'load-categories-table',
+            url: 'load-chapters-table',
             dataType: 'json',
             contentType: 'application/json',
             type: 'GET',
             success: function(res) {
                 hstb.loadData(res);
                 for (var i = 0; i < res.length - 1; i++) {
-                    hstb.setDataAtCell(i, 5, '<a href="delete-category?categoryId=' + res[i].id + '">Xoá</a>')
-                    hstb.setDataAtCell(i, 6, '<a href="show-lessons?categoryId=' + res[i].id + '">Xem</a>')
+                    hstb.setDataAtCell(i, 5, '<a href="delete-chapter?chapterId=' + res[i].id + '">Delete</a>')
+                    hstb.setDataAtCell(i, 6, '<a href="show-lessons?chapterId=' + res[i].id + '">View</a>')
                 }
             },
             error: function(res) {
@@ -170,7 +170,7 @@
             }
         });
 
-        $('#btn-save-categories').click(function() {
+        $('#btn-save-chapters').click(function() {
             var data = hstb.getData();
             var saveData = [];
             var divisions = getDivisionSource();
@@ -196,7 +196,7 @@
                     if(id === null) id = 0; 
                     var json = {
                         'id' : id,
-                        'categoryName' : data[i][1],
+                        'chapterName' : data[i][1],
                         'divisionId' : divisionId,
                         'gradeId' : gradeId
                     };
@@ -206,7 +206,7 @@
             data = JSON.stringify(saveData);
 
             $.ajax ({
-                url: 'save-categories-table',
+                url: 'save-chapters-table',
                 type: 'POST',
                 dataType: 'json',
                 contentType: 'application/json',
@@ -214,7 +214,7 @@
                 success: function(res) {
                     if (res === true) {
                         alert('Save data successfully!');
-                        window.location.replace('show-categories');
+                        window.location.replace('show-chapters');
                     } else {
                         alert('Save data failed!')
                     }

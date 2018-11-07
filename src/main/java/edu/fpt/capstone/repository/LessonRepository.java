@@ -8,12 +8,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.fpt.capstone.entity.Category;
+import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Version;
 
 public interface LessonRepository extends CrudRepository<Lesson, Integer> {
-	public List<Lesson> findByCategoryId(Category categoryId);
+	
+	public List<Lesson> findByChapterId(Chapter chapterId);
 	
 	@Transactional
 	@Modifying

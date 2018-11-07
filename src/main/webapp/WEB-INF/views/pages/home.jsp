@@ -3,7 +3,7 @@
 <script>
 		$(document).ready(function() {
 			$('.gn-menu li:nth-child(1)').children('a').css('background','#283242');
-			$('.w3l_agileits_breadcrumbs_inner>ul').append('<li>Trang chủ</li>');
+			$('.w3l_agileits_breadcrumbs_inner>ul').append('<li>Home page</li>');
 		});
 </script>
 

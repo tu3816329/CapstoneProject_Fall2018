@@ -136,7 +136,7 @@
                 <span>
                     <a href="delete-exercise?exId=${ex.id}&mathformId=${ex.mathformId.id}"><i class="fas fa-times"></i></a>
 				</span>
-				<span>Đáp án: ${ex.answer}</span>
+				<span>Answer: ${ex.answer}</span>
             </div>
         </div>
 	</a:forEach>
@@ -148,17 +148,17 @@
 		$('.lds-dual-ring').css('display', 'block');
 		$('h2.w3_inner_tittle').text($('.m-title').val());
 		$('h2.w3_inner_tittle')
-			.append('<a id="add-ex" class="btn" href="add-exercise?mathformId=' + $('.m-id').val() + '">Thêm bài tập</a>');
+			.append('<a id="add-ex" class="btn" href="add-exercise?mathformId=' + $('.m-id').val() + '">New exercise</a>');
 		$('.w3l_agileits_breadcrumbs_inner>ul').append($('<li>')
 													.append('Chapter ')
 													.append('<span>«</span>')
 												)
 												.append($('<li>')
-													.append('Công thức ')
+													.append('Lesson ')
 													.append('<span>«</span>')
 												)
 												.append($('<li>')
-													.append('Dạng bài')
+													.append('Math form')
 												);		
 		setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');

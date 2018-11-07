@@ -69,20 +69,20 @@
 	}
 </style>
 
-<input type="hidden" value="${lesson.categoryId.divisionId.divisionName}" id="divName">
-<input type="hidden" value="${lesson.categoryId.categoryName}" id="catName">
+<input type="hidden" value="${lesson.chapterId.divisionId.divisionName}" id="divName">
+<input type="hidden" value="${lesson.chapterId.chapterName}" id="catName">
 <input type="file" id="uploadImg" style="display: none">
 <form:form method="post" action="save-edit-lesson" modelAttribute="lesson" acceptCharset="UTF-8" style="opacity: 0">
     <form:hidden path="id"/>
     
     <div class="form-title">
-        <label for="lessonTitle">CHỦ ĐỀ</label>
+        <label for="lessonTitle">Title</label>
         <form:input path="lessonTitle" id="lessonTitle"/>
     </div>
-    <label for="input">NỘI DUNG</label>
+    <label for="input">Content</label>
     <form:textarea path="lessonContent" id="input"/>
     
-    <input type="submit" value="Lưu Thay Đổi" class="btn" id="save-lesson">
+    <input type="submit" value="Save" class="btn" id="save-lesson">
 </form:form>
 <div class="lds-dual-ring"></div>
 
@@ -90,18 +90,18 @@
         $(document).ready(function () {
             $('.lds-dual-ring').css('display', 'block');
             var divisionName = $('#divName').val();
-            var categoryName = $('#catName').val();
-            $('h2.w3_inner_tittle').text('Sửa công thức');
+            var chapterName = $('#catName').val();
+            $('h2.w3_inner_tittle').text('Edit lesson');
             $('.w3l_agileits_breadcrumbs_inner>ul')
                 .append($('<li>')
                     .append(divisionName + ' ')
                     .append('<span>«</span>')
                 )
                 .append($('<li>')
-                    .append(categoryName + ' ')
+                    .append(chapterName + ' ')
                     .append('<span>«</span>')
                 )
-                .append('<li>Sửa Công Thức</li>');
+                .append('<li>Edit lesson</li>');
     
             //Upload image
             $.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});

@@ -70,13 +70,13 @@
 
 <form:form method="post" action="save-new-mathform" modelAttribute="mathform" acceptCharset="UTF-8" style="opacity: 0">
     <div class="form-title">
-        <label for="mathformTitle">CHỦ ĐỀ</label>
+        <label for="mathformTitle">Title</label>
         <form:input path="mathformTitle" id="mathformTitle"/>
     </div>
-    <label for="input">NỘI DUNG</label>
+    <label for="input">Content</label>
     <form:textarea path="mathformContent" id="input"/>
 	<form:hidden path="lessonId.id"/>
-    <input type="submit" value="Thêm Dạng Bài" class="btn" id="save-mathform">
+    <input type="submit" value="Save" class="btn" id="save-mathform">
 </form:form>
 <div class="lds-dual-ring"></div>
 <input type="file" id="uploadImg" style="display: none">
@@ -84,8 +84,8 @@
 <script>
 	$(document).ready(function () {
         $('.lds-dual-ring').css('display', 'block');
-		$('h2.w3_inner_tittle').text('Thêm dạng bài mới');
-		$('.w3l_agileits_breadcrumbs_inner>ul').append('<li>Thêm Dạng Bài</li>');
+		$('h2.w3_inner_tittle').text('New math form');
+		$('.w3l_agileits_breadcrumbs_inner>ul').append('<li>New math form</li>');
 
         //Upload image
 		$.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});

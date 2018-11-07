@@ -10,13 +10,15 @@
 	}
 </script>
 	   
-<button style="display: none" id="btn-save">Save</button>
-<div id="editorContainer" style="width: 110%"></div>
+<button style="display: none" id="btn-save"></button>
+<div id="editorContainer"></div>
 	   
 <script>
 	$('#btn-save').click(function() {
-		var result = JSON.parse(Android.sendData(editor.getMathML()));
+		Android.sendData(editor.getMathML());
 	});
 
-	
+	function displayMathML(data) {
+		editor.setMathML(data);
+	}
 </script>

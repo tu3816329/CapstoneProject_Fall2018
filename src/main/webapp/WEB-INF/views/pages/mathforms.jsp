@@ -25,14 +25,14 @@
 
 <script>
     $(document).ready(function() {
-        $('h2.w3_inner_tittle').text('Danh sách dạng bài');
+        $('h2.w3_inner_tittle').text('Math forms');
         $('h2.w3_inner_tittle')
             .append(
-                '<a id="add-mathform" class="btn" href="add-mathform?lessonId=' + $('#l-id').val() + '">Thêm dạng bài</a>'
+                '<a id="add-mathform" class="btn" href="add-mathform?lessonId=' + $('#l-id').val() + '">New math form</a>'
             );
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
-				.append('Danh sách dạng bài')
+				.append('Math forms')
         	);
         mathformsTableConfig();
     });
@@ -41,7 +41,7 @@
         var container = document.getElementById('mathforms-table');
         var hstb = new Handsontable(container, {
             rowHeaders: true,
-            colHeaders: ['ID','Tên dạng bài','Bài tập','Phiên bản','Hành động','Chi tiết'],
+            colHeaders: ['ID','Name','Num. of exercises','Version','Action','Detail'],
             columns: [{
                 data: 'id',
                 readOnly: true
@@ -73,10 +73,10 @@
             success: function(res) {
                 hstb.loadData(res);
                 for (var i = 0; i < res.length; i++) {
-                    hstb.setDataAtCell(i, 2, res[i].numOfExercises + ' bài');
+                    hstb.setDataAtCell(i, 2, res[i].numOfExercises + ' exercises');
                     hstb.setDataAtCell(i, 4, '<a href="delete-mathform?mathformId=' + res[i].id + 
-                                                            '&lessonId=' + $('#l-id').val() + '">Xoá</a>');
-                    hstb.setDataAtCell(i, 5, '<a href="mathform-detail?mathformId=' + res[i].id + '">Xem</a>');
+                                                            '&lessonId=' + $('#l-id').val() + '">Delete</a>');
+                    hstb.setDataAtCell(i, 5, '<a href="mathform-detail?mathformId=' + res[i].id + '">View</a>');
                 }
             },
             error: function(res) {

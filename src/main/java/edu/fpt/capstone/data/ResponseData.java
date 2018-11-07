@@ -2,44 +2,41 @@ package edu.fpt.capstone.data;
 
 import java.util.List;
 
-import edu.fpt.capstone.entity.Category;
+import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Division;
-import edu.fpt.capstone.entity.Exercises;
+import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Question;
-import edu.fpt.capstone.entity.QuestionChoices;
-import edu.fpt.capstone.entity.QuestionLevel;
+import edu.fpt.capstone.entity.QuestionChoice;
 
 public class ResponseData {
 	
 	private List<Grade> grades;
 	private List<Division> divisions;
-	private List<Category> categories;
+	private List<Chapter> chapters;
 	private List<Lesson> lessons;
 	private List<Mathform> mathforms;
-	private List<Exercises> exercises;
+	private List<Exercise> exercises;
 	private List<Question> questions;
-	private List<QuestionChoices> choices;
-	private List<QuestionLevel> levels;
+	private List<QuestionChoice> choices;
 	
 	public ResponseData() {
 	}
 
-	public ResponseData(List<Grade> grades, List<Division> divisions, List<Category> categories, List<Lesson> lessons,
-			List<Mathform> mathforms, List<Exercises> exercises, List<Question> questions,
-			List<QuestionChoices> choices, List<QuestionLevel> levels) {
+	public ResponseData(List<Grade> grades, List<Division> divisions, List<Chapter> chapters, List<Lesson> lessons,
+			List<Mathform> mathforms, List<Exercise> exercises, List<Question> questions,
+			List<QuestionChoice> choices) {
 		super();
 		this.grades = grades;
 		this.divisions = divisions;
-		this.categories = categories;
+		this.chapters = chapters;
 		this.lessons = lessons;
 		this.mathforms = mathforms;
 		this.exercises = exercises;
 		this.questions = questions;
 		this.choices = choices;
-		this.levels = levels;
 	}
 
 	public List<Grade> getGrades() {
@@ -58,12 +55,12 @@ public class ResponseData {
 		this.divisions = divisions;
 	}
 	
-	public List<Category> getCategories() {
-		return categories;
+	public List<Chapter> getChapters() {
+		return chapters;
 	}
 	
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setChapters(List<Chapter> chapters) {
+		this.chapters = chapters;
 	}
 	
 	public List<Lesson> getLessons() {
@@ -82,11 +79,11 @@ public class ResponseData {
 		this.mathforms = mathforms;
 	}
 	
-	public List<Exercises> getExercises() {
+	public List<Exercise> getExercises() {
 		return exercises;
 	}
 	
-	public void setExercises(List<Exercises> exercises) {
+	public void setExercises(List<Exercise> exercises) {
 		this.exercises = exercises;
 	}
 	
@@ -98,19 +95,11 @@ public class ResponseData {
 		this.questions = questions;
 	}
 	
-	public List<QuestionChoices> getChoices() {
+	public List<QuestionChoice> getChoices() {
 		return choices;
 	}
 	
-	public void setChoices(List<QuestionChoices> choices) {
+	public void setChoices(List<QuestionChoice> choices) {
 		this.choices = choices;
-	}
-	
-	public List<QuestionLevel> getLevels() {
-		return levels;
-	}
-	
-	public void setLevels(List<QuestionLevel> levels) {
-		this.levels = levels;
 	}
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -25,14 +20,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "question_choices", catalog = "math_formulas")
+@Table(name = "question_choice", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "QuestionChoices.findAll", query = "SELECT q FROM QuestionChoices q")
-    , @NamedQuery(name = "QuestionChoices.findById", query = "SELECT q FROM QuestionChoices q WHERE q.id = :id")
-    , @NamedQuery(name = "QuestionChoices.findByContent", query = "SELECT q FROM QuestionChoices q WHERE q.content = :content")
-    , @NamedQuery(name = "QuestionChoices.findByIsCorrect", query = "SELECT q FROM QuestionChoices q WHERE q.isCorrect = :isCorrect")})
-public class QuestionChoices implements Serializable {
+    @NamedQuery(name = "QuestionChoice.findAll", query = "SELECT q FROM QuestionChoice q")
+    , @NamedQuery(name = "QuestionChoice.findById", query = "SELECT q FROM QuestionChoice q WHERE q.id = :id")
+    , @NamedQuery(name = "QuestionChoice.findByIsCorrect", query = "SELECT q FROM QuestionChoice q WHERE q.isCorrect = :isCorrect")})
+public class QuestionChoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,8 +34,8 @@ public class QuestionChoices implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Lob
     @Basic(optional = false)
+    @Lob
     @Column(nullable = false, length = 2147483647)
     private String content;
     @Basic(optional = false)
@@ -54,15 +48,15 @@ public class QuestionChoices implements Serializable {
     @ManyToOne(optional = false)
     private Version versionId;
 
-    public QuestionChoices() {
+    public QuestionChoice() {
     }
 
-    public QuestionChoices(Integer id) {
+    public QuestionChoice(Integer id) {
         this.id = id;
     }
 
-    public QuestionChoices(Integer id, String content, boolean isCorrect, Question questionId, Version versionId) {
-    	this.id = id;
+    public QuestionChoice(Integer id, String content, boolean isCorrect, Question questionId, Version versionId) {
+        this.id = id;
         this.content = content;
         this.isCorrect = isCorrect;
         this.questionId = questionId;
@@ -111,7 +105,6 @@ public class QuestionChoices implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.QuestionChoices[ id=" + id + " ]";
+        return "entity.QuestionChoice[ id=" + id + " ]";
     }
-    
 }

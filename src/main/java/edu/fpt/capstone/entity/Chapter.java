@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -28,10 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
-    , @NamedQuery(name = "Category.findById", query = "SELECT c FROM Category c WHERE c.id = :id")
-    , @NamedQuery(name = "Category.findByCategoryName", query = "SELECT c FROM Category c WHERE c.categoryName = :categoryName")})
-public class Category implements Serializable {
+    @NamedQuery(name = "Chapter.findAll", query = "SELECT c FROM Chapter c")
+    , @NamedQuery(name = "Chapter.findById", query = "SELECT c FROM Chapter c WHERE c.id = :id")
+    , @NamedQuery(name = "Chapter.findByChapterName", query = "SELECT c FROM Chapter c WHERE c.chapterName = :chapterName")})
+public class Chapter implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,11 +35,11 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "category_name", nullable = false, length = 45)
-    private String categoryName;
+    @Column(name = "chapter_name", nullable = false, length = 45)
+    private String chapterName;
     @Lob
-    @Column(name = "category_icon")
-    private byte[] categoryIcon;
+    @Column(name = "chapter_icon")
+    private byte[] chapterIcon;
     @JoinColumn(name = "division_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Division divisionId;
@@ -55,16 +50,16 @@ public class Category implements Serializable {
     @ManyToOne(optional = false)
     private Version versionId;
 
-    public Category() {
+    public Chapter() {
     }
 
-    public Category(Integer id) {
+    public Chapter(Integer id) {
         this.id = id;
     }
 
-    public Category(Integer id, String categoryName) {
+    public Chapter(Integer id, String chapterName) {
         this.id = id;
-        this.categoryName = categoryName;
+        this.chapterName = chapterName;
     }
 
     public Integer getId() {
@@ -75,20 +70,20 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getChapterName() {
+        return chapterName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setChapterName(String chapterName) {
+        this.chapterName = chapterName;
     }
 
-    public byte[] getCategoryIcon() {
-        return categoryIcon;
+    public byte[] getChapterIcon() {
+        return chapterIcon;
     }
 
-    public void setCategoryIcon(byte[] categoryIcon) {
-        this.categoryIcon = categoryIcon;
+    public void setChapterIcon(byte[] chapterIcon) {
+        this.chapterIcon = chapterIcon;
     }
 
     public Division getDivisionId() {
@@ -117,7 +112,6 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Category[ id=" + id + " | " + categoryName + " | " + divisionId + " | " + gradeId + " ]";
+        return "entity.Chapter[ id=" + id + " ]";
     }
-    
 }

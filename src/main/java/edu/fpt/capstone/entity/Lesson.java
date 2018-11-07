@@ -46,9 +46,9 @@ public class Lesson implements Serializable {
     @Lob
     @Column(name = "lesson_content", nullable = false, length = 2147483647)
     private String lessonContent;
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "chapter_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Category categoryId;
+    private Chapter chapterId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
@@ -90,12 +90,12 @@ public class Lesson implements Serializable {
         this.lessonContent = lessonContent;
     }
 
-    public Category getCategoryId() {
-        return categoryId;
+    public Chapter getChapterId() {
+        return chapterId;
     }
 
-    public void setCategoryId(Category categoryId) {
-        this.categoryId = categoryId;
+    public void setChapterId(Chapter chapterId) {
+        this.chapterId = chapterId;
     }
 
     public Version getVersionId() {

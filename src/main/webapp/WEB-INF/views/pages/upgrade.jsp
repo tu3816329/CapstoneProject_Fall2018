@@ -72,29 +72,29 @@
 
 <form:form method="post" action="upgrade-version" modelAttribute="version">
 	<div class="form-item">
-		<label for="currentVersion">Phiên bản hiện tại</label>
+		<label for="currentVersion">Current version</label>
 		<input id="currentVersion" type="text" disabled="disabled" 
 				value="${latest.databaseVersion} - ${latest.versionName}">
 	</div>
 	<div class="form-item">
-		<label for="databaseVersion">Số phiên bản</label>
+		<label for="databaseVersion">Version number</label>
 		<form:input path="databaseVersion"/>
 	</div>
 	<div class="form-item">
 		<label for="versionName">Version name</label>
 		<form:input path="versionName"/>
 	</div>
-	<button class="btn" id="upgrade" value="Upgrade">Nâng cấp</button>
+	<button class="btn" id="upgrade" value="Upgrade">Save</button>
 </form:form>
 <div class="lds-dual-ring"></div>
 
 <script>
 	$(document).ready(function() {
 		$('.lds-dual-ring').css('display', 'block');
-		$('h2.w3_inner_tittle').text('Nâng cấp');
+		$('h2.w3_inner_tittle').text('Upgrade');
 		$('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
-				.append('Phiên bản')
+				.append('Upgrade version')
         	);
 		setTimeout(function() {
 			$('.lds-dual-ring').css('display','none');

@@ -25,7 +25,7 @@
 
 	<!-- Login page -->
 	<definition name="login" extends="empty-layout">
-		<put-attribute name="title" value="Đăng nhập"/>
+		<put-attribute name="title" value="Login"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/login.jsp"/>
 	</definition>
 
@@ -41,69 +41,69 @@
 		<put-attribute name="body" value="/WEB-INF/views/pages/home.jsp"/>
 	</definition>
 
-	<!-- Show categories -->
-	<definition name="show-categories" extends="base-layout">
-		<put-attribute name="title" value="Chapter"/>
-		<put-attribute name="body" value="/WEB-INF/views/pages/categories.jsp"/>
+	<!-- Show chapters -->
+	<definition name="show-chapters" extends="base-layout">
+		<put-attribute name="title" value="Chapters"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/chapters.jsp"/>
 	</definition>
 	
 	<!-- Upgrade database version -->
 	<definition name="upgrade-db" extends="base-layout">
-		<put-attribute name="title" value="Nâng cấp"/>
+		<put-attribute name="title" value="Upgrade version"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/upgrade.jsp"/>
 	</definition>
 
 	<!-- Show lessons -->
 	<definition name="show-lessons" extends="base-layout">
-		<put-attribute name="title" value="Công Thức"/>
+		<put-attribute name="title" value="Lessons"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/lessons.jsp"/>
 	</definition>
 
 	<!-- Show mathforms -->
 	<definition name="show-mathforms" extends="base-layout">
-		<put-attribute name="title" value="Dạng Bài"/>
+		<put-attribute name="title" value="Math forms"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/mathforms.jsp"/>
 	</definition>
 
 	<!-- Mathform detail -->
 	<definition name="mathform-detail" extends="base-layout">
-		<put-attribute name="title" value="Chi tiết"/>
+		<put-attribute name="title" value="Math form detail"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/mathform-detail.jsp"/>
 	</definition>
 	
 	<!-- Add new formula -->
 	<definition name="add-lesson" extends="base-layout">
-		<put-attribute name="title" value="Thêm Công Thức"/>
+		<put-attribute name="title" value="New lesson"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/add-lesson.jsp"/>
 	</definition>
 
 	<!-- Edit lesson -->
 	<definition name="edit-lesson" extends="base-layout">
-		<put-attribute name="title" value="Sửa Công Thức"/>
+		<put-attribute name="title" value="Edit lesson"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/edit-lesson.jsp"/>
 	</definition>
 
 	<!-- Add mathform -->
 	<definition name="add-mathform" extends="base-layout">
-		<put-attribute name="title" value="Thêm Dạng Bài"/>
+		<put-attribute name="title" value="New math form"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/add-mathform.jsp"/>
 	</definition>
 
 	<!-- Edit mathform -->
 	<definition name="edit-mathform" extends="base-layout">
-		<put-attribute name="title" value="Sửa Dạng Bài"/>
+		<put-attribute name="title" value="Edit math form"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/edit-mathform.jsp"/>
 	</definition>
 
 	<!-- Add new exercise -->
 	<definition name="add-exercise" extends="base-layout">
-		<put-attribute name="title" value="Thêm Bài Tập"/>
+		<put-attribute name="title" value="New exercise"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/add-exercise.jsp"/>
 	</definition>
 
 	<!-- Edit exercise -->
 	<definition name="edit-exercise" extends="base-layout">
-		<put-attribute name="title" value="Sửa Bài Tập"/>
+		<put-attribute name="title" value="Edit exercise"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/edit-exercise.jsp"/>
 	</definition>
 
@@ -115,31 +115,31 @@
 
 	<!-- Quiz detail -->
 	<definition name="quiz-detail" extends="base-layout">
-		<put-attribute name="title" value="Quiz - Chi tiết"/>
+		<put-attribute name="title" value="Quiz detail"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/quiz-detail.jsp"/>
 	</definition>
 
 	<!-- Add quiz question -->
 	<definition name="add-question" extends="base-layout">
-		<put-attribute name="title" value="Thêm câu hỏi"/>
+		<put-attribute name="title" value="New quiz question"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/add-question.jsp"/>
 	</definition>
 
 	<!-- Edit quiz question -->
 	<definition name="edit-question" extends="base-layout">
-		<put-attribute name="title" value="Sửa câu hỏi"/>
+		<put-attribute name="title" value="Edit quiz question"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/edit-question.jsp"/>
 	</definition>
 
 	<!-- Show versions -->
 	<definition name="show-versions" extends="base-layout">
-		<put-attribute name="title" value="Phiên bản"/>
+		<put-attribute name="title" value="Versions"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/versions.jsp"/>
 	</definition>
 	
 	<!-- Math Editor -->
 	<definition name="math-editor" extends="blank-layout">
-		<put-attribute name="title" value="Math Editor"/>
+		<put-attribute name="title" value="Math editor"/>
 		<put-attribute name="body" value="/WEB-INF/views/pages/math-editor.jsp"/>
 	</definition>
 	

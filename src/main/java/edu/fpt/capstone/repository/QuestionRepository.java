@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.fpt.capstone.entity.Category;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.Version;

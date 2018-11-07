@@ -71,13 +71,13 @@
 
 <form:form action="save-new-exercise" method="post" modelAttribute="exercise" style="opacity: 0">
     <div class="form-title">
-        <label for="answer">ĐÁP ÁN</label>
+        <label for="answer">Answer</label>
         <form:input path="answer" id="answer"/>
     </div>
-    <label for="input">ĐỀ BÀI</label>
+    <label for="input">Problem</label>
     <form:textarea path="topic" id="input"/>
 	<form:hidden path="mathformId.id"/>
-	<input type="submit" value="Thêm bài tập" class="btn" id="save-exercise">
+	<input type="submit" value="Save" class="btn" id="save-exercise">
 </form:form>
 <div class="lds-dual-ring"></div>
 <input type="file" id="uploadImg" style="display: none">
@@ -85,10 +85,10 @@
 <script>
     $(document).ready(function () {
         $('.lds-dual-ring').css('display', 'block');
-        $('h2.w3_inner_tittle').text('Thêm bài tập');
+        $('h2.w3_inner_tittle').text('New exercise');
         $('.w3l_agileits_breadcrumbs_inner>ul')
             .append($('<li>')
-                .append('Thêm bài tập mới')
+                .append('New exercise')
             );
     
         //Upload image

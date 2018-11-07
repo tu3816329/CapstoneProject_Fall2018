@@ -17,8 +17,7 @@
 				</span>
 
 				<a:if test="${param.error eq true}">
-					<span style="color: white"> Tên đăng nhập hoặc mật khẩu không
-						hợp lệ </span>
+					<span style="color: white"> Wrong username or password </span>
 					<br><br>
 				</a:if>
 
@@ -37,8 +36,7 @@
 				</div>
 
 				<div class="container-login100-form-btn">
-					<button type="submit" class="login100-form-btn">Đăng nhập
-					</button>
+					<button type="submit" class="login100-form-btn">Login</button>
 				</div>
 			</form>
 		</div>

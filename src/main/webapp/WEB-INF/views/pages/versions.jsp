@@ -62,14 +62,14 @@
     $(document).ready(function() {
         $('.lds-dual-ring').css('display', 'block');
         $('.gn-menu li:nth-child(4)').children('a').css('background','#283242');
-        $('h2.w3_inner_tittle').text('Phiên bản');
+        $('h2.w3_inner_tittle').text('Versions');
         $('h2.w3_inner_tittle')
             .append(
-                '<a id="add-version" class="btn" href="add-version">Nâng cấp</a>'
+                '<a id="add-version" class="btn" href="add-version">Upgtade</a>'
             );
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
-				.append('Phiên bản')
+				.append('Versions')
         	);
         versionsTableConfig();
         setTimeout(function() {
@@ -83,7 +83,7 @@
         var hstb = new Handsontable(container, {
             startRows: 4,
             rowHeaders: true,
-            colHeaders: ['ID','Phiên bản','Tên phiên bản','Trạng thái'],
+            colHeaders: ['ID','Version number','Name','Status'],
             columns: [{
                 data: 'id',
                 readOnly: true
@@ -110,9 +110,9 @@
                 hstb.loadData(res);
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].isCurrent) {
-                        hstb.setDataAtCell(i, 3, 'Hiện tại')
+                        hstb.setDataAtCell(i, 3, 'Activated')
                     } else {
-                        hstb.setDataAtCell(i, 3, 'Cũ')
+                        hstb.setDataAtCell(i, 3, 'Deactivated')
                     }
                 }
             },

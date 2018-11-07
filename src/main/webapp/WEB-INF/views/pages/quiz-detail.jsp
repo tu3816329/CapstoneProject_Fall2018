@@ -195,9 +195,14 @@
 	    <div class="quiz-title">
             <h3><a href="#">${quiz.lessonTitle}</a></h3>
             <a href="add-question?lessonId=${quiz.lessonId}" class="btn" id="add-question">
-                <i class="fas fa-plus-circle"></i> Thêm câu hỏi
+                <i class="fas fa-plus-circle"></i> New question
             </a>
-	        <span>${quiz.numOfQuestions} Câu hỏi</span>
+            <a:if test="${quiz.numOfQuestions le 1}">
+                <span>${quiz.numOfQuestions} question</span>
+            </a:if>
+            <a:if test="${quiz.numOfQuestions gt 1}">
+                <span>${quiz.numOfQuestions} questions</span>
+            </a:if>
         </div>
 	</div>
 </div>

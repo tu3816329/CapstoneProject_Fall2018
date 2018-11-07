@@ -102,7 +102,7 @@
 	        <div class="quiz-detail">
 	            <div class="quiz-title">
 	                <h3><a href="quiz-detail?lessonId=${q.lessonId}">${q.lessonTitle}</a></h3>
-	                <span>${q.numOfQuestions} Questions</span>
+	                <span>${q.numOfQuestions} questions</span>
 	            </div>
 	        </div>
 	    </div>
