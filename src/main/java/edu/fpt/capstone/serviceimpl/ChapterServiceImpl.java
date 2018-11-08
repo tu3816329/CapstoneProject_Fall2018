@@ -14,10 +14,15 @@ import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.ChapterRepository;
 import edu.fpt.capstone.service.ChapterService;
 import edu.fpt.capstone.service.LessonService;
+import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.VersionService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class ChapterServiceImpl implements ChapterService {
+	
+	@Autowired
+	MathFormulasAdminService service;
 	
 	@Autowired
 	ChapterRepository chapterRepository;
@@ -83,6 +88,7 @@ public class ChapterServiceImpl implements ChapterService {
 			lessonService.deleteLesson(l.getId());
 		}
 		chapterRepository.delete(chapterId);
+		service.generateDeleteQuery(chapterId, WebAdminUtils.CHAPTER_TABLE);
 	}
 
 	@Override

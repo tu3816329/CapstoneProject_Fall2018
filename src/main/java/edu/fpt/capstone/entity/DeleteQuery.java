@@ -1,4 +1,5 @@
 package edu.fpt.capstone.entity;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -7,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,13 +19,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(catalog = "math_formulas")
+@Table(name = "delete_query", catalog = "math_formulas", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Exercise.findAll", query = "SELECT e FROM Exercise e")
-    , @NamedQuery(name = "Exercise.findById", query = "SELECT e FROM Exercise e WHERE e.id = :id")
-    , @NamedQuery(name = "Exercise.findByAnswer", query = "SELECT e FROM Exercise e WHERE e.answer = :answer")})
-public class Exercise implements Serializable {
+    @NamedQuery(name = "DeleteQuery.findAll", query = "SELECT d FROM DeleteQuery d")
+    , @NamedQuery(name = "DeleteQuery.findById", query = "SELECT d FROM DeleteQuery d WHERE d.id = :id")
+    , @NamedQuery(name = "DeleteQuery.findByQuery", query = "SELECT d FROM DeleteQuery d WHERE d.query = :query")})
+public class DeleteQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,28 +34,22 @@ public class Exercise implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Lob
-    @Column(nullable = false, length = 2147483647)
-    private String topic;
-    @Column(length = 255)
-    private String answer;
-    @JoinColumn(name = "mathform_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Mathform mathformId;
+    @Column(nullable = false, length = 255)
+    private String query;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
 
-    public Exercise() {
+    public DeleteQuery() {
     }
 
-    public Exercise(Integer id) {
+    public DeleteQuery(Integer id) {
         this.id = id;
     }
 
-    public Exercise(Integer id, String topic) {
-        this.id = id;
-        this.topic = topic;
+    public DeleteQuery(String query, Version versionId) {
+        this.query = query;
+        this.versionId = versionId;
     }
 
     public Integer getId() {
@@ -66,28 +60,12 @@ public class Exercise implements Serializable {
         this.id = id;
     }
 
-    public String getTopic() {
-        return topic;
+    public String getQuery() {
+        return query;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public Mathform getMathformId() {
-        return mathformId;
-    }
-
-    public void setMathformId(Mathform mathformId) {
-        this.mathformId = mathformId;
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     public Version getVersionId() {
@@ -100,7 +78,7 @@ public class Exercise implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Exercise[ id=" + id + " ]";
+        return "entity.DeleteQuery[ id=" + id + " ]";
     }
     
 }

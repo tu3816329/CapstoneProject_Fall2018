@@ -13,12 +13,17 @@ import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.repository.LessonRepository;
 import edu.fpt.capstone.service.LessonService;
+import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.MathformService;
 import edu.fpt.capstone.service.QuestionService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class LessonServiceImpl implements LessonService {
 
+	@Autowired
+	MathFormulasAdminService service; 
+	
 	@Autowired
 	LessonRepository lessonRepository;
 	
@@ -56,6 +61,7 @@ public class LessonServiceImpl implements LessonService {
 			questionService.deleteQuizQuestion(question.getId());
 		}
 		lessonRepository.delete(lessonId);
+		service.generateDeleteQuery(lessonId, WebAdminUtils.LESSON_TABLE);
 	}
 
 	@Override

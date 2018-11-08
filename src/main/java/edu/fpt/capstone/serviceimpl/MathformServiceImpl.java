@@ -12,11 +12,16 @@ import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.repository.MathFormRepository;
 import edu.fpt.capstone.service.ExerciseService;
+import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.MathformService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class MathformServiceImpl implements MathformService {
 
+	@Autowired
+	MathFormulasAdminService service;
+	
 	@Autowired
 	MathFormRepository mathFormRepository;
 	
@@ -41,6 +46,7 @@ public class MathformServiceImpl implements MathformService {
 			exerciseService.deleteExercise(e.getId());
 		}
 		mathFormRepository.delete(mathform);
+		service.generateDeleteQuery(mathformId, WebAdminUtils.MATHFORM_TABLE);
 	}
 
 	@Override

@@ -141,13 +141,12 @@
     .answer-item {
         border: 1px solid #ddd;
         display: grid;
-        grid-template-columns: 12% 10%;
-        grid-column-gap: 78%;
+        grid-template-columns: 85% 10%;
+        grid-column-gap: 5%;
     }
 
     .answer-item>span:nth-child(1) {
         padding: 10px 50px;
-        text-align: center;
     }
 
     .answer-item>span:nth-child(2) {

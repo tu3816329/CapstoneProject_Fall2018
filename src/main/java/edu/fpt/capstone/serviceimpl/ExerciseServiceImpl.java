@@ -9,10 +9,15 @@ import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.repository.ExerciseRepository;
 import edu.fpt.capstone.service.ExerciseService;
+import edu.fpt.capstone.service.MathFormulasAdminService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
+	@Autowired
+	MathFormulasAdminService service;
+	
 	@Autowired
 	ExerciseRepository exerciseRepository;
 	
@@ -34,5 +39,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 	@Override
 	public void deleteExercise(int exerciseId) {
 		exerciseRepository.delete(exerciseId);
+		service.generateDeleteQuery(exerciseId, WebAdminUtils.EXERCISE_TABLE);
 	}
 }

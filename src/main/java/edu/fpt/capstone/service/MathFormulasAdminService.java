@@ -7,10 +7,8 @@ public interface MathFormulasAdminService {
 	public void initializeData();
 	
 	public void updateDataDbVersion(int latestVersionId);
-	 
-//	public List<Division> getNewDivisions(int userVersion);
-//	
-//	public List<Lesson> getNewLessons(int userVersion);
 	
 	public ResponseData getNewData(int userVersion);
+	
+	public void generateDeleteQuery(int id, String tableName);
 }

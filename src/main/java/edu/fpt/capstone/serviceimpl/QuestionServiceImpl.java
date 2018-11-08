@@ -14,9 +14,11 @@ import edu.fpt.capstone.entity.QuestionChoice;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.QuestionRepository;
 import edu.fpt.capstone.service.LessonService;
+import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.QuestionChoiceService;
 import edu.fpt.capstone.service.QuestionService;
 import edu.fpt.capstone.service.VersionService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -32,6 +34,9 @@ public class QuestionServiceImpl implements QuestionService {
 	
 	@Autowired
 	VersionService versionService;
+	
+	@Autowired
+	MathFormulasAdminService service;
 	
 	@Override
 	public List<Quizes> getQuizesData(int lessonId) {
@@ -75,10 +80,12 @@ public class QuestionServiceImpl implements QuestionService {
 	public void deleteQuizQuestion(int questionId) {
 		Question question = questionRepository.findOne(questionId);
 		List<QuestionChoice> choices = questionChoiceService.getQuestionChoicesByQuestion(question);
+		service.generateDeleteQuery(questionId, WebAdminUtils.USER_CHOICE_TABLE);
 		for (QuestionChoice choice : choices) {
 			questionChoiceService.deleteQuestionChoice(choice);
 		}
 		questionRepository.delete(question);
+		service.generateDeleteQuery(questionId, WebAdminUtils.QUESTION_TABLE);
 	}
 
 	@Override

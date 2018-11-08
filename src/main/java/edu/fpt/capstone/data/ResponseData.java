@@ -3,6 +3,7 @@ package edu.fpt.capstone.data;
 import java.util.List;
 
 import edu.fpt.capstone.entity.Chapter;
+import edu.fpt.capstone.entity.DeleteQuery;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Grade;
@@ -21,13 +22,14 @@ public class ResponseData {
 	private List<Exercise> exercises;
 	private List<Question> questions;
 	private List<QuestionChoice> choices;
+	private List<DeleteQuery> queries;
 	
 	public ResponseData() {
 	}
 
 	public ResponseData(List<Grade> grades, List<Division> divisions, List<Chapter> chapters, List<Lesson> lessons,
 			List<Mathform> mathforms, List<Exercise> exercises, List<Question> questions,
-			List<QuestionChoice> choices) {
+			List<QuestionChoice> choices, List<DeleteQuery> queries) {
 		super();
 		this.grades = grades;
 		this.divisions = divisions;
@@ -37,6 +39,7 @@ public class ResponseData {
 		this.exercises = exercises;
 		this.questions = questions;
 		this.choices = choices;
+		this.queries = queries;
 	}
 
 	public List<Grade> getGrades() {
@@ -101,5 +104,13 @@ public class ResponseData {
 	
 	public void setChoices(List<QuestionChoice> choices) {
 		this.choices = choices;
+	}
+	
+	public List<DeleteQuery> getQueries() {
+		return queries;
+	}
+	
+	public void setQueries(List<DeleteQuery> queries) {
+		this.queries = queries;
 	}
 }

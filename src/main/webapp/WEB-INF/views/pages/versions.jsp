@@ -65,7 +65,7 @@
         $('h2.w3_inner_tittle').text('Versions');
         $('h2.w3_inner_tittle')
             .append(
-                '<a id="add-version" class="btn" href="add-version">Upgtade</a>'
+                '<a id="add-version" class="btn" href="add-version">Upgrade</a>'
             );
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')

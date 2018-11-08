@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import edu.fpt.capstone.data.ResponseData;
 import edu.fpt.capstone.entity.Chapter;
+import edu.fpt.capstone.entity.DeleteQuery;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Lesson;
@@ -16,6 +17,7 @@ import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.QuestionChoice;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.ChapterRepository;
+import edu.fpt.capstone.repository.DeleteQueryRepository;
 import edu.fpt.capstone.repository.DivisionRepository;
 import edu.fpt.capstone.repository.ExerciseRepository;
 import edu.fpt.capstone.repository.LessonRepository;
@@ -24,7 +26,9 @@ import edu.fpt.capstone.repository.MathFormRepository;
 import edu.fpt.capstone.repository.QuestionChoiceRepository;
 import edu.fpt.capstone.repository.QuestionRepository;
 import edu.fpt.capstone.repository.VersionRepository;
+import edu.fpt.capstone.service.DeleteQueryService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
+import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
 public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
@@ -47,6 +51,10 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	QuestionChoiceRepository questionChoiceRepository;
 	@Autowired
 	VersionRepository versionRepository;
+	@Autowired
+	DeleteQueryRepository deleteQueryRepository;
+	@Autowired
+	DeleteQueryService deleteQueryService;
 
 	@Override
 	public void initializeData() {
@@ -108,17 +116,22 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 			choice.setVersionId(latestVersion);
 			questionChoiceRepository.save(choice);
 		}
+		List<DeleteQuery> queries = deleteQueryRepository.findByVersionId(noneVersion);
+		for(DeleteQuery query : queries) {
+			query.setVersionId(latestVersion);
+			deleteQueryRepository.save(query);
+		}
 	}
 
-//	@Override
-//	public List<Division> getNewDivisions(int userVersion) {
-//		return divisionRepository.getNewDivisions(userVersion);
-//	}
-//
-//	@Override
-//	public List<Lesson> getNewLessons(int userVersion) {
-//		return lessonRepository.getNewLessons(userVersion);
-//	}
+	// @Override
+	// public List<Division> getNewDivisions(int userVersion) {
+	// return divisionRepository.getNewDivisions(userVersion);
+	// }
+	//
+	// @Override
+	// public List<Lesson> getNewLessons(int userVersion) {
+	// return lessonRepository.getNewLessons(userVersion);
+	// }
 
 	@Override
 	public ResponseData getNewData(int userVersion) {
@@ -130,8 +143,20 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 		List<Exercise> exercises = exerciseRepository.getNewExercises(userVersion);
 		List<Question> questions = questionRepository.getNewQuestions(userVersion);
 		List<QuestionChoice> choices = questionChoiceRepository.getNewQuestionChoices(userVersion);
-		ResponseData data = new ResponseData(grades, divisions, chapters, lessons, mathforms, exercises, questions,
-				choices);
+		List<DeleteQuery> queries = deleteQueryRepository.getNewDeleteQueries(userVersion);
+		ResponseData data = new ResponseData(grades, divisions, chapters, lessons, mathforms, 
+				exercises, questions, choices, queries);
 		return data;
+	}
+
+	@Override
+	public void generateDeleteQuery(int id, String tableName) {
+		Version noneVersion = versionRepository.findOne(0);
+		String queryString = "DELETE FROM " + tableName + " where id = " + id;
+		if(tableName == WebAdminUtils.USER_CHOICE_TABLE) {
+			queryString = "DELETE FROM " + tableName + " where question_id = " + id;
+		}
+		DeleteQuery query = new DeleteQuery(queryString, noneVersion);
+		deleteQueryService.saveDeleteQuery(query);
 	}
 }
