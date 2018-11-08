@@ -2,12 +2,11 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <style>
-    .form-title {
+    /* .form-title {
         display: grid;
-        height: 30px;
         grid-template-columns: 10% 88%;
         grid-column-gap: 2%;
-    }
+    } */
 
     label {
         color: black;
@@ -70,14 +69,12 @@
 </style>
 
 <form:form action="save-new-exercise" method="post" modelAttribute="exercise" style="opacity: 0">
-    <div class="form-title">
-        <label for="answer">Answer</label>
-        <form:input path="answer" id="answer"/>
-    </div>
     <label for="input">Problem</label>
-    <form:textarea path="topic" id="input"/>
-	<form:hidden path="mathformId.id"/>
-	<input type="submit" value="Save" class="btn" id="save-exercise">
+    <form:textarea path="topic" id="input" />
+    <label for="answer" style="margin-top: 20px">Answer</label>
+    <form:textarea rows="1" path="answer" id="answer" />
+    <form:hidden path="mathformId.id" />
+    <input type="submit" value="Save" class="btn" id="save-exercise">
 </form:form>
 <div class="lds-dual-ring"></div>
 <input type="file" id="uploadImg" style="display: none">
@@ -90,9 +87,9 @@
             .append($('<li>')
                 .append('New exercise')
             );
-    
+
         //Upload image
-        $.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});
+        $.FroalaEditor.DefineIcon('image', { NAME: 'uploadImg' });
         $.FroalaEditor.RegisterCommand('insertImage', {
             title: 'Add Image',
             focus: false,
@@ -102,46 +99,53 @@
                 $('#uploadImg').click();
             }
         });
-        
+
         $('#uploadImg').change(function () {
             var file = document.querySelector('input[type=file]').files[0];
-            if(file) {
+            if (file) {
                 var reader = new FileReader();
-                reader.onloadend = function() {
-                    $('#input').froalaEditor('html.insert', 
-                                '<img width="200px" src="' + reader.result + '">', false);
+                reader.onloadend = function () {
+                    $('#input').froalaEditor('html.insert',
+                        '<img width="200px" src="' + reader.result + '">', false);
                 }
                 reader.readAsDataURL(file);
             }
             $('#input').froalaEditor('events.focus');
         });
-                
+
         //initialize editor
         $('#input').froalaEditor({
             height: 400,
             iframe: true,
             quickInsertTags: [''],
             // quickInsertButtons : [],
-            toolbarButtons : ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
-                    '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align', 
-                    'formatOL', 'formatUL', , '-', 'insertImage', 'specialCharacters', 
-                    'insertHR', '|', 'selectAll', 'clearFormatting', '|', 'wirisEditor', 
-                    'undo', 'redo'],
-            imageEditButtons: ['wirisEditor', 'imageDisplay', 'imageAlign', 
-                                    'imageInfo', 'imageRemove'],
-            htmlAllowedTags:   ['.*'],
+            toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough',
+                '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align',
+                'formatOL', 'formatUL', , '-', 'insertImage', 'specialCharacters',
+                'insertHR', '|', 'selectAll', 'clearFormatting', '|', 'wirisEditor',
+                'undo', 'redo'],
+            imageEditButtons: ['wirisEditor', 'imageDisplay', 'imageAlign',
+                'imageInfo', 'imageRemove'],
+            htmlAllowedTags: ['.*'],
             htmlAllowedAttrs: ['.*'],
         });
         $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+
+        $('#answer').froalaEditor({
+            toolbarButtons: ['wirisEditor'],
+            quickInsertTags: [],
+            placeholderText: ''
+        });
+
         $('.fr-box').css('zoom', '0.8');
 
-        setTimeout(function() {
-			$('.lds-dual-ring').css('display','none');
-			$('form').css('opacity', '1');
-		}, 1000);
+        setTimeout(function () {
+            $('.lds-dual-ring').css('display', 'none');
+            $('form').css('opacity', '1');
+        }, 1000);
 
-        setInterval(function() {
-            $('.wrs_modal_dialogContainer').css('zoom','0.8');
+        setInterval(function () {
+            $('.wrs_modal_dialogContainer').css('zoom', '0.8');
         }, 1000);
     });
 </script>

@@ -228,7 +228,7 @@
 
         $('.fr-box').css('zoom', '0.8');
 
-        $('.fr-sticky-off').css('border','none');
+        // $('.fr-sticky-off').css('border','none');
 
         $('.answer-item .fr-counter').remove();
 

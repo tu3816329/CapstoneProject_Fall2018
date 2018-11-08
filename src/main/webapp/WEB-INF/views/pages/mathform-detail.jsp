@@ -129,14 +129,14 @@
         <div class="exercise-item">
             <div class="seq-no"><h1><span>${counter.count}</span></h1></div>
             <div class="exercise-content">
-                <span>${ex.topic}</span>
+                <span style="font-weight: bold; text-decoration: underline">${ex.topic}</span>
                 <span>
                     <a href="edit-exercise?exId=${ex.id}"><i class="fas fa-edit"></i></a>
                 </span>
                 <span>
                     <a href="delete-exercise?exId=${ex.id}&mathformId=${ex.mathformId.id}"><i class="fas fa-times"></i></a>
 				</span>
-				<span>Answer: ${ex.answer}</span>
+				<span>${ex.answer}</span>
             </div>
         </div>
 	</a:forEach>

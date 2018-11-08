@@ -70,12 +70,10 @@
 </style>
 
 <form:form action="save-edit-exercise" method="post" modelAttribute="exercise" style="opacity: 0">
-    <div class="form-title">
-        <label for="answer">Answer</label>
-        <form:input path="answer" id="answer"/>
-    </div>
     <label for="input">Problem</label>
     <form:textarea path="topic" id="input"/>
+    <label style="margin-top: 20px" for="answer">Answer</label>
+    <form:textarea rows="1" path="answer" id="answer"/>
 	<form:hidden path="id"/>
 	<input type="submit" value="Save" class="btn" id="save-exercise">
 </form:form>
@@ -133,6 +131,13 @@
             htmlAllowedAttrs: ['.*'],
         });
         $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+
+        $('#answer').froalaEditor({
+            toolbarButtons: ['wirisEditor'],
+            quickInsertTags: [],
+            placeholderText: ''
+        });
+
         $('.fr-box').css('zoom', '0.8');
         
         setTimeout(function() {

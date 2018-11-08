@@ -246,7 +246,7 @@
         });
 
         //remove froala border-top
-        $('.fr-sticky-off').css('border','none');
+        // $('.fr-sticky-off').css('border','none');
 
         //Remove counter of froala
         $('.answer-item .fr-counter').remove();
