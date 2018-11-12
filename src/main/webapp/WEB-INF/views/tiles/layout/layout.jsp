@@ -123,6 +123,7 @@
 
         #side-menu {
             padding: 15px 30px;
+            white-space: nowrap;
         }
 
         #side-menu a {

@@ -4,7 +4,7 @@
 
 <h3 id="data-explorer"><a href="#"><i class="fas fa-wrench"></i> Data Explorer</a></h3>
 <ul id="tree-menu"></ul>
-<div class="side-menu-item"><a href="${pageContext.servletContext.contextPath}">
+<div class="side-menu-item"><a href="${pageContext.servletContext.contextPath}/">
 		<i class="fas fa-home"></i> Home
 	</a></div>
 <div class="side-menu-item"><a href="show-chapters">

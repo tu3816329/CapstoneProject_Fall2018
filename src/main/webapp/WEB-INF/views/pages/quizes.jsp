@@ -63,7 +63,7 @@
         margin-bottom: 20px;
     }
 
-    .pageNum {
+    .firstPage, .lastPage, .pageNum {
         background: #0084ff;
         color: white;
         border-radius: 5px;
@@ -152,21 +152,30 @@
         // 
         var itemNum = $('.quiz-item[position]').length;
         var pageNum = ((itemNum / 5) | 0) + 1;
-        console.log(itemNum + ' | ' + pageNum);
 
         // Pagination buttons visibility
         $('.pageNum').css('display', '');
         if (itemNum != 0) {
             if ($('#pagination').is(':empty')) {
+                if (pageNum > 1) {
+                    $('#pagination').append($('<a class="btn btn-default firstPage">')
+                        .append('First')
+                    );
+                }
                 for (var i = 1; i <= pageNum; i++) {
                     $('#pagination').append($('<a class="btn btn-default pageNum">')
                         .append(i)
                     );
                 }
+                if (pageNum > 1) {
+                    $('#pagination').append($('<a class="btn btn-default lastPage">')
+                        .append('Last')
+                    );
+                }
             }
 
             if (pageNum > 5) {
-                if(pageId <= 3) {
+                if (pageId <= 3) {
                     $('.pageNum').each(function () {
                         var index = parseInt($(this).text());
                         if (index > 5) {
@@ -179,7 +188,7 @@
                         var start = pageId - 2;
                         var end = pageId + 2;
 
-                        if(end <= pageNum) {
+                        if (end <= pageNum) {
                             if (index < pageId - 2 || index > pageId + 2) {
                                 $(this).css('display', 'none');
                             }
@@ -194,13 +203,33 @@
         }
 
         // Current page button style
-        $('.pageNum').css('border', '');
+        $('.pageNum').css({
+            'border': '',
+            'background': '',
+            'color': ''
+        });
         $('.pageNum').each(function () {
             if ($(this).text() === $('#pageId').val()) {
-                $(this).css('border', '2px solid black');
+                $(this).css('border', '2px solid #0084ff');
+                $(this).css('background', 'white');
+                $(this).css('color', '#0084ff');
             }
         });
     }
+
+    $(document).on('click', '.firstPage', function () {
+        alert('first');
+        $('#pageId').val('1');
+        pagination();
+    });
+
+    $(document).on('click', '.lastPage', function () {
+        alert('last');
+        var itemNum = $('.quiz-item[position]').length;
+        var pageNum = ((itemNum / 5) | 0) + 1;
+        $('#pageId').val(pageNum);
+        pagination();
+    });
 
     $('.quiz-item').each(function () {
         var target = $(this).children('.quiz-image');

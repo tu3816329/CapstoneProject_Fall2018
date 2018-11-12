@@ -10,9 +10,10 @@
     #header {
         background: #0084ff;
         width: 100%;
+        white-space: nowrap;
         display: grid;
-        grid-template-columns: 20% 16%;
-        grid-column-gap: 64%;
+        grid-template-columns: 30% 16%;
+        grid-column-gap: 54%;
         z-index: 999;
     }
 
@@ -68,7 +69,7 @@
 <div id="header">
     <div id="left-column">
         <h1 id="app-name">
-            <a href="${pageContext.servletContext.contextPath}">MATH FORMULAS</a>
+            <a href="${pageContext.servletContext.contextPath}/">MATH FORMULAS</a>
         </h1>
     </div>
     <div id="right-column">
@@ -76,7 +77,7 @@
             <a href="#">${username}</a>
         </div>
         <div class="right-item">
-            <a href="#"><i class="fas fa-sign-out-alt"></i> logout</a>
+            <a href="${pageContext.servletContext.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> logout</a>
         </div>
     </div>
 </div>

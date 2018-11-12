@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(catalog = "math_formulas", schema = "", uniqueConstraints = {
+@Table(name = "version", catalog = "math_formulas", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"database_version"})})
 @XmlRootElement
 @NamedQueries({

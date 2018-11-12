@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "delete_query", catalog = "math_formulas", schema = "")
+@Table(name = "delete_query", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DeleteQuery.findAll", query = "SELECT d FROM DeleteQuery d")

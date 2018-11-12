@@ -7,7 +7,9 @@
 		});
 </script>
 
-<h1>Math Formulas</h1><br/>
+<div class="content-header">
+	<h3 class="content-title">Math Formulas</h3>
+</div><br/>
 <p>
 	Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat eos consequatur laborum ut numquam minus, fugit excepturi veritatis earum similique nam ipsam soluta temporibus repudiandae facilis illo adipisci mollitia ad?
 	Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quasi sint perspiciatis nulla eligendi in similique ipsa libero nostrum, delectus officiis sapiente! Corrupti officia nemo repudiandae animi, ex non tempore?
