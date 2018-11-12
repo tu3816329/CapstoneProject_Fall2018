@@ -10,7 +10,7 @@
 		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.js"></script>
 		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.min.js"></script>
 	</head>
-		<body style="zoom: 1">
+		<body>
 		<tiles:insertAttribute name="body"/>
 	</body>
 </html>

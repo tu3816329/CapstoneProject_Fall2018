@@ -1,77 +1,185 @@
-<nav class="gn-menu-wrapper">
-	<div class="gn-scroller scrollbar1">
-		<ul class="gn-menu agile_menu_drop">
-			<li><a href="main-page.html"> <i class="fa fa-tachometer"></i>
-					Dashboard
-			</a></li>
-			<li><a href="#"><i class="fa fa-cogs" aria-hidden="true"></i>
-					UI Components <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-				<ul class="gn-submenu">
-					<li class="mini_list_agile"><a href="buttons.html"><i
-							class="fa fa-caret-right" aria-hidden="true"></i> Buttons</a></li>
-					<li class="mini_list_w3"><a href="grids.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Grids
-					</a></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-file-text-o"
-					aria-hidden="true"></i>Forms <i class="fa fa-angle-down"
-					aria-hidden="true"></i></a>
-				<ul class="gn-submenu">
-					<li class="mini_list_agile"><a href="input.html"><i
-							class="fa fa-caret-right" aria-hidden="true"></i> Inputs</a></li>
-					<li class="mini_list_w3"><a href="validation.html"><i
-							class="fa fa-caret-right" aria-hidden="true"></i> Validation</a></li>
-				</ul></li>
-			<li><a href="table.html"> <i class="fa fa-table"
-					aria-hidden="true"></i> Tables
-			</a></li>
-			<li><a href="#"><i class="fa fa-list" aria-hidden="true"></i>Short
-					Codes <i class="fa fa-angle-down" aria-hidden="true"> </i></a>
-				<ul class="gn-submenu">
-					<li class="mini_list_agile"><a href="typo.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Typography
-					</a></li>
-					<li class="mini_list_w3"><a href="icons.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Icons
-					</a></li>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a" %>
 
-				</ul></li>
+<h3 id="data-explorer"><a href="#"><i class="fas fa-wrench"></i> Data Explorer</a></h3>
+<ul id="tree-menu"></ul>
+<div class="side-menu-item"><a href="${pageContext.servletContext.contextPath}">
+		<i class="fas fa-home"></i> Home
+	</a></div>
+<div class="side-menu-item"><a href="show-chapters">
+		<i class="fas fa-desktop"></i> Data Management
+	</a></div>
+<div class="side-menu-item"><a href="show-questions">
+		<i class="fas fa-question"></i> Quiz
+	</a></div>
+<div class="side-menu-item"><a href="show-versions">
+		<i class="fas fa-code-branch"></i> Versions
+	</a></div>
 
-			<li><a href="charts.html"> <i class="fa fa-line-chart"
-					aria-hidden="true"></i> Charts
-			</a></li>
-			<li><a href="maps.html"><i class="fa fa-map-o"
-					aria-hidden="true"></i> Maps</a></li>
-			<li class="page"><a href="#"><i class="fa fa-files-o"
-					aria-hidden="true"></i> Pages <i class="fa fa-angle-down"
-					aria-hidden="true"></i></a>
-				<ul class="gn-submenu">
+<script>
+	$(document).ready(function () {
+		var divisions = getDivisions();
+		$.ajax({
+			type: 'GET',
+			url: 'get-grades',
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (res) {
+				var grades = res;
+				for (var i = 0; i < grades.length; i++) {
+					$('#tree-menu').append($('<li class="grade-item">')
+						.append('<i class="fas fa-plus-square"> </i><i class="fas fa-folder-open"></i> ' + grades[i].gradeName)
+						.append('<input type="hidden" class="gradeId" value="' + grades[i].id + '">')
+						.append($('<ul class="nested division-tree">'))
+					);
+				}
 
-					<li class="mini_list_agile"><a href="signin.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Sign In
-					</a></li>
-					<li class="mini_list_w3"><a href="signup.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Sign Up
-					</a></li>
-					<li class="mini_list_agile error"><a href="404.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Error 404
-					</a></li>
+				// Load divisions
+				$('.division-tree').each(function () {
+					for (var i = 0; i < divisions.length; i++) {
+						$(this).append($('<li class="division-item">')
+							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-box"></i> ' + divisions[i].divisionName)
+							.append('<input type="hidden" class="divisionId" value="' + divisions[i].id + '">')
+							.append($('<ul class="nested chapter-tree">'))
+						);
+					}
+				});
 
-					<li class="mini_list_w3_line"><a href="calendar.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Calendar
-					</a></li>
-				</ul></li>
-			<li><a href="#"> <i class="fa fa-suitcase"
-					aria-hidden="true"></i>More <i class="fa fa-angle-down"
-					aria-hidden="true"></i></a>
-				<ul class="gn-submenu">
-					<li class="mini_list_agile"><a href="faq.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Faq
-					</a></li>
-					<li class="mini_list_w3"><a href="blank.html"> <i
-							class="fa fa-caret-right" aria-hidden="true"></i> Blank Page
-					</a></li>
-				</ul></li>
-		</ul>
-	</div>
-</nav>
+				// Load chapters
+				$('.chapter-tree').each(function () {
+					var divisionId = $(this).siblings('.divisionId').val();
+					var gradeId = $(this).parents('.division-tree').siblings('.gradeId').val();
+					var chapters = getChapters(divisionId, gradeId);
+					for (var i = 0; i < chapters.length; i++) {
+						$(this).append($('<li class="chapter-item">')
+							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-book"></i> <a href="show-lessons?chapterId=' + chapters[i].id + '">' + chapters[i].chapterName + '</a>')
+							.append('<input type="hidden" class="chapterId" value="' + chapters[i].id + '">')
+							.append($('<ul class="nested lesson-tree">'))
+						);
+					}
+				});
+
+				// Load lessons
+				$('.lesson-tree').each(function () {
+					var chapterId = $(this).siblings('.chapterId').val();
+					var lessons = getLessons(chapterId);
+					for (var i = 0; i < lessons.length; i++) {
+						$(this).append($('<li class="les-item">')
+							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-file"></i> <a href="show-mathforms?lessonId=' + lessons[i].id + '">' + lessons[i].lessonTitle + '</a>')
+							.append('<input type="hidden" class="lessonId" value="' + lessons[i].id + '">')
+							.append($('<ul class="nested mathform-tree">'))
+						);
+					}
+				});
+
+				// Load math forms
+				$('.mathform-tree').each(function () {
+					var lessonId = $(this).siblings('.lessonId').val();
+					var mathforms = getMathforms(lessonId);
+					for (var i = 0; i < mathforms.length; i++) {
+						$(this).append($('<li class="mathform-item">')
+							.append('<i class="fas fa-caret-square-right"></i> <a href="mathform-detail?mathformId=' + mathforms[i].id + '">' + mathforms[i].mathformTitle + '</a>')
+							.append('<input type="hidden" class="mathformId" value="' + mathforms[i].id + '">')
+						);
+					}
+				});
+			},
+			error: function (res) {
+				alert('Some errors occured while loading grades');
+			}
+		});
+
+		// Tree data
+	});
+
+	$(document).on('click', '#data-explorer', function () {
+		if ($('#tree-menu').css('display') === 'none') {
+			$('#tree-menu').css('display', 'block');
+		} else {
+			$('#tree-menu').css('display', 'none');
+		}
+	});
+
+	function getDivisions() {
+		var divisions;
+		$.ajax({
+			type: 'GET',
+			async: false,
+			url: 'get-divisions',
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (res) {
+				divisions = res;
+			},
+			error: function (res) {
+				alert('Some errors occured while loading divisions');
+			}
+		});
+		return divisions;
+	}
+
+	function getChapters(divisionId, gradeId) {
+
+		var chapters;
+		$.ajax({
+			type: 'GET',
+			async: false,
+			url: 'get-chapter-tree?divisionId=' + divisionId + '&gradeId=' + gradeId,
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (res) {
+				chapters = res;
+			},
+			error: function (res) {
+				alert('Some errors occured while loading chapters');
+			}
+		});
+		return chapters;
+	}
+
+	function getLessons(chapterId) {
+		var lessons;
+		$.ajax({
+			type: 'GET',
+			async: false,
+			url: 'get-lesson-tree?chapterId=' + chapterId,
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (res) {
+				lessons = res;
+			},
+			error: function (res) {
+				alert('Some errors occured while loading lessons');
+			}
+		});
+		return lessons;
+	}
+
+	function getMathforms(lessonId) {
+		var mathforms;
+		$.ajax({
+			type: 'GET',
+			async: false,
+			url: 'get-mathform-tree?lessonId=' + lessonId,
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (res) {
+				mathforms = res;
+			},
+			error: function (res) {
+				alert('Some errors occured while loading math forms');
+			}
+		});
+		return mathforms;
+	}
+
+	$(document).on('click', 'i.fa-plus-square, i.fa-minus-square', function () {
+		$(this).siblings('.nested').toggleClass('active');
+		if ($(this).siblings('.nested').hasClass('active')) {
+			$(this).attr('class', 'fas fa-minus-square');
+		} else {
+			$(this).attr('class', 'fas fa-plus-square');
+		}
+	});
+</script>

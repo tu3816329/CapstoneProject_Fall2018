@@ -4,13 +4,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <style>
-    #lesson, #questions {
-        opacity: 0;
-    }
-
     #lesson {
-        width: 95%;
-        margin: auto;
         display: grid;
         grid-template-columns: 22% 77.5%;
         grid-column-gap: 0.5%;
@@ -19,12 +13,13 @@
         margin-bottom: 30px;
     }
 
+    #lesson h3>a {
+        color: #0084ff;
+    }
+
     #add-question {
-        border: none;
-		background: #ab0800;
-        border-radius: 0;
-        color: white;
         height: fit-content;
+        width: fit-content;
     }
 
     .quiz-image {
@@ -87,6 +82,7 @@
     .seq-no h1 {
         height: 100%;
         position: relative;
+        margin: 0;
     }
 
     .seq-no span {
@@ -101,8 +97,7 @@
         background: #f2f2f2;
         padding-left: 20px;
         display: grid;
-        grid-template-columns: 85% 5% 5%;
-        grid-column-gap: 2.5%;
+        grid-template-columns: 90% 5% 5%;
     }
 
     .question-content>span:nth-child(1) {
@@ -116,7 +111,7 @@
 
     .question-content>span:nth-child(3) {
         padding-top: 10px;
-        text-align: right;
+        text-align: center;
     }
 
     .question-content a {
@@ -150,42 +145,14 @@
     }
 
     .answer-item>span:nth-child(2) {
+    	margin: auto;
         padding: 10px 20px;
     }
-
-    /* Loading animation */
-	.lds-dual-ring {
-		display: none;
-		width: 100px;
-		height: 100px;
-		margin: auto;
-		position: absolute;
-		top: 80px;
-		left: 50%;
-		transform: translateX(-50%);
-    }
-    
-	.lds-dual-ring:after {
-	content: " ";
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 1px;
-	border-radius: 50%;
-	border: 5px solid #ab0800;
-	border-color: #ab0800 transparent #ab0800 transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
-	}
-	@keyframes lds-dual-ring {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
 </style>
 
+<div class="content-header">
+    <h3 class="content-title">Quiz questions</h3>
+</div>
 <div id="lesson">
 	<div class="quiz-image">
         
@@ -193,7 +160,7 @@
     <div class="quiz-detail">
 	    <div class="quiz-title">
             <h3><a href="#">${quiz.lessonTitle}</a></h3>
-            <a href="add-question?lessonId=${quiz.lessonId}" class="btn" id="add-question">
+            <a href="add-question?lessonId=${quiz.lessonId}" class="btn content-button" id="add-question">
                 <i class="fas fa-plus-circle"></i> New question
             </a>
             <a:if test="${quiz.numOfQuestions le 1}">
@@ -238,11 +205,9 @@
         </div>
 	</a:forEach>
 </div>
-<div class="lds-dual-ring"></div>
 
 <script>;
     $(document).ready(function() {
-        $('.lds-dual-ring').css('display', 'block');
         $('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
                 .append($('.quiz-title a').text())
@@ -255,10 +220,6 @@
         if ($('.quiz-image').has('img').length) {
             $('.quiz-image').css('background','#fff');
         }
-        setTimeout(function() {
-			$('.lds-dual-ring').css('display','none');
-			$('#lesson, #questions').css('opacity', '1');
-		}, 1000);
     });
 
     $('.question-item').click(function() {

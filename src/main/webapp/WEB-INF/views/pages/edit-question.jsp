@@ -4,28 +4,15 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
 <style>
-    #question-input {
-        opacity: 0;
-    }
-
     .form-title {
         display: grid;
         height: 30px;
         grid-template-columns: 10% 88%;
         grid-column-gap: 2%;
     }
-
-    #question-input>form>label {
-        color: black;
-        font-weight: bold;
-        font-size: 20px;
-        padding: 0;
-        text-align: left;
-        padding-top: 4px;
-    }
-
-    label[for="input"] {
-        margin: 15px 0 10px 0;
+    
+    label {
+    	font-weight: bold;
     }
 
     input {
@@ -72,53 +59,21 @@
     }
 
 	#save-question {
-		margin-top: 10px;
-		background: #ab0800;
-		border-radius: 0;
-        color: white;
-        display: block;
+		width: fit-content;
+		height: fit-content;
         float: right;
     }
-
-    /* Loading animation */
-	.lds-dual-ring {
-		display: none;
-		width: 100px;
-		height: 100px;
-		margin: auto;
-		position: absolute;
-		top: 80px;
-		left: 50%;
-		transform: translateX(-50%);
-    }
-    
-	.lds-dual-ring:after {
-	content: " ";
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 1px;
-	border-radius: 50%;
-	border: 5px solid #ab0800;
-	border-color: #ab0800 transparent #ab0800 transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
-	}
-	@keyframes lds-dual-ring {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
 </style>
 
-<div id="question-input">
-	<form:form action="save-edit-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
+<form:form action="save-edit-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
+	<div class="content-header">
+		<h3 class="content-title">Edit quiz question</h3>
+		<button class="btn content-button" id="save-question">Save</button>
+	</div>
+	<div id="question-input">
         <form:hidden path="questionId"/>
         <form:hidden path="lessonId"/>
 	    <label for="input">Question</label>
-	    <button class="btn" id="save-question">Save</button>
 	    <form:textarea id="input" path="questionContent"></form:textarea>
 	    <div id="answers">
 	        <div class="answer-item">
@@ -162,19 +117,82 @@
 	            </div>
 	        </div>
 	    </div>
-	</form:form>
-</div>
-<div class="lds-dual-ring"></div>
+	</div>
+</form:form>
 <input type="file" id="uploadImg" style="display: none">
 
 <script>
     $(document).ready(function() {
-        $('.lds-dual-ring').css('display', 'block');
-        $('.w3l_agileits_breadcrumbs_inner>ul')
-            .append($('<li>')
-                .append('Edit question')
-            );
-    
+        // Validation
+        $('form').submit(function (e) {
+            $('label[for="input"]').next('br').remove();
+            $('label[for="input"]').next('span').remove();
+
+            var question = $('#input').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+            var answer1 = $('#answer-1').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+            var answer2 = $('#answer-2').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+            var answer3 = $('#answer-3').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+            var answer4 = $('#answer-4').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+
+            var isCheck = false;
+            $('.fa-check-circle').each(function () {
+                if ($(this).css('color') === 'rgb(0, 128, 0)') {
+                    isCheck = true;
+                }
+            });
+
+            if (question === '' || question === null) {
+                e.preventDefault();
+                $('.fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
+                $('.fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
+                $('.fr-wrapper:eq(0)').css('border', '2px solid red');
+                $('.fr-counter:eq(0)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(0)').css('border-right', '2px solid red');
+            } else if (answer1 === '' || answer1 === null) {
+                e.preventDefault();
+                $('.fr-wrapper:eq(0), .fr-wrapper:eq(2), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
+                $('.fr-counter:eq(0), .fr-counter:eq(2), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
+                $('.fr-wrapper:eq(1)').css('border', '2px solid red');
+                $('.fr-counter:eq(1)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(1)').css('border-right', '2px solid red');
+            } else if (answer2 === '' || answer2 === null) {
+                e.preventDefault();
+                $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
+                $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
+                $('.fr-wrapper:eq(2)').css('border', '2px solid red');
+                $('.fr-counter:eq(2)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(2)').css('border-right', '2px solid red');
+            } else if (answer3 === '' || answer3 === null) {
+                e.preventDefault();
+                $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(4)').removeAttr('style');
+                $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(4)').removeAttr('style');
+                $('.fr-wrapper:eq(3)').css('border', '2px solid red');
+                $('.fr-counter:eq(3)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(3)').css('border-right', '2px solid red');
+            } else if (answer4 === '' || answer4 === null) {
+                e.preventDefault();
+                $('label[for="input"]').next('br').remove();
+                $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(3)').removeAttr('style');
+                $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(3)').removeAttr('style');
+                $('.fr-wrapper:eq(4)').css('border', '2px solid red');
+                $('.fr-counter:eq(4)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(4)').css('border-right', '2px solid red');
+            } else if (!isCheck) {
+                e.preventDefault();
+                $('<br><span style="color: red; margin-top: 5px">Please choose at least one correct answer</span>').insertAfter($('label[for="input"]'));
+            }
+        });
+
         //Upload image
         $.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});
         $.FroalaEditor.RegisterCommand('insertImage', {
@@ -219,24 +237,16 @@
         //Remove froala license
         $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
 
-        //End of animation
-        setTimeout(function() {
-			$('.lds-dual-ring').css('display','none');
-			$('#question-input').css('opacity', '1');
-        }, 1000);
-
         //initialize answer editors
         $('.answer-textarea').froalaEditor({
             toolbarButtons: ['wirisEditor'],
             quickInsertTags: [],
             placeholderText: ''
         });
-        $('.fr-box').css('zoom', '0.8');
 
         //set green check icon for true answers
         $('.is-correct').each(function() {
             var isCorrect = $(this).val();
-            console.log(isCorrect);
             var check = $(this).siblings('.fa-check-circle');
             if(isCorrect === 'true') {
                 check.css('color','green');
@@ -244,16 +254,8 @@
                 check.css('color','#ddd');
             }
         });
-
-        //remove froala border-top
-        // $('.fr-sticky-off').css('border','none');
-
         //Remove counter of froala
         $('.answer-item .fr-counter').remove();
-
-        setInterval(function() {
-            $('.wrs_modal_dialogContainer').css('zoom','0.8');
-        }, 1000);
     });
 
      $('.fa-check-circle').click(function() {

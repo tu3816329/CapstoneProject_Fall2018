@@ -5,141 +5,271 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title><tiles:getAsString name="title" /></title>
 
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="keywords"
-              content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+<head>
+    <title>
+        <tiles:getAsString name="title" />
+    </title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
               Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-        
-        <!-- MathJax -->
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
 
-        <!-- Jquery -->
-		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.js"></script>
-		<script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.min.js"></script>
-    	
-        <script type="application/x-javascript">
-            addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-            function hideURLbar(){ window.scrollTo(0,1); } 
+    <!-- MathJax -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"
+        async></script>
 
-        </script>
-        <!-- //custom-theme -->
-        <link href="<c:url value='/resources/static/css/bootstrap.css' />" rel="stylesheet" type="text/css"
-              media="all" />
-        <link href="<c:url value='/resources/static/css/component.css' />" rel="stylesheet" type="text/css"
-              media="all" />
-        <link href="<c:url value='/resources/static/css/style_grid.css' />" rel="stylesheet" type="text/css"
-              media="all" />
-        <link href="<c:url value='/resources/static/css/style.css' />" rel="stylesheet" type="text/css" media="all" />
-        <!-- font-awesome-icons -->
-        <link href="<c:url value='/resources/static/css/font-awesome.css' />" rel="stylesheet">
-        <!-- //font-awesome-icons -->
-        <link
-            href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800"
-            rel="stylesheet">
-    </head>
-    <body>
+    <!-- Jquery -->
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.min.js"></script>
+    <style>
+        html {
+            font-family: sans-serif;
+        }
 
-        <div class="wthree_agile_admin_info">
-            <header id="header">
-                <tiles:insertAttribute name="header" ignore="true" />
-            </header>
+        body {
+            margin: 0;
+        }
 
-            <!-- /inner_content-->
-            <div class="inner_content">
-                <!-- /inner_content_w3_agile_info-->
+        a {
+            text-decoration: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-                <!-- breadcrumbs -->
-                <div class="w3l_agileits_breadcrumbs">
-                    <div class="w3l_agileits_breadcrumbs_inner">
-                        <ul>
-                        </ul>
-                    </div>
-                </div>
-                <!-- //breadcrumbs -->
-                <div class="inner_content_w3_agile_info two_in">
-                    <h2 class="w3_inner_tittle"></h2>
-                    <!--/forms-->
-                    <div class="forms-main_agileits">
-                        <!--/forms-inner-->
-                        <div class="forms-inner">
-                            <!--/set-2-->
-                            <div class="wthree_general graph-form agile_info_shadow">
-                                <!-- <h3 class="w3_inner_tittle two">General Form</h3> -->
+        ul {
+            list-style-type: none;
+        }
 
-                                <section id="site-content" style="position: relative">
-                                    <tiles:insertAttribute name="body" />
-                                </section>
-                            </div>
-                            <!--//set-2-->
-                        </div>
-                        <!--//forms-inner-->
-                    </div>
-                    <!--//forms-->
-                </div>
-                <!-- //inner_content_w3_agile_info-->
-            </div>
-            <!-- //inner_content-->
+        li {
+            user-select: none;
+            -webkit-user-select: none;
+            margin-top: 5px;
+        }
 
-            <%-- <footer id="footer" style="">
-                <tiles:insertAttribute name="footer" />
-            </footer> --%>
+        .btn {
+            padding: 10px 20px;
+        }
 
+        /* Header */
+        #header {
+            background: #0084ff;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 20% 16%;
+            grid-column-gap: 64%;
+        }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        #left-column {
+            padding: 15px 30px;
+        }
+
+        #right-column {
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+
+        .right-item {
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 14px;
+            display: flex;
+        }
+
+        .right-item:first-child {
+            background: #2170ba;
+        }
+
+        .right-item>a {
+            margin: auto;
+        }
+
+        #app-name {
+            margin: 0;
+        }
+
+        #app-name>a {
+            font-size: 23px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 4px 4px 2px rgb(26, 30, 32);
+        }
+
+        #header a {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Container */
+        #container {
+            display: grid;
+            grid-template-columns: 25% 75%;
+        }
+
+        /* Side menu */
+        #data-explorer {
+            font-size: 18px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #side-menu {
+            padding: 15px 30px;
+        }
+
+        #side-menu a {
+            color: #0084ff;
+        }
+
+        .side-menu-item {
+            margin-bottom: 20px;
+        }
+
+        .side-menu-item>a {
+            font-size: 18px;
+        }
+
+        /* Tree menu */
+        #tree-menu {
+            padding: 0 15px 15px 15px;
+            margin: 0;
+            display: none;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap;
+            overflow-x: scroll;
+        }
+
+        ul.division-tree {
+            padding: 0 27px;
+        }
+
+        ul.chapter-tree {
+            padding: 0 32px;
+        }
+
+        ul.lesson-tree,
+        ul.mathform-tree {
+            padding: 0 30px;
+        }
+
+        #tree-menu li {
+            color: black;
+            font-size: 18px;
+
+        }
+
+        .nested {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #tree-menu i.fas {
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .fa-plus-square,
+        .fa-minus-square {
+            color: black;
+            margin-right: 10px !important;
+        }
+
+        .fa-folder-open {
+            color: #efec0e;
+        }
+
+        .fa-box {
+            color: #317471;
+        }
+
+        .fa-book {
+            color: #ffa500;
+        }
+
+        .fa-file {
+            color: #2170ba;
+        }
+
+        .fa-caret-square-right {
+            color: darkorchid;
+        }
+
+        /* Content */
+        #content {
+            padding: 15px 20px;
+        }
+
+        .content-header {
+            display: grid;
+            grid-template-columns: 75% 25%;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .content-title {
+            text-transform: uppercase;
+        }
+
+        .content-button {
+            margin-top: 10px;
+            border: none;
+            background: #0084ff;
+            border-radius: 0;
+            color: white;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        /* Search bar */
+        #search-bar {
+            margin: auto;
+            border-radius: 5px;
+            border: 1px solid darkgray;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <tiles:insertAttribute name="header" ignore="true" />
+    <div id="container">
+        <div id="side-menu">
+            <tiles:insertAttribute name="menu" />
         </div>
+        <div id="content">
+            <tiles:insertAttribute name="body" />
+        </div>
+    </div>
 
+    <!-- Froala Editor -->
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.pkgd.min.css" rel="stylesheet"
+        type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css" rel="stylesheet"
+        type="text/css" />
+    <!-- Include Editor JS files. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.pkgd.min.js"></script>
 
+    <!-- Wiris -->
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/wiris/wiris.js"></script>
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/wiris/WIRISplugins.js"></script>
+    <tiles:insertAttribute name="js" />
+</body>
 
-
-        <!-- js -->
-
-        <script type="text/javascript" src="<c:url value='/resources/static/js/jquery-2.1.4.min.js' />"></script>
-        <script src="<c:url value='/resources/static/js/modernizr.custom.js' />"></script>
-
-        <script src="<c:url value='/resources/static/js/classie.js' />"></script>
-        <script src="<c:url value='/resources/static/js/gnmenu.js' />"></script>
-        <!-- <script>
-            new gnMenu(document.getElementById('gn-menu'));
-        </script> -->
-
-        <!-- //js -->
-        <script src="<c:url value='/resources/static/js/screenfull.js' />"></script>
-        <script>
-            $(function () {
-                $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
-                if (!screenfull.enabled) {
-                    return false;
-                }
-
-                $('#toggle').click(function () {
-                    screenfull.toggle($('#container')[0]);
-                });
-            });
-        </script>
-        <script src="<c:url value='/resources/static/js/jquery.nicescroll.js' />"></script>
-        <script src="<c:url value='/resources/static/js/scripts.js' />"></script>
-
-        <script type="text/javascript" src="<c:url value='/resources/static/js/bootstrap-3.1.1.min.js' />"></script>
-        <!-- Froala Editor -->
-        <!-- Include external CSS. -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" 
-        rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
-        <!-- Include Editor style. -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_editor.pkgd.min.css" 
-        rel="stylesheet" type="text/css" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/css/froala_style.min.css" 
-        rel="stylesheet" type="text/css" />
-        <!-- Include Editor JS files. -->
-        <script type="text/javascript" 
-        src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.5/js/froala_editor.pkgd.min.js"></script>
-
-        <!-- Wiris -->
-        <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/wiris/wiris.js"></script>
-        <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/wiris/WIRISplugins.js"></script>
-        <tiles:insertAttribute name="js"/>
-    </body>
 </html>

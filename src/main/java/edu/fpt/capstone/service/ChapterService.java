@@ -3,13 +3,12 @@ package edu.fpt.capstone.service;
 import java.util.List;
 
 import edu.fpt.capstone.entity.Chapter;
-import edu.fpt.capstone.entity.Division;
 
 public interface ChapterService {
 
 	public List<Chapter> getAllChapters();
-	
-	public List<Chapter> getChaptersByDivision(Division division);
+		
+	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId);
 	
 	public Chapter getChapterById(int id);
 	

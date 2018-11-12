@@ -31,129 +31,99 @@
     #save-lesson {
         margin-top: 10px;
         border: none;
-        background: #ab0800;
+        background: #0084ff;
         border-radius: 0;
         color: white
     }
-
-    /* Loading animation */
-	.lds-dual-ring {
-		display: none;
-		width: 100px;
-		height: 100px;
-		margin: auto;
-		position: absolute;
-		top: 80px;
-		left: 50%;
-		transform: translateX(-50%);
-    }
-    
-	.lds-dual-ring:after {
-	content: " ";
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 1px;
-	border-radius: 50%;
-	border: 5px solid #ab0800;
-	border-color: #ab0800 transparent #ab0800 transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
-	}
-	@keyframes lds-dual-ring {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
 </style>
 
-<input type="hidden" value="${lesson.chapterId.divisionId.divisionName}" id="divName">
-<input type="hidden" value="${lesson.chapterId.chapterName}" id="catName">
 <input type="file" id="uploadImg" style="display: none">
-<form:form method="post" action="save-edit-lesson" modelAttribute="lesson" acceptCharset="UTF-8" style="opacity: 0">
-    <form:hidden path="id"/>
-    
+
+<div class="content-header">
+    <h3 class="content-title">Edit lesson</h3>
+</div>
+<form:form method="post" action="save-edit-lesson" modelAttribute="lesson" acceptCharset="UTF-8">
+    <form:hidden path="id" />
     <div class="form-title">
         <label for="lessonTitle">Title</label>
-        <form:input path="lessonTitle" id="lessonTitle"/>
-    </div>
+        <form:input path="lessonTitle" id="lessonTitle" />
+    </div><br>
     <label for="input">Content</label>
-    <form:textarea path="lessonContent" id="input"/>
-    
-    <input type="submit" value="Save" class="btn" id="save-lesson">
+    <form:textarea path="lessonContent" id="input" />
+
+    <input type="submit" value="Save" class="btn content-button" id="save-lesson">
 </form:form>
-<div class="lds-dual-ring"></div>
 
 <script>
-        $(document).ready(function () {
-            $('.lds-dual-ring').css('display', 'block');
-            var divisionName = $('#divName').val();
-            var chapterName = $('#catName').val();
-            $('h2.w3_inner_tittle').text('Edit lesson');
-            $('.w3l_agileits_breadcrumbs_inner>ul')
-                .append($('<li>')
-                    .append(divisionName + ' ')
-                    .append('<span>«</span>')
-                )
-                .append($('<li>')
-                    .append(chapterName + ' ')
-                    .append('<span>«</span>')
-                )
-                .append('<li>Edit lesson</li>');
-    
-            //Upload image
-            $.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});
-            $.FroalaEditor.RegisterCommand('insertImage', {
-                title: 'Add Image',
-                focus: false,
-                undo: false,
-                refreshAfterCallback: false,
-                callback: function () {
-                    $('#uploadImg').click();
-                }
-            });
-        
-            $('#uploadImg').change(function () {
-                var file = document.querySelector('input[type=file]').files[0];
-                if(file) {
-                    var reader = new FileReader();
-                    reader.onloadend = function() {
-                        $('#input').froalaEditor('html.insert', 
-                                    '<img width="200px" src="' + reader.result + '">', false);
-                    }
-                    reader.readAsDataURL(file);
-                }
-                $('#input').froalaEditor('events.focus');
-            });
-                
-            //initialize editor
-            $('#input').froalaEditor({
-                height: 400,
-                iframe: true,
-                quickInsertTags: [''],
-                // quickInsertButtons : [],
-                toolbarButtons : ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 
-                        '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align', 
-                        'formatOL', 'formatUL', , '-', 'insertImage', 'specialCharacters', 
-                        'insertHR', '|', 'selectAll', 'clearFormatting', '|', 'wirisEditor', 
-                        'undo', 'redo'],
-                imageEditButtons: ['wirisEditor', 'imageDisplay', 'imageAlign', 
-                                        'imageInfo', 'imageRemove'],
-                htmlAllowedTags:   ['.*'],
-                htmlAllowedAttrs: ['.*'],
-            });
-            $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
-            $('.fr-box').css('zoom', '0.8');
-
-            setTimeout(function() {
-                $('.lds-dual-ring').css('display','none');
-                $('form').css('opacity', '1');
-		    }, 1000);
-
-            setInterval(function() {
-                $('.wrs_modal_dialogContainer').css('zoom','0.8');
-            }, 1000);
+    $(document).ready(function () {
+        // Validation
+        $('form').submit(function (e) {
+            var lessonTitle = $('#lessonTitle').val().trim();
+            var lessonContent = $('#input').val().replace(
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
+            if (lessonTitle === '' || lessonTitle === null) {
+                e.preventDefault();
+                $('.form-title>span').remove();
+                $('form>span').remove();
+                $('.fr-wrapper').removeAttr('style');
+                $('.fr-counter').removeAttr('style');
+                $('#lessonTitle').css('border', '1px solid red');
+                $('.form-title').append('<span></span><span style="color: red; margin-top: 5px">Title field is required</span>')
+            } else if (lessonContent === '' || lessonContent === null) {
+                e.preventDefault();
+                $('.form-title>span').remove();
+                $('form>span').remove();
+                $('label[for="input"]').next('br').remove();
+                $('#lessonTitle').removeAttr('style');
+                $('<br><span style="color: red; margin-top: 5px">Content is required</span>').insertAfter($('label[for="input"]'));
+                $('.fr-wrapper').css('border', '2px solid red');
+                $('.fr-counter').css('border-bottom', '2px solid red');
+                $('.fr-counter').css('border-right', '2px solid red');
+            }
         });
-    </script>
+
+        //Upload image
+        $.FroalaEditor.DefineIcon('image', { NAME: 'uploadImg' });
+        $.FroalaEditor.RegisterCommand('insertImage', {
+            title: 'Add Image',
+            focus: false,
+            undo: false,
+            refreshAfterCallback: false,
+            callback: function () {
+                $('#uploadImg').click();
+            }
+        });
+
+        $('#uploadImg').change(function () {
+            var file = document.querySelector('input[type=file]').files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    $('#input').froalaEditor('html.insert',
+                        '<img width="200px" src="' + reader.result + '">', false);
+                }
+                reader.readAsDataURL(file);
+            }
+            $('#input').froalaEditor('events.focus');
+        });
+
+        //initialize editor
+        $('#input').froalaEditor({
+            height: 400,
+            iframe: true,
+            quickInsertTags: [''],
+            // quickInsertButtons : [],
+            toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough',
+                '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align',
+                'formatOL', 'formatUL', , '-', 'insertImage', 'specialCharacters',
+                'insertHR', '|', 'selectAll', 'clearFormatting', '|', 'wirisEditor',
+                'undo', 'redo'],
+            imageEditButtons: ['wirisEditor', 'imageDisplay', 'imageAlign',
+                'imageInfo', 'imageRemove'],
+            htmlAllowedTags: ['.*'],
+            htmlAllowedAttrs: ['.*'],
+        });
+        $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+    });
+</script>

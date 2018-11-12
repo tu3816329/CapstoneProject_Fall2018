@@ -40,7 +40,7 @@
 			href="${pageContext.servletContext.contextPath}/resources/login/css/main.css">
 		
 	</head>
-	<body style="zoom: 1">
+	<body>
 		<tiles:insertAttribute name="body"/>
 		
 		

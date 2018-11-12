@@ -40,77 +40,74 @@ import edu.fpt.capstone.service.VersionService;
  */
 @Controller
 public class AdminController {
-				
+
 	@Autowired
 	MathFormulasAdminService service;
-	
+
 	@Autowired
 	ChapterService chapterService;
-	
+
 	@Autowired
 	DivisionService divisionService;
-	
+
 	@Autowired
 	ExerciseService exerciseService;
-	
+
 	@Autowired
 	GradeService gradeService;
-	
+
 	@Autowired
 	LessonService lessonService;
-	
+
 	@Autowired
 	MathformService mathformService;
-	
+
 	@Autowired
 	QuestionChoiceService questionChoiceService;
-	
+
 	@Autowired
 	QuestionService questionService;
-	
+
 	@Autowired
 	VersionService versionService;
-	
+
 	@PostConstruct
 	protected void init() {
 		if (versionService.countVersion() == 0) {
 			service.initializeData();
 		}
-		
 	}
-		
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
-		List<Division> divisions = divisionService.getAllDivisions();
-		model.addAttribute("DIVISIONS", divisions);
 		return "home";
 	}
-	
+
 	@RequestMapping(value = "add-version", method = RequestMethod.GET)
 	public String addVersion(Model model) {
 		model.addAttribute("version", new Version());
 		model.addAttribute("latest", versionService.getCurrentVersion());
 		return "upgrade-db";
 	}
-	
+
 	@RequestMapping(value = "upgrade-version", method = RequestMethod.POST)
 	public String upgradeVersion(@ModelAttribute("version") Version version) {
 		int latestVersionId = versionService.upgradeVersion(version).getId();
 		service.updateDataDbVersion(latestVersionId);
 		return "redirect:show-versions";
 	}
-	
+
 	@RequestMapping(value = "show-chapters", method = RequestMethod.GET)
 	public String showChapters() {
 		return "show-chapters";
 	}
-	
+
 	@RequestMapping(value = "delete-chapter", method = RequestMethod.GET)
 	public String deleteChapter(@RequestParam("chapterId") int chapterId) {
 		chapterService.deleteChapter(chapterId);
 		return "show-chapters";
 	}
-	
+
 	@RequestMapping(value = "show-lessons", method = RequestMethod.GET)
 	public String showLessons(@RequestParam("chapterId") int chapterId, Model model) {
 		Chapter chapter = chapterService.getChapterById(chapterId);
@@ -121,7 +118,7 @@ public class AdminController {
 		model.addAttribute("DIVISIONS", divisions);
 		return "show-lessons";
 	}
-	
+
 	@RequestMapping(value = "add-new-chapter", method = RequestMethod.GET)
 	public String addChapter(@RequestParam("divId") int divisionId, Model model) {
 		Division division = divisionService.getDivisionById(divisionId);
@@ -130,7 +127,7 @@ public class AdminController {
 		model.addAttribute("chapter", chapter);
 		return "add-chapter";
 	}
-	
+
 	@RequestMapping(value = "add-new-lesson", method = RequestMethod.GET)
 	public String addLesson(@RequestParam("chapterId") int chapterId, Model model) {
 		List<Division> divisions = divisionService.getAllDivisions();
@@ -142,7 +139,7 @@ public class AdminController {
 		model.addAttribute("lesson", lesson);
 		return "add-lesson";
 	}
-	
+
 	@RequestMapping(value = "save-new-lesson", method = RequestMethod.POST)
 	public String saveNewLesson(@ModelAttribute("lesson") Lesson lesson) {
 		Version noneVersion = versionService.getVersionById(0);
@@ -152,7 +149,7 @@ public class AdminController {
 		lessonService.saveLesson(lesson);
 		return "redirect:show-lessons?chapterId=" + chapter.getId();
 	}
-	
+
 	@RequestMapping(value = "edit-lesson", method = RequestMethod.GET)
 	public String editLesson(@RequestParam("lessonId") int lessonId, Model model) {
 		List<Division> divisions = divisionService.getAllDivisions();
@@ -161,12 +158,12 @@ public class AdminController {
 		model.addAttribute("lesson", lesson);
 		return "edit-lesson";
 	}
-	
+
 	@RequestMapping(value = "save-edit-lesson", method = RequestMethod.POST)
 	public String saveEditLesson(@ModelAttribute("lesson") Lesson newLesson) {
 		Version noneVersion = versionService.getVersionById(0);
 		Lesson oldLesson = lessonService.getLessonById(newLesson.getId());
-		if(!oldLesson.getLessonTitle().equals(newLesson.getLessonTitle())
+		if (!oldLesson.getLessonTitle().equals(newLesson.getLessonTitle())
 				|| !oldLesson.getLessonContent().equals(newLesson.getLessonContent())) {
 			oldLesson.setLessonTitle(newLesson.getLessonTitle());
 			oldLesson.setLessonContent(newLesson.getLessonContent());
@@ -175,20 +172,19 @@ public class AdminController {
 		}
 		return "redirect:show-lessons?chapterId=" + oldLesson.getChapterId().getId();
 	}
-	
+
 	@RequestMapping(value = "delete-lesson", method = RequestMethod.GET)
-	public String deleteLesson(@RequestParam("lessonId") int lessonId,
-								@RequestParam("chapterId") int chapterId) {
+	public String deleteLesson(@RequestParam("lessonId") int lessonId, @RequestParam("chapterId") int chapterId) {
 		lessonService.deleteLesson(lessonId);
 		return "redirect:show-lessons?chapterId=" + chapterId;
 	}
-	
+
 	@RequestMapping(value = "show-mathforms", method = RequestMethod.GET)
 	public String showMathforms(@RequestParam("lessonId") int lessonId, Model model) {
 		model.addAttribute("LESSONID", lessonId);
 		return "show-mathforms";
 	}
-	
+
 	@RequestMapping(value = "add-mathform", method = RequestMethod.GET)
 	public String addMathform(@RequestParam("lessonId") int lessonId, Model model) {
 		Lesson lesson = lessonService.getLessonById(lessonId);
@@ -197,7 +193,7 @@ public class AdminController {
 		model.addAttribute("mathform", mathform);
 		return "add-mathform";
 	}
-	
+
 	@RequestMapping(value = "save-new-mathform", method = RequestMethod.POST)
 	public String saveNewMathform(@ModelAttribute("mathform") Mathform mathform) {
 		Version noneVersion = versionService.getVersionById(0);
@@ -207,19 +203,19 @@ public class AdminController {
 		mathformService.saveMathform(mathform);
 		return "redirect:show-mathforms?lessonId=" + lesson.getId();
 	}
-	
+
 	@RequestMapping(value = "edit-mathform", method = RequestMethod.GET)
 	public String editMathform(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathformService.getMathformById(mathformId);
 		model.addAttribute("mathform", mathform);
 		return "edit-mathform";
 	}
-	
+
 	@RequestMapping(value = "save-edit-mathform", method = RequestMethod.POST)
 	public String saveEditMathform(@ModelAttribute("mathform") Mathform newMathform) {
 		Version noneVersion = versionService.getVersionById(0);
 		Mathform oldMathform = mathformService.getMathformById(newMathform.getId());
-		if(!oldMathform.getMathformTitle().equals(newMathform.getMathformTitle())
+		if (!oldMathform.getMathformTitle().equals(newMathform.getMathformTitle())
 				|| !oldMathform.getMathformContent().equals(newMathform.getMathformContent())) {
 			oldMathform.setMathformTitle(newMathform.getMathformTitle());
 			oldMathform.setMathformContent(newMathform.getMathformContent());
@@ -228,7 +224,7 @@ public class AdminController {
 		}
 		return "redirect:mathform-detail?mathformId=" + oldMathform.getId();
 	}
-	
+
 	@RequestMapping(value = "mathform-detail", method = RequestMethod.GET)
 	public String getMathformDetail(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathformService.getMathformById(mathformId);
@@ -237,14 +233,13 @@ public class AdminController {
 		model.addAttribute("exercises", exercises);
 		return "mathform-detail";
 	}
-	
+
 	@RequestMapping(value = "delete-mathform", method = RequestMethod.GET)
-	public String deleteMathform(@RequestParam("mathformId") int mathformId, 
-								@RequestParam("lessonId") int lessonId) {
+	public String deleteMathform(@RequestParam("mathformId") int mathformId, @RequestParam("lessonId") int lessonId) {
 		mathformService.deleteMathform(mathformId);
 		return "redirect:show-mathforms?lessonId=" + lessonId;
 	}
-	
+
 	@RequestMapping(value = "add-exercise", method = RequestMethod.GET)
 	public String addExercise(@RequestParam("mathformId") int mathformId, Model model) {
 		Mathform mathform = mathformService.getMathformById(mathformId);
@@ -263,19 +258,19 @@ public class AdminController {
 		exerciseService.saveExercise(exercise);
 		return "redirect:mathform-detail?mathformId=" + exercise.getMathformId().getId();
 	}
-	
+
 	@RequestMapping(value = "edit-exercise", method = RequestMethod.GET)
 	public String editExercise(@RequestParam("exId") int exerciseId, Model model) {
 		Exercise exercise = exerciseService.getExerciseById(exerciseId);
 		model.addAttribute("exercise", exercise);
 		return "edit-exercise";
 	}
-	
+
 	@RequestMapping(value = "save-edit-exercise", method = RequestMethod.POST)
 	public String saveEditExercise(@ModelAttribute("exercise") Exercise newExercise) {
 		Exercise oldExercise = exerciseService.getExerciseById(newExercise.getId());
 		Version noneVersion = versionService.getVersionById(0);
-		if(!oldExercise.getTopic().equals(newExercise.getTopic())
+		if (!oldExercise.getTopic().equals(newExercise.getTopic())
 				|| !oldExercise.getAnswer().equals(newExercise.getAnswer())) {
 			oldExercise.setTopic(newExercise.getTopic());
 			oldExercise.setAnswer(newExercise.getAnswer());
@@ -284,21 +279,20 @@ public class AdminController {
 		}
 		return "redirect:mathform-detail?mathformId=" + oldExercise.getMathformId().getId();
 	}
-	
+
 	@RequestMapping(value = "delete-exercise", method = RequestMethod.GET)
-	public String deleteExercise(@RequestParam("exId") int exerciseId, 
-								@RequestParam("mathformId") int mathformId) {
+	public String deleteExercise(@RequestParam("exId") int exerciseId, @RequestParam("mathformId") int mathformId) {
 		exerciseService.deleteExercise(exerciseId);
 		return "redirect:mathform-detail?mathformId=" + mathformId;
 	}
-	
+
 	@RequestMapping(value = "show-questions", method = RequestMethod.GET)
 	public String showQuestions(Model model) {
 		List<Quizes> data = questionService.getQuizesData(0);
 		model.addAttribute("QUIZES", data);
 		return "show-questions";
 	}
-	
+
 	@RequestMapping(value = "/load-photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> loadPhoto(@RequestParam(value = "chapterId") int chapterId) {
 		Chapter chapter = chapterService.getChapterById(chapterId);
@@ -307,7 +301,7 @@ public class AdminController {
 		headers.setContentType(MediaType.IMAGE_JPEG);
 		return new ResponseEntity<byte[]>(image, headers, HttpStatus.CREATED);
 	}
-	
+
 	@RequestMapping(value = "quiz-detail", method = RequestMethod.GET)
 	public String quizDetail(@RequestParam("lessonId") int lessonId, Model model) {
 		Quizes quiz = questionService.getQuizesData(lessonId).get(0);
@@ -316,7 +310,7 @@ public class AdminController {
 		model.addAttribute("qas", quizData);
 		return "quiz-detail";
 	}
-	
+
 	@RequestMapping(value = "add-question", method = RequestMethod.GET)
 	public String addQuestion(@RequestParam("lessonId") int lessonId, Model model) {
 		model.addAttribute("lessonId", lessonId);
@@ -325,38 +319,38 @@ public class AdminController {
 		model.addAttribute("qa", qa);
 		return "add-question";
 	}
-	
+
 	@RequestMapping(value = "save-quiz-question", method = RequestMethod.POST)
 	public String saveNewQuestion(@ModelAttribute("qa") QuestionAnswer qa) {
 		questionService.saveQuizQuestion(qa);
 		return "redirect:quiz-detail?lessonId=" + qa.getLessonId();
 	}
-	
+
 	@RequestMapping(value = "edit-question", method = RequestMethod.GET)
 	public String editQuestion(@RequestParam("questionId") int questionId, Model model) {
 		QuestionAnswer qa = questionService.getQuizQuestionByQuestionId(questionId);
 		model.addAttribute("qa", qa);
 		return "edit-question";
 	}
-	
+
 	@RequestMapping(value = "save-edit-quiz-question", method = RequestMethod.POST)
 	public String saveEditQuestion(@ModelAttribute("qa") QuestionAnswer qa) {
 		questionService.saveQuizQuestion(qa);
 		return "redirect:quiz-detail?lessonId=" + qa.getLessonId();
 	}
-	
+
 	@RequestMapping(value = "delete-question", method = RequestMethod.GET)
-	public String deleteQuizQuestion(@RequestParam("questionId") int questionId, 
-									@RequestParam("lessonId") int lessonId) {
+	public String deleteQuizQuestion(@RequestParam("questionId") int questionId,
+			@RequestParam("lessonId") int lessonId) {
 		questionService.deleteQuizQuestion(questionId);
 		return "redirect:quiz-detail?lessonId=" + lessonId;
 	}
-	
+
 	@RequestMapping(value = "show-versions", method = RequestMethod.GET)
 	public String showVersions() {
 		return "show-versions";
 	}
-	
+
 	@RequestMapping(value = "android/math-editor", method = RequestMethod.GET)
 	public String inputMath() {
 		return "math-editor";

@@ -2,16 +2,11 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <style>
-	form {
-		opacity: 0;
-	}
-
 	.form-item {
 		display: block;
 		margin-bottom: 10px;
 		display: grid;
-		grid-template-columns: 20% 50%;
-		grid-column: 5%;
+		grid-template-columns: 20% 50% 30%;
 	}
 
 	label {
@@ -32,73 +27,66 @@
 	#upgrade {
 		margin-top: 10px;
 		border: none;
-		background: #ab0800;
+		background: #0084ff;
 		border-radius: 0;
 		color: white;
 	}
 
-	/* Loading animation */
-	.lds-dual-ring {
-		display: none;
-		width: 100px;
-		height: 100px;
-		margin: auto;
-		position: absolute;
-		top: 80px;
-		left: 50%;
-		transform: translateX(-50%);
-	}
-
-	.lds-dual-ring:after {
-	content: " ";
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 1px;
-	border-radius: 50%;
-	border: 5px solid #ab0800;
-	border-color: #ab0800 transparent #ab0800 transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
-	}
-	@keyframes lds-dual-ring {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
+	.error {
+		color: red;
+		margin-left: 10px;
 	}
 </style>
 
+<div class="content-header">
+	<h3 class="content-title">Upgrade version</h3>
+</div>
+<input type="hidden" value="${latest.databaseVersion}" id="latestDbVersion">
 <form:form method="post" action="upgrade-version" modelAttribute="version">
 	<div class="form-item">
 		<label for="currentVersion">Current version</label>
-		<input id="currentVersion" type="text" disabled="disabled" 
-				value="${latest.databaseVersion} - ${latest.versionName}">
+		<input id="currentVersion" type="text" disabled="disabled" value="${latest.databaseVersion} - ${latest.versionName}">
 	</div>
 	<div class="form-item">
 		<label for="databaseVersion">Version number</label>
-		<form:input path="databaseVersion"/>
+		<form:input path="databaseVersion" />
+		<span class="error"></span>
 	</div>
 	<div class="form-item">
 		<label for="versionName">Version name</label>
-		<form:input path="versionName"/>
+		<form:input path="versionName" />
+		<span class="error"></span>
 	</div>
-	<button class="btn" id="upgrade" value="Upgrade">Save</button>
+	<button class="btn content-button" id="upgrade" value="Upgrade">Save</button>
 </form:form>
-<div class="lds-dual-ring"></div>
 
 <script>
-	$(document).ready(function() {
-		$('.lds-dual-ring').css('display', 'block');
+	$(document).ready(function () {
 		$('h2.w3_inner_tittle').text('Upgrade');
 		$('.w3l_agileits_breadcrumbs_inner>ul')
 			.append($('<li>')
 				.append('Upgrade version')
-        	);
-		setTimeout(function() {
-			$('.lds-dual-ring').css('display','none');
-			$('form').css('opacity', '1');
-		}, 1000);
+			);
+	});
+
+	// Validation
+	$('form').submit(function (e) {
+		$('#databaseVersion').removeAttr('style');
+		$('#versionName').removeAttr('style');
+		var databaseVersion = $('#databaseVersion').val().trim();
+		var versionName = $('#versionName').val().trim();
+		if (databaseVersion === '' || databaseVersion === null) {
+			e.preventDefault();
+			$('#databaseVersion').css('border', '1px solid red');
+			$('span.error:eq(0)').text('Please input database version');
+		} else if(databaseVersion < $('#latestDbVersion').val()) {
+			e.preventDefault();
+			$('#databaseVersion').css('border', '1px solid red');
+			$('span.error:eq(0)').text('New database version must be greater than current database version');
+		} else if (versionName === '' || versionName === null) {
+			e.preventDefault();
+			$('#versionName').css('border', '1px solid red');
+			$('span.error:eq(1)').text('Please input version name');
+		}
 	});
 </script>

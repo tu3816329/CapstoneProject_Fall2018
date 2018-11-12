@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Version;
 
 public interface ChapterRepository extends CrudRepository<Chapter, Integer> {
@@ -26,4 +27,6 @@ public interface ChapterRepository extends CrudRepository<Chapter, Integer> {
 	public List<Chapter> getNewChapters(@Param("userVersion") int userVersion);
 	
 	public List<Chapter> findByVersionId(Version version);
+	
+	public List<Chapter> findByDivisionIdAndGradeId(Division division, Grade grade);
 }

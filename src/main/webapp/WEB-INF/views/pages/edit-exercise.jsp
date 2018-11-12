@@ -10,16 +10,8 @@
     }
 
     label {
-        color: black;
         font-weight: bold;
         font-size: 15px;
-        padding: 0;
-        text-align: left;
-        padding-top: 4px;
-    }
-
-    label[for="input"] {
-        margin: 15px 0 10px 0;
     }
 
     input {
@@ -30,65 +22,59 @@
 
 	#save-exercise {
 		margin-top: 10px;
-		background: #ab0800;
+		background: #0084ff;
 		border-radius: 0;
         color: white;
         display: block;
     }
-
-    /* Loading animation */
-	.lds-dual-ring {
-		display: none;
-		width: 100px;
-		height: 100px;
-		margin: auto;
-		position: absolute;
-		top: 80px;
-		left: 50%;
-		transform: translateX(-50%);
-    }
-    
-	.lds-dual-ring:after {
-	content: " ";
-	display: block;
-	width: 100px;
-	height: 100px;
-	margin: 1px;
-	border-radius: 50%;
-	border: 5px solid #ab0800;
-	border-color: #ab0800 transparent #ab0800 transparent;
-	animation: lds-dual-ring 1.2s linear infinite;
-	}
-	@keyframes lds-dual-ring {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
 </style>
 
-<form:form action="save-edit-exercise" method="post" modelAttribute="exercise" style="opacity: 0">
+<div class="content-header">
+    <h3 class="content-title">Edit exercise</h3>
+</div>
+<form:form action="save-edit-exercise" method="post" modelAttribute="exercise">
     <label for="input">Problem</label>
-    <form:textarea path="topic" id="input"/>
-    <label style="margin-top: 20px" for="answer">Answer</label>
+    <form:textarea path="topic" id="input"/><br>
+    <label for="answer">Answer</label>
     <form:textarea rows="1" path="answer" id="answer"/>
 	<form:hidden path="id"/>
-	<input type="submit" value="Save" class="btn" id="save-exercise">
+	<input type="submit" value="Save" class="btn content-button" id="save-exercise">
 </form:form>
-<div class="lds-dual-ring"></div>
 <input type="file" id="uploadImg" style="display: none">
 
 <script>
 	$(document).ready(function () {
-        $('.lds-dual-ring').css('display', 'block');
-		$('h2.w3_inner_tittle').text('Edit exercise');
-		$('.w3l_agileits_breadcrumbs_inner>ul')
-			.append($('<li>')
-				.append('Edit exercise')
-        	);
-
+        // Validation
+        $('form').submit(function (e) {
+            var problem = $('#input').val().replace(
+                    /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+                ).trim();
+            var answer = $('#answer').val().replace(
+                    /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+                ).trim();
+            if (problem === '' || problem === null) {
+                e.preventDefault();
+                $('form>span').remove();
+                $('label[for="input"]').next('br').remove();
+                $('.fr-wrapper:eq(1)').removeAttr('style');
+                $('.fr-counter:eq(1)').removeAttr('style');
+                $('<br><span style="color: red; margin-top: 5px">Problem is required</span>').insertAfter($('label[for="input"]'));
+                $('.fr-wrapper').first().css('border', '2px solid red');
+                $('.fr-counter').first().css('border-bottom', '2px solid red');
+                $('.fr-counter').first().css('border-right', '2px solid red');
+            } else if (answer === '' || answer === null) {
+                e.preventDefault();
+                $('form>span').remove();
+                $('label[for="answer"]').next('br').remove();
+                $('.fr-wrapper').first().removeAttr('style');
+                $('.fr-counter').first().removeAttr('style');
+                $('<br><span style="color: red; margin-top: 5px">Answer is required</span>').insertAfter($('label[for="answer"]'));
+                $('.fr-wrapper:eq(1)').css('border', '2px solid red');
+                $('.fr-counter:eq(1)').css('border-bottom', '2px solid red');
+                $('.fr-counter:eq(1)').css('border-right', '2px solid red');
+            }
+        });
+        
         //Upload image
 		$.FroalaEditor.DefineIcon('image', {NAME: 'uploadImg'});
 		$.FroalaEditor.RegisterCommand('insertImage', {
@@ -116,7 +102,7 @@
             
         //initialize editor
         $('#input').froalaEditor({
-            height: 400,
+            height: 250,
             iframe: true,
             quickInsertTags: [''],
             // quickInsertButtons : [],
@@ -137,16 +123,5 @@
             quickInsertTags: [],
             placeholderText: ''
         });
-
-        $('.fr-box').css('zoom', '0.8');
-        
-        setTimeout(function() {
-			$('.lds-dual-ring').css('display','none');
-			$('form').css('opacity', '1');
-		}, 1000);
-
-        setInterval(function() {
-            $('.wrs_modal_dialogContainer').css('zoom','0.8');
-        }, 1000);
     });
 </script>

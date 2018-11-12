@@ -17,6 +17,7 @@ import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Division;
 import edu.fpt.capstone.entity.Lesson;
+import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.service.ChapterService;
@@ -63,6 +64,27 @@ public class AdminRestController {
 	@ResponseBody
 	public List<Division> getAllDivision() {
 		return divisionService.getAllDivisions();
+	}
+	
+	@RequestMapping(value = "get-chapter-tree", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Chapter> getChapterTree(@RequestParam("divisionId") int divisionId, 
+										@RequestParam("gradeId") int gradeId) {
+		return chapterService.getChaptersByDivisionAndGrade(divisionId, gradeId);
+	}
+	
+	@RequestMapping(value = "get-lesson-tree", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Lesson> getLessonTree(@RequestParam("chapterId") int chapterId) {
+		Chapter chapter = chapterService.getChapterById(chapterId);
+		return lessonService.getLessonsByChapter(chapter);
+	}
+	
+	@RequestMapping(value = "get-mathform-tree", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Mathform> getMathformTree(@RequestParam("lessonId") int lessonId) {
+		Lesson lesson = lessonService.getLessonById(lessonId);
+		return mathformService.getMathformByLesson(lesson);
 	}
 	
 	@RequestMapping(value = "load-chapters-table", method = RequestMethod.GET)

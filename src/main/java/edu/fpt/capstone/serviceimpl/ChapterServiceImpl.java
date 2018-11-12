@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.ChapterRepository;
+import edu.fpt.capstone.repository.DivisionRepository;
+import edu.fpt.capstone.repository.GradeRepository;
 import edu.fpt.capstone.service.ChapterService;
 import edu.fpt.capstone.service.LessonService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
@@ -32,6 +35,12 @@ public class ChapterServiceImpl implements ChapterService {
 	
 	@Autowired
 	LessonService lessonService;
+	
+	@Autowired
+	DivisionRepository divisionRepository;
+	
+	@Autowired
+	GradeRepository gradeRepository;
 
 	@Override
 	public List<Chapter> getAllChapters() {
@@ -45,9 +54,10 @@ public class ChapterServiceImpl implements ChapterService {
 	}
 	
 	@Override
-	public List<Chapter> getChaptersByDivision(Division division) {
-		List<Chapter> chapters = chapterRepository.findByDivisionId(division);
-		return chapters;
+	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId) {
+		Division division = divisionRepository.findOne(divisionId);
+		Grade grade = gradeRepository.findOne(gradeId);
+		return chapterRepository.findByDivisionIdAndGradeId(division, grade);
 	}
 
 	@Override
