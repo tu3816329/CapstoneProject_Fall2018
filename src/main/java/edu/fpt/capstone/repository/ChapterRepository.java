@@ -28,5 +28,9 @@ public interface ChapterRepository extends CrudRepository<Chapter, Integer> {
 	
 	public List<Chapter> findByVersionId(Version version);
 	
+	@Transactional
+	@Query("select c from Chapter c where c.chapterName = :chapterName")
+	public List<Chapter> getByChapterName(@Param("chapterName") String chapterName);
+	
 	public List<Chapter> findByDivisionIdAndGradeId(Division division, Grade grade);
 }

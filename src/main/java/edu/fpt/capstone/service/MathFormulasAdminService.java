@@ -8,6 +8,7 @@ public interface MathFormulasAdminService {
 	
 	public void updateDataDbVersion(int latestVersionId);
 	
+	
 	public ResponseData getNewData(int userVersion);
 	
 	public void generateDeleteQuery(int id, String tableName);

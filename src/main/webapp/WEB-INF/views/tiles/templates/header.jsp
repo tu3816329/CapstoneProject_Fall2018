@@ -15,12 +15,11 @@
         grid-template-columns: 30% 16%;
         grid-column-gap: 54%;
         z-index: 999;
+        position: fixed;
     }
 
-    .sticky {
-        position: fixed;
-        top: 0;
-        width: 100%;
+    body {
+        background: #e9e9e9;
     }
 
     #left-column {
@@ -68,30 +67,16 @@
 <sec:authentication property="principal.username" var="username" />
 <div id="header">
     <div id="left-column">
-        <h1 id="app-name">
-            <a href="${pageContext.servletContext.contextPath}/">MATH FORMULAS</a>
-        </h1>
+        <h2 id="app-name">
+            <a style="text-decoration: none" href="${pageContext.servletContext.contextPath}/">MATH FORMULAS</a>
+        </h2>
     </div>
     <div id="right-column">
         <div class="right-item">
-            <a href="#">${username}</a>
+            <a style="text-decoration: none" href="#">${username}</a>
         </div>
         <div class="right-item">
-            <a href="${pageContext.servletContext.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> logout</a>
+            <a style="text-decoration: none" href="${pageContext.servletContext.contextPath}/logout"><i class="fas fa-sign-out-alt"></i> logout</a>
         </div>
     </div>
 </div>
-
-<script>
-    // Sticky header
-    var header = document.getElementById('header');
-    var sticky = header.offsetTop;
-
-    window.onscroll = function () {
-        if (window.pageYOffset > sticky) {
-            header.classList.add('sticky');
-        } else {
-            header.classList.remove('sticky');
-        }
-    };
-</script>

@@ -6,6 +6,19 @@
  crossorigin="anonymous">
 
 <style>
+	/* Chapter */
+	#chapter {
+		background-color: white;
+	}
+
+	/* Lessons */
+	#lessons {
+		background-color: white;
+		padding: 20px;
+		height: calc(100% - 176px);
+		overflow-y: auto;
+	}
+
 	#lessons a {
 		color: #0084ff;
 	}
@@ -15,7 +28,6 @@
         grid-template-columns: 22% 77.5%;
         grid-column-gap: 0.5%;
         height: 156px;
-        border-bottom: .125rem solid #ddd;
 		padding-bottom: 15px;
         margin-bottom: 20px;
     }
@@ -36,6 +48,8 @@
     }
 
 	.chap-title {
+		display: grid;
+		grid-template-columns: 75% 25%;
 		padding-right: 10px;
 	}
 
@@ -116,10 +130,10 @@
 			<div class="chap-title">
 				<h3>
 					<a href="#">${chapter.chapterName}</a>
-					<a href="add-new-lesson?chapterId=${chapter.id}" class="btn content-button" id="add-lesson">
-						<i class="fas fa-plus-circle"></i> Add Lesson
-					</a>
 				</h3>
+				<a href="add-new-lesson?chapterId=${chapter.id}" class="btn content-button" id="add-lesson">
+					<i class="fas fa-plus-circle"></i> Add Lesson
+				</a>
 
 				<a:if test="${fn:length(LESSONS) le 1}">
 					<span>${fn:length(LESSONS)} lesson</span>
@@ -131,11 +145,12 @@
 		</div>
 	</div>
 </div>
-<div style="margin-bottom: 30px">
-	<span style="font-weight: bold; font-size: 18px">Lessons of '${chapter.chapterName}'</span>
-	<input style="float: right" placeholder="Search lesson ..." id="search-bar">
-</div>
+
 <div id="lessons">
+	<div class="content-header">
+		<span class="content-title" style="font-weight: bold; font-size: 18px">Lessons of ${chapter.chapterName}</span>
+		<input style="float: right" placeholder="Search lesson ..." id="search-bar">
+	</div>
 	<a:forEach items="${LESSONS}" var="l">
 		<div class="lesson-item">
 			<a href="delete-lesson?lessonId=${l.id}&chapterId=${l.chapterId.id}">
@@ -151,6 +166,12 @@
 </div>
 
 <script>
+	$(window).on('load', function () {
+		$('#loading-img').fadeOut();
+		$('#content').children().not('style, script').css('display', 'block');
+		$('.content-header').css('display', 'grid');
+	});
+
 	$(document).ready(function () {
 		var divisionName = $('#divName').val();
 		var chapterName = $('#chapName').val();
@@ -159,22 +180,28 @@
 		if ($('.chap-image').has('img').length) {
 			$('.chap-image').css('background', '#fff');
 		}
+		$('#content').css({
+			'padding': 0,
+			'background-color': '#e9e9e9',
+			'box-shadow': 'none',
+			'overflow-y': 'hidden'
+		});
 	});
 
 	function removeVNeseSigns(str) {
-        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
-        str = str.normalize('NFD').replace(/[\u0110-\u0111]/g, "d");
-        return str;
-    }
+		str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+		str = str.normalize('NFD').replace(/[\u0110-\u0111]/g, "d");
+		return str;
+	}
 
 	$('#search-bar').bind('keypress', function (e) {
 		if (e.keyCode == 13) {
 			var searchValue = removeVNeseSigns($(this).val()).trim().toLowerCase();
 			$('.lesson-item').css('display', 'block');
-			$('.lesson-item h4').each(function(){
+			$('.lesson-item h4').each(function () {
 				var lessonName = removeVNeseSigns($(this).text()).trim().toLowerCase();
-				if(lessonName.indexOf(searchValue) == -1) {
-					$(this).parents('.lesson-item').css('display','none');
+				if (lessonName.indexOf(searchValue) == -1) {
+					$(this).parents('.lesson-item').css('display', 'none');
 				}
 			});
 		}

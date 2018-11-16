@@ -23,17 +23,50 @@
     <!-- Jquery -->
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.js"></script>
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Editable table -->
+    <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/jquery/mindmup-editabletable.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/bootstrap-3.3.7/dist/css/bootstrap.min.css">
+    <script src="${pageContext.servletContext.contextPath}/resources/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+
+    <!-- Loading.io -->
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/loading/loading.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/loading/loading-btn.css" />
+
     <style>
+        @font-face {
+            font-family: 'Roboto-Bold';
+            src: url('resources/fonts/roboto/Roboto-Regular.ttf');
+        }
         html {
-            font-family: sans-serif;
+            font-family: 'Roboto-Bold';
+            height: 100%;
         }
 
         body {
             margin: 0;
+            height: 100%;
+        }
+
+        ::-webkit-scrollbar {
+            background-color: #fff;
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #ccc;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #0084ff;
+            border-radius: 10px;
+            width: 5px;
         }
 
         a {
-            text-decoration: none;
+            text-decoration: none !important;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -52,185 +85,49 @@
             padding: 10px 20px;
         }
 
-        /* Header */
-        #header {
-            background: #0084ff;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 20% 16%;
-            grid-column-gap: 64%;
-        }
-
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
-
-        #left-column {
-            padding: 15px 30px;
-        }
-
-        #right-column {
-            display: grid;
-            grid-template-columns: 50% 50%;
-        }
-
-        .right-item {
-            padding: 15px 10px;
-            text-align: center;
-            font-size: 14px;
-            display: flex;
-        }
-
-        .right-item:first-child {
-            background: #2170ba;
-        }
-
-        .right-item>a {
-            margin: auto;
-        }
-
-        #app-name {
-            margin: 0;
-        }
-
-        #app-name>a {
-            font-size: 23px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 4px 4px 2px rgb(26, 30, 32);
-        }
-
-        #header a {
-            color: white;
-            font-weight: bold;
-        }
-
         /* Container */
         #container {
             display: grid;
-            grid-template-columns: 25% 75%;
-        }
-
-        /* Side menu */
-        #data-explorer {
-            font-size: 18px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        #side-menu {
-            padding: 15px 30px;
-            white-space: nowrap;
-        }
-
-        #side-menu a {
-            color: #0084ff;
-        }
-
-        .side-menu-item {
-            margin-bottom: 20px;
-        }
-
-        .side-menu-item>a {
-            font-size: 18px;
-        }
-
-        /* Tree menu */
-        #tree-menu {
-            padding: 0 15px 15px 15px;
-            margin: 0;
-            display: none;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #ddd;
-            white-space: nowrap;
-            overflow-x: scroll;
-        }
-
-        ul.division-tree {
-            padding: 0 27px;
-        }
-
-        ul.chapter-tree {
-            padding: 0 32px;
-        }
-
-        ul.lesson-tree,
-        ul.mathform-tree {
-            padding: 0 30px;
-        }
-
-        #tree-menu li {
-            color: black;
-            font-size: 18px;
-
-        }
-
-        .nested {
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-
-        #tree-menu i.fas {
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .fa-plus-square,
-        .fa-minus-square {
-            color: black;
-            margin-right: 10px !important;
-        }
-
-        .fa-folder-open {
-            color: #efec0e;
-        }
-
-        .fa-box {
-            color: #317471;
-        }
-
-        .fa-book {
-            color: #ffa500;
-        }
-
-        .fa-file {
-            color: #2170ba;
-        }
-
-        .fa-caret-square-right {
-            color: darkorchid;
+            grid-template-columns: 320px auto;
+            overflow-y: auto;
         }
 
         /* Content */
         #content {
-            padding: 15px 20px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            min-height: 650px;
+        }
+
+        #content>* {
+            display: none;
         }
 
         .content-header {
             display: grid;
             grid-template-columns: 75% 25%;
-            border-bottom: 1px solid #ddd;
             margin-bottom: 20px;
         }
 
         .content-title {
             text-transform: uppercase;
+            margin: auto 0;
         }
 
         .content-button {
             margin-top: 10px;
-            border: none;
             background: #0084ff;
-            border-radius: 0;
             color: white;
-            cursor: pointer;
-            font-size: 17px;
+        }
+
+        .content-button:hover {
+            background: #0084ff;
+            color: white;
+        }
+
+        .content-button:focus {
+            color: white;
         }
 
         /* Search bar */
@@ -239,6 +136,33 @@
             border-radius: 5px;
             border: 1px solid darkgray;
             padding: 10px;
+            width: 100%;
+        }
+
+        /* Froala license */
+        a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+            display: none !important;
+            position: absolute;
+            top: -99999999px;
+        }
+
+        /* Handsontable */
+        .handsontable th {
+            font-weight: bold
+        }
+
+        /* Loading gif */
+        #loading-img {
+            position: fixed;
+            top: 50%;
+            left: calc(50% + 160px);
+            transform: translateY(-50%) translateX(-50%);
+            z-index: 99;
+        }
+
+        /* File */
+        input[type="file"] {
+            display: none !important;
         }
     </style>
 </head>
@@ -250,6 +174,7 @@
             <tiles:insertAttribute name="menu" />
         </div>
         <div id="content">
+            <img style="display: block" id="loading-img" src="${pageContext.servletContext.contextPath}/resources/gif/loading.gif">
             <tiles:insertAttribute name="body" />
         </div>
     </div>
@@ -272,5 +197,17 @@
     <script type="text/javascript" src="${pageContext.servletContext.contextPath}/resources/wiris/WIRISplugins.js"></script>
     <tiles:insertAttribute name="js" />
 </body>
+
+<script>
+    $(document).ready(function () {
+        var headerHeight = $('#header').outerHeight();
+        $('#side-menu').css('margin-top', headerHeight + 'px');
+        $('#content').css({
+            'margin': (headerHeight + 35) + 'px 30px 30px 350px',
+            'left': 0
+        });
+        $('#content').css('width', ($('#container').outerWidth() - $('#side-menu').outerWidth() - 60) + 'px');
+    });
+</script>
 
 </html>

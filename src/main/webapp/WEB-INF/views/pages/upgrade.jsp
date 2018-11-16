@@ -61,12 +61,10 @@
 </form:form>
 
 <script>
-	$(document).ready(function () {
-		$('h2.w3_inner_tittle').text('Upgrade');
-		$('.w3l_agileits_breadcrumbs_inner>ul')
-			.append($('<li>')
-				.append('Upgrade version')
-			);
+	$(window).on('load', function () {
+		$('#loading-img').fadeOut();
+		$('#content').children().not('style, script').css('display', 'block');
+		$('.content-header').css('display', 'grid');
 	});
 
 	// Validation

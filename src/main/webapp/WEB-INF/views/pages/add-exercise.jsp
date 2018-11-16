@@ -31,22 +31,32 @@
     <label for="answer" style="margin-top: 20px">Answer</label>
     <form:textarea rows="1" path="answer" id="answer" />
     <form:hidden path="mathformId.id" />
-    <input type="submit" value="Save" class="btn content-button" id="save-exercise">
+    <button type="submit" class="btn btn-default ld-ext-right content-button" id="save-exercise">
+        Save <div class="ld ld-ring ld-spin"></div>
+    </button>
 </form:form>
 <input type="file" id="uploadImg" style="display: none">
 
 <script>
+    // $(document).on('click', '#save-exercise', function() {
+        
+    // });
+
     $(document).ready(function () {
         // Validation
         $('form').submit(function (e) {
+            $('#save-exercise').prop('disabled', true);
+            $('#save-exercise').addClass('disabled running');
             var problem = $('#input').val().replace(
-                    /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
-                ).trim();
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
             var answer = $('#answer').val().replace(
-                    /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
-                ).trim();
+                /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
+            ).trim();
             if (problem === '' || problem === null) {
                 e.preventDefault();
+                $('#save-exercise').removeAttr('disabled');
+                $('#save-exercise').removeClass('disabled').removeClass('running');
                 $('form>span').remove();
                 $('label[for="input"]').next('br').remove();
                 $('.fr-wrapper:eq(1)').removeAttr('style');
@@ -57,6 +67,8 @@
                 $('.fr-counter').first().css('border-right', '2px solid red');
             } else if (answer === '' || answer === null) {
                 e.preventDefault();
+                $('#save-exercise').removeAttr('disabled');
+                $('#save-exercise').removeClass('disabled').removeClass('running');
                 $('form>span').remove();
                 $('label[for="answer"]').next('br').remove();
                 $('.fr-wrapper').first().removeAttr('style');
@@ -96,7 +108,6 @@
         //initialize editor
         $('#input').froalaEditor({
             height: 250,
-            iframe: true,
             quickInsertTags: [''],
             // quickInsertButtons : [],
             toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough',
@@ -109,12 +120,19 @@
             htmlAllowedTags: ['.*'],
             htmlAllowedAttrs: ['.*'],
         });
-        $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+
+        $('#answer').on('froalaEditor.initialized', function (e, editor) {
+            $('#loading-img').fadeOut();
+            $('#content').children().not('style, script').css('display', 'block');
+            $('.content-header').css('display', 'grid');
+        });
 
         $('#answer').froalaEditor({
             toolbarButtons: ['wirisEditor'],
             quickInsertTags: [],
-            placeholderText: ''
+            placeholderText: '',
+            htmlAllowedTags: ['.*'],
+            htmlAllowedAttrs: ['.*']
         });
     });
 </script>

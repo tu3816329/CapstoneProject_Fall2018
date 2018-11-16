@@ -65,6 +65,12 @@ public class Lesson implements Serializable {
         this.lessonTitle = lessonTitle;
         this.lessonContent = lessonContent;
     }
+    
+    public Lesson(Integer id, String lessonTitle, Chapter chapterId) {
+        this.id = id;
+        this.lessonTitle = lessonTitle;
+        this.chapterId = chapterId;
+    }
 
     public Integer getId() {
         return id;

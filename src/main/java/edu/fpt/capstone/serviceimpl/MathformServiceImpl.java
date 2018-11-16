@@ -1,6 +1,7 @@
 package edu.fpt.capstone.serviceimpl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,34 @@ public class MathformServiceImpl implements MathformService {
 
 	@Autowired
 	MathFormulasAdminService service;
-	
+
 	@Autowired
 	MathFormRepository mathFormRepository;
-	
+
 	@Autowired
 	ExerciseService exerciseService;
-	
+
+	public List<Mathform> getAllMathforms() {
+		Iterator<Mathform> iterator = mathFormRepository.findAll().iterator();
+		List<Mathform> mathforms = new ArrayList<Mathform>();
+		for (Mathform mathform; iterator.hasNext();) {
+			mathform = iterator.next();
+			mathforms.add(mathform);
+		}
+		return mathforms;
+	}
+
+	@Override
+	public List<Mathform> getMathformTreeData() {
+		List<Mathform> mathforms = getAllMathforms();
+		int index = 0;
+		for (Mathform mathform : mathforms) {
+			mathform = new Mathform(mathform.getId(), mathform.getMathformTitle(), mathform.getLessonId());
+			mathforms.set(index++, mathform);
+		}
+		return mathforms;
+	}
+
 	@Override
 	public Mathform getMathformById(int mathformId) {
 		return mathFormRepository.findOne(mathformId);

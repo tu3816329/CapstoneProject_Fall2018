@@ -7,9 +7,12 @@ import edu.fpt.capstone.entity.Lesson;
 
 public interface LessonService {
 
-public List<Lesson> getAllLessons();
+	public List<Lesson> getAllLessons();
+	
+	public List<Lesson> getLessonTreeData();
 	
 	public void saveLesson(Lesson lesson);
+	
 	
 	public void deleteLesson(int lessonId);
 	

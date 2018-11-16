@@ -11,67 +11,50 @@
     }
 
     #add-mathform {
-        width: fit-content;
-        height: fit-content;
+        height: auto;
+    }
+
+    #mathforms-table td:nth-child(n+2),
+    #mathforms-table th:nth-child(n+2) {
+        text-align: center;
     }
 </style>
 
 <div class="content-header">
     <h3 class="content-title">Math forms</h3>
-    <a id="add-mathform" class="btn content-button" href="add-mathform?lessonId=${LESSONID}">
-            <i class="fas fa-plus-circle"></i>New math form</a>
+    <div style="text-align: right">
+        <a id="add-mathform" class="btn content-button" href="add-mathform?lessonId=${LESSONID}">
+            <i class="fas fa-plus-circle"></i> New math form</a>
+    </div>
 </div>
-<input type="hidden" id="l-id" value="${LESSONID}">
-<div id="mathforms-table"></div>
+<table id="mathforms-table" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Num. of exercises</th>
+            <th>Version</th>
+            <th>Action</th>
+            <th>Detail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <a:forEach items="${mathforms}" var="m">
+            <tr>
+                <td>${m.mathformTitle}</td>
+                <td>${m.numOfExercises}</td>
+                <td>${m.versionId.versionName}</td>
+                <td><a style="color: #0084ff" href="delete-mathform?mathformId=${m.id}&lessonId=${LESSONID}">Delete</a></td>
+                <td><a style="color: #0084ff" href="mathform-detail?mathformId=${m.id}">View</a></td>
+            </tr>
+        </a:forEach>
+    </tbody>
+</table>
 
 <script>
-    $(document).ready(function() {
-        mathformsTableConfig();
+    $(window).on('load', function () {
+        $('#loading-img').fadeOut();
+        $('#content').children().not('style, script').css('display', 'block');
+        $('.content-header').css('display', 'grid');
+        $('#mathforms-table').css('display', 'table');
     });
-
-    function mathformsTableConfig () {
-        var container = document.getElementById('mathforms-table');
-        var hstb = new Handsontable(container, {
-            rowHeaders: true,
-            colHeaders: ['Name','Num. of exercises','Version','Action','Detail'],
-            columns: [{
-                data: 'mathformTitle',
-                readOnly: true
-            },{
-                readOnly: true
-            },{
-                data: 'versionId.versionName',
-                readOnly: true
-            },{
-                renderer: 'html',
-                readOnly: true
-            },{
-                renderer: 'html',
-                readOnly: true
-            }],
-            stretchH: 'all',
-            manualColumnResize: true,
-            className: 'htCenter htMiddle'
-        });
-
-        $.ajax ({
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json',
-            url: 'load-mathforms-table?lessonId=' + $('#l-id').val(),
-            success: function(res) {
-                hstb.loadData(res);
-                for (var i = 0; i < res.length; i++) {
-                    hstb.setDataAtCell(i, 1, res[i].numOfExercises + ' exercises');
-                    hstb.setDataAtCell(i, 3, '<a style="color: #0084ff" href="delete-mathform?mathformId=' 
-                                                + res[i].id + '&lessonId=' + $('#l-id').val() + '">Delete</a>');
-                    hstb.setDataAtCell(i, 4, '<a style="color: #0084ff" href="mathform-detail?mathformId=' 
-                                                + res[i].id + '">View</a>');
-                }
-            },
-            error: function(res) {
-                alert('Some errors occured while loading mathforms');
-            }
-        });
-    }
 </script>

@@ -65,6 +65,12 @@ public class Mathform implements Serializable {
         this.mathformTitle = mathformTitle;
         this.mathformContent = mathformContent;
     }
+    
+    public Mathform(Integer id, String mathformTitle, Lesson lessonId) {
+        this.id = id;
+        this.mathformTitle = mathformTitle;
+        this.lessonId = lessonId;
+    }
 
     public Integer getId() {
         return id;
@@ -91,14 +97,14 @@ public class Mathform implements Serializable {
     }
 
     public Lesson getLessonId() {
-        return lessonId;
-    }
+		return lessonId;
+	}
 
-    public void setLessonId(Lesson lessonId) {
-        this.lessonId = lessonId;
-    }
+	public void setLessonId(Lesson lessonId) {
+		this.lessonId = lessonId;
+	}
 
-    public Version getVersionId() {
+	public Version getVersionId() {
         return versionId;
     }
 

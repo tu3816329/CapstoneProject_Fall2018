@@ -53,6 +53,18 @@ public class ChapterServiceImpl implements ChapterService {
 		return chapters;
 	}
 	
+	
+	@Override
+	public List<Chapter> getChapterTreeData() {
+		List<Chapter> chapters = getAllChapters();
+		int index = 0;
+		for (Chapter chapter : chapters) {
+			chapter.setChapterIcon(null);
+			chapters.set(index++, chapter);
+		}
+		return chapters;
+	}
+	
 	@Override
 	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId) {
 		Division division = divisionRepository.findOne(divisionId);
@@ -73,7 +85,8 @@ public class ChapterServiceImpl implements ChapterService {
 	}
 
 	@Override
-	public void saveChapters(List<Chapter> chapters) {
+	public boolean saveChapters(List<Chapter> chapters) {
+		boolean isSuccess = true;
 		for (Chapter newChapter : chapters) {
 			Version noneVersion = versionService.getVersionById(0);
 			if (newChapter.getId() != 0) {
@@ -84,10 +97,28 @@ public class ChapterServiceImpl implements ChapterService {
 					chapterRepository.save(newChapter);
 				}
 			} else {
-				newChapter.setVersionId(noneVersion);
-				chapterRepository.save(newChapter);
+				if(!isDuplicateChapter(newChapter)) {
+					newChapter.setVersionId(noneVersion);
+					chapterRepository.save(newChapter);
+				} else {
+					isSuccess = false;
+				}
 			}
 		}
+		return isSuccess;
+	}
+	
+	@Override
+	public boolean isDuplicateChapter(Chapter chapter) {
+		List<Chapter> chapters = chapterRepository.getByChapterName(chapter.getChapterName());
+		if(chapters != null && !chapters.isEmpty()) {
+			for(Chapter c : chapters) {
+				if(isEqualChapter(chapter, c)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override

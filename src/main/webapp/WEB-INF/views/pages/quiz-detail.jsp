@@ -1,7 +1,8 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a"%>
 
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
 
 <style>
     #lesson {
@@ -9,8 +10,8 @@
         grid-template-columns: 22% 77.5%;
         grid-column-gap: 0.5%;
         height: 150px;
-        border-bottom: 1px solid #ddd;
         margin-bottom: 30px;
+        background: #fff;
     }
 
     #lesson h3>a {
@@ -19,7 +20,6 @@
 
     #add-question {
         height: fit-content;
-        width: fit-content;
     }
 
     .quiz-image {
@@ -27,7 +27,7 @@
         background: #ccc;
         border: 2px solid #fff;
     }
-    
+
     .quiz-image img {
         max-width: 100%;
         max-height: 100%;
@@ -40,6 +40,7 @@
     .quiz-title {
         display: grid;
         grid-template-columns: 75% 25%;
+        padding-right: 10px;
     }
 
     .quiz-title h3 {
@@ -63,10 +64,16 @@
     .fas {
         font-size: 15px;
     }
-    
+
     /* Questions */
+    #questions {
+        background: #fff;
+        height: calc(100% - 180px);
+        padding: 20px;
+        overflow-y: auto;
+    }
     .question-item {
-    	min-height: 100px;
+        min-height: 100px;
         display: grid;
         grid-template-columns: 12% 88%;
         cursor: pointer;
@@ -145,20 +152,17 @@
     }
 
     .answer-item>span:nth-child(2) {
-    	margin: auto;
+        margin: auto;
         padding: 10px 20px;
     }
 </style>
 
-<div class="content-header">
-    <h3 class="content-title">Quiz questions</h3>
-</div>
 <div id="lesson">
-	<div class="quiz-image">
-        
-	</div>
+    <div class="quiz-image">
+
+    </div>
     <div class="quiz-detail">
-	    <div class="quiz-title">
+        <div class="quiz-title">
             <h3><a href="#">${quiz.lessonTitle}</a></h3>
             <a href="add-question?lessonId=${quiz.lessonId}" class="btn content-button" id="add-question">
                 <i class="fas fa-plus-circle"></i> New question
@@ -170,13 +174,19 @@
                 <span>${quiz.numOfQuestions} questions</span>
             </a:if>
         </div>
-	</div>
+    </div>
 </div>
+
 <div id="questions">
-	<a:forEach items="${qas}" var="qa" varStatus="counter">
+    <div class="content-header">
+        <h3 class="content-title">questions</h3>
+    </div>
+    <a:forEach items="${qas}" var="qa" varStatus="counter">
         <div class="qa-item">
             <div class="question-item">
-                <div class="seq-no"><h1><span>${counter.count}</span></h1></div>
+                <div class="seq-no">
+                    <h1><span>${counter.count}</span></h1>
+                </div>
                 <div class="question-content">
                     <span>${qa.questionContent}</span>
                     <span>
@@ -203,34 +213,38 @@
                 </a:forEach>
             </div>
         </div>
-	</a:forEach>
+    </a:forEach>
 </div>
 
-<script>;
-    $(document).ready(function() {
-        $('.w3l_agileits_breadcrumbs_inner>ul')
-			.append($('<li>')
-                .append($('.quiz-title a').text())
-                .append('<span>«</span>')
-            )
-            .append($('<li>')
-                .append('Quiz')
-            );
-            
-        if ($('.quiz-image').has('img').length) {
-            $('.quiz-image').css('background','#fff');
-        }
+<script>
+    $(window).on('load', function () {
+        $('#loading-img').fadeOut();
+        $('#content').children().not('style, script').css('display', 'block');
+        $('.content-header').css('display', 'grid');
+        $('#lesson').css('display', 'grid');
     });
 
-    $('.question-item').click(function() {
+    $(document).ready(function () {
+        if ($('.quiz-image').has('img').length) {
+            $('.quiz-image').css('background', '#fff');
+        }
+        $('#content').css({
+            'padding': 0,
+            'background-color' : '#e9e9e9',
+            'box-shadow': 'none',
+            'overflow-y': 'hidden'
+        });
+    });
+
+    $('.question-item').click(function () {
         var target = $(this);
         var isVisible = (target.siblings('.answers').css('display') === 'block');
         if (isVisible) {
-            target.css('margin-bottom','20px');
-            target.siblings('.answers').css('display','none');
+            target.css('margin-bottom', '20px');
+            target.siblings('.answers').css('display', 'none');
         } else {
-            target.css('margin-bottom','0');
-            target.siblings('.answers').css('display','block');
+            target.css('margin-bottom', '0');
+            target.siblings('.answers').css('display', 'block');
         }
     });
 </script>

@@ -1,98 +1,244 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a" %>
+<%@taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
-<h3 id="data-explorer"><a href="#"><i class="fas fa-wrench"></i> Data Explorer</a></h3>
-<ul id="tree-menu"></ul>
-<div class="side-menu-item"><a href="${pageContext.servletContext.contextPath}/">
-		<i class="fas fa-home"></i> Home
-	</a></div>
-<div class="side-menu-item"><a href="show-chapters">
-		<i class="fas fa-desktop"></i> Data Management
-	</a></div>
-<div class="side-menu-item"><a href="show-questions">
-		<i class="fas fa-question"></i> Quiz
-	</a></div>
-<div class="side-menu-item"><a href="show-versions">
-		<i class="fas fa-code-branch"></i> Versions
-	</a></div>
+<style>
+	/* Side menu */
+	#side-menu {
+		padding: 0 15px;
+		white-space: nowrap;
+		background: #fdfdfd;
+		width: 320px;
+		font-family: 'Roboto-Bold';
+		height: 100%;
+		position: fixed;
+	}
+
+	.side-menu-item {
+		margin-bottom: 20px;
+	}
+
+	.side-menu-item span {
+		margin: 7px 10px 7px 12px;
+		color: #333;
+		font-weight: bold;
+	}
+
+	.side-menu-item i {
+		color: #747474;
+		width: 20px;
+		font-size: 20px;
+	}
+
+	.side-menu-item>a {
+		font-size: 17px;
+	}
+
+	/* Tree menu */
+	#tree-menu {
+		padding: 0 15px 15px 15px;
+		margin: 0;
+		display: none;
+		margin-bottom: 10px;
+		white-space: nowrap;
+	}
+
+	ul.division-tree {
+		padding: 0 27px;
+	}
+
+	ul.chapter-tree {
+		padding: 0 32px;
+	}
+
+	ul.lesson-tree,
+	ul.mathform-tree {
+		padding: 0 30px;
+	}
+
+	#tree-menu li {
+		color: black;
+		font-size: 18px;
+
+	}
+
+	.nested {
+		display: none;
+	}
+
+	.active {
+		display: block;
+	}
+
+	#tree-menu i.fas {
+		cursor: pointer;
+		margin-right: 5px;
+	}
+
+	.fa-plus-square,
+	.fa-minus-square {
+		color: black;
+		margin-right: 10px !important;
+	}
+
+	.fa-folder-open {
+		color: #efec0e;
+	}
+
+	.fa-box {
+		color: #317471;
+	}
+
+	.fa-book {
+		color: #ffa500;
+	}
+
+	.fa-file {
+		color: #2170ba;
+	}
+
+	.fa-caret-square-right {
+		color: darkorchid;
+	}
+
+	#info {
+		margin: 0 -15px;
+		height: 135px;
+		padding: 13px 15px 12px 25px;
+		background: url('resources/images/user-img-background.png');
+	}
+
+	#info>.image {
+		display: inline-block;
+	}
+
+	#info img {
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+	}
+
+	.info-container>span {
+		font-size: 16px;
+		color: white;
+	}
+
+	.info-container {
+		position: relative;
+		top: 25px;
+	}
+
+	.legal {
+		border-top: 1px solid #eee;
+		padding: 20px 30px;
+		margin: 0 -15px;
+		width: 320px;
+		bottom: 0;
+		position: fixed;
+		background: #fdfdfd;
+	}
+
+	.menu {
+		position: fixed;
+		height: 500px;
+		overflow: auto;
+		width: 320px;
+		margin: 0 -15px;
+		padding: 0 15px;
+	}
+</style>
+
+<sec:authentication property="principal.username" var="username" />
+<div id="info">
+	<div class="image">
+		<img src="${pageContext.servletContext.contextPath}/resources/images/user.png">
+	</div>
+	<div class="info-container">
+		<span>${username}</span>
+	</div>
+</div>
+<!-- Side menu item -->
+<div class="menu">
+	<div class="side-menu-item" style="margin-top: 30px"><a href="${pageContext.servletContext.contextPath}/">
+			<i class="fas fa-home"></i>
+			<span>Home</span>
+		</a></div>
+	<div class="side-menu-item"><a href="show-chapters">
+			<i class="fas fa-desktop"></i>
+			<span>Data Management</span>
+		</a></div>
+	<div class="side-menu-item"><a href="show-questions">
+			<i class="fas fa-question"></i>
+			<span>Quiz</span>
+		</a></div>
+	<div class="side-menu-item"><a href="show-versions">
+			<i class="fas fa-code-branch"></i>
+			<span>Versions</span>
+		</a></div>
+	<div id="data-explorer" class="side-menu-item"><a href="#">
+			<i class="fas fa-wrench"></i>
+			<span>Data Explorer</span>
+		</a></div>
+
+	<!-- Tree menu -->
+	<ul id="tree-menu">
+		<a:forEach items="${gradetree}" var="grade">
+			<li class="grade-item">
+				<i class="fas fa-plus-square"> </i><i class="fas fa-folder-open"></i>
+				${grade.gradeName}
+				<ul class="nested division-tree">
+					<a:forEach items="${divisiontree}" var="division">
+						<li class="division-item">
+							<i class="fas fa-plus-square"></i> <i class="fas fa-box"></i>
+							${division.divisionName}
+							<ul class="nested chapter-tree">
+								<a:forEach items="${chaptertree}" var="chapter">
+									<a:if test="${chapter.divisionId.id eq division.id and chapter.gradeId.id eq grade.id}">
+										<li class="chapter-item">
+											<i class="fas fa-plus-square"></i> <i class="fas fa-book"></i>
+											<a href="show-lessons?chapterId=${chapter.id}">
+												${chapter.chapterName}</a>
+											<ul class="nested lesson-tree">
+												<a:forEach items="${lessontree}" var="lesson">
+													<a:if test="${lesson.chapterId.id eq chapter.id}">
+														<li class="less-item">
+															<i class="fas fa-plus-square"></i> <i class="fas fa-file"></i>
+															<a href="show-mathforms?lessonId=${lesson.id}">
+																${lesson.lessonTitle}</a>
+															<ul class="nested mathform-tree">
+																<a:forEach items="${mathformtree}" var="mathform">
+																	<a:if test="${mathform.lessonId.id eq lesson.id}">
+																		<li class="mathform-item">
+																			<i class="fas fa-caret-square-right"></i>
+																			<a href="mathform-detail?mathformId=${mathform.id}">
+																				${mathform.mathformTitle}</a>
+																		</li>
+																	</a:if>
+																</a:forEach>
+															</ul>
+														</li>
+													</a:if>
+												</a:forEach>
+											</ul>
+										</li>
+									</a:if>
+								</a:forEach>
+							</ul>
+						</li>
+					</a:forEach>
+				</ul>
+			</li>
+		</a:forEach>
+	</ul>
+</div>
+
+<div class="legal">
+	<div class="copyright">© 2018 - 2019 <b style="color: #2170ba">Math Formulas</b></div>
+	<div class="version"><b>Version: </b> ${currentversion.versionName}</div>
+</div>
 
 <script>
-	$(document).ready(function () {
-		var divisions = getDivisions();
-		$.ajax({
-			type: 'GET',
-			url: 'get-grades',
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (res) {
-				var grades = res;
-				for (var i = 0; i < grades.length; i++) {
-					$('#tree-menu').append($('<li class="grade-item">')
-						.append('<i class="fas fa-plus-square"> </i><i class="fas fa-folder-open"></i> ' + grades[i].gradeName)
-						.append('<input type="hidden" class="gradeId" value="' + grades[i].id + '">')
-						.append($('<ul class="nested division-tree">'))
-					);
-				}
-
-				// Load divisions
-				$('.division-tree').each(function () {
-					for (var i = 0; i < divisions.length; i++) {
-						$(this).append($('<li class="division-item">')
-							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-box"></i> ' + divisions[i].divisionName)
-							.append('<input type="hidden" class="divisionId" value="' + divisions[i].id + '">')
-							.append($('<ul class="nested chapter-tree">'))
-						);
-					}
-				});
-
-				// Load chapters
-				$('.chapter-tree').each(function () {
-					var divisionId = $(this).siblings('.divisionId').val();
-					var gradeId = $(this).parents('.division-tree').siblings('.gradeId').val();
-					var chapters = getChapters(divisionId, gradeId);
-					for (var i = 0; i < chapters.length; i++) {
-						$(this).append($('<li class="chapter-item">')
-							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-book"></i> <a href="show-lessons?chapterId=' + chapters[i].id + '">' + chapters[i].chapterName + '</a>')
-							.append('<input type="hidden" class="chapterId" value="' + chapters[i].id + '">')
-							.append($('<ul class="nested lesson-tree">'))
-						);
-					}
-				});
-
-				// Load lessons
-				$('.lesson-tree').each(function () {
-					var chapterId = $(this).siblings('.chapterId').val();
-					var lessons = getLessons(chapterId);
-					for (var i = 0; i < lessons.length; i++) {
-						$(this).append($('<li class="les-item">')
-							.append('<i class="fas fa-plus-square"></i> <i class="fas fa-file"></i> <a href="show-mathforms?lessonId=' + lessons[i].id + '">' + lessons[i].lessonTitle + '</a>')
-							.append('<input type="hidden" class="lessonId" value="' + lessons[i].id + '">')
-							.append($('<ul class="nested mathform-tree">'))
-						);
-					}
-				});
-
-				// Load math forms
-				$('.mathform-tree').each(function () {
-					var lessonId = $(this).siblings('.lessonId').val();
-					var mathforms = getMathforms(lessonId);
-					for (var i = 0; i < mathforms.length; i++) {
-						$(this).append($('<li class="mathform-item">')
-							.append('<i class="fas fa-caret-square-right"></i> <a href="mathform-detail?mathformId=' + mathforms[i].id + '">' + mathforms[i].mathformTitle + '</a>')
-							.append('<input type="hidden" class="mathformId" value="' + mathforms[i].id + '">')
-						);
-					}
-				});
-			},
-			error: function (res) {
-				alert('Some errors occured while loading grades');
-			}
-		});
-
-		// Tree data
-	});
-
 	$(document).on('click', '#data-explorer', function () {
 		if ($('#tree-menu').css('display') === 'none') {
 			$('#tree-menu').css('display', 'block');
@@ -100,79 +246,6 @@
 			$('#tree-menu').css('display', 'none');
 		}
 	});
-
-	function getDivisions() {
-		var divisions;
-		$.ajax({
-			type: 'GET',
-			async: false,
-			url: 'get-divisions',
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (res) {
-				divisions = res;
-			},
-			error: function (res) {
-				alert('Some errors occured while loading divisions');
-			}
-		});
-		return divisions;
-	}
-
-	function getChapters(divisionId, gradeId) {
-
-		var chapters;
-		$.ajax({
-			type: 'GET',
-			async: false,
-			url: 'get-chapter-tree?divisionId=' + divisionId + '&gradeId=' + gradeId,
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (res) {
-				chapters = res;
-			},
-			error: function (res) {
-				alert('Some errors occured while loading chapters');
-			}
-		});
-		return chapters;
-	}
-
-	function getLessons(chapterId) {
-		var lessons;
-		$.ajax({
-			type: 'GET',
-			async: false,
-			url: 'get-lesson-tree?chapterId=' + chapterId,
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (res) {
-				lessons = res;
-			},
-			error: function (res) {
-				alert('Some errors occured while loading lessons');
-			}
-		});
-		return lessons;
-	}
-
-	function getMathforms(lessonId) {
-		var mathforms;
-		$.ajax({
-			type: 'GET',
-			async: false,
-			url: 'get-mathform-tree?lessonId=' + lessonId,
-			contentType: 'application/json',
-			dataType: 'json',
-			success: function (res) {
-				mathforms = res;
-			},
-			error: function (res) {
-				alert('Some errors occured while loading math forms');
-			}
-		});
-		return mathforms;
-	}
 
 	$(document).on('click', 'i.fa-plus-square, i.fa-minus-square', function () {
 		$(this).siblings('.nested').toggleClass('active');

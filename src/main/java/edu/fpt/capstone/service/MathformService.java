@@ -7,8 +7,12 @@ import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Mathform;
 
 public interface MathformService {
+	
+	public List<Mathform> getAllMathforms();
+	
+	public List<Mathform> getMathformTreeData();
 
-	public Mathform getMathformById(int mathformId);;
+	public Mathform getMathformById(int mathformId);
 	
 	public void saveMathform(Mathform mathform);
 	

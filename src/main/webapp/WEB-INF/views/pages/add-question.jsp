@@ -61,7 +61,7 @@
 
 	#save-question {
 		width: fit-content;
-		height: fit-content;
+		height: auto;
         float: right;
     }
 </style>
@@ -70,7 +70,11 @@
 <form:form action="save-quiz-question" method="post" modelAttribute="qa" acceptCharset="UTF-8">
     <div class="content-header">
         <h3 class="content-title">Add quiz question</h3>
-        <button class="btn content-button" id="save-question">Save</button>
+        <div style="text-align: right">
+            <button class="btn btn-default ld-ext-right content-button" id="save-question">
+                Save <div class="ld ld-ring ld-spin"></div>
+            </button>
+        </div>
     </div>
     <div id="question-input">
         <form:hidden path="lessonId" />
@@ -117,6 +121,8 @@
     $(document).ready(function () {
         // Validation
         $('form').submit(function (e) {
+            $('#save-question').prop('disabled', true);
+            $('#save-question').addClass('disabled running');
             $('label[for="input"]').next('br').remove();
             $('label[for="input"]').next('span').remove();
 
@@ -145,6 +151,8 @@
 
             if (question === '' || question === null) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('.fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
                 $('.fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
                 $('.fr-wrapper:eq(0)').css('border', '2px solid red');
@@ -152,6 +160,8 @@
                 $('.fr-counter:eq(0)').css('border-right', '2px solid red');
             } else if (answer1 === '' || answer1 === null) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('.fr-wrapper:eq(0), .fr-wrapper:eq(2), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
                 $('.fr-counter:eq(0), .fr-counter:eq(2), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
                 $('.fr-wrapper:eq(1)').css('border', '2px solid red');
@@ -159,6 +169,8 @@
                 $('.fr-counter:eq(1)').css('border-right', '2px solid red');
             } else if (answer2 === '' || answer2 === null) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(3), .fr-wrapper:eq(4)').removeAttr('style');
                 $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(3), .fr-counter:eq(4)').removeAttr('style');
                 $('.fr-wrapper:eq(2)').css('border', '2px solid red');
@@ -166,6 +178,8 @@
                 $('.fr-counter:eq(2)').css('border-right', '2px solid red');
             } else if (answer3 === '' || answer3 === null) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(4)').removeAttr('style');
                 $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(4)').removeAttr('style');
                 $('.fr-wrapper:eq(3)').css('border', '2px solid red');
@@ -173,6 +187,8 @@
                 $('.fr-counter:eq(3)').css('border-right', '2px solid red');
             } else if (answer4 === '' || answer4 === null) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('label[for="input"]').next('br').remove();
                 $('.fr-wrapper:eq(0), .fr-wrapper:eq(1), .fr-wrapper:eq(2), .fr-wrapper:eq(3)').removeAttr('style');
                 $('.fr-counter:eq(0), .fr-counter:eq(1), .fr-counter:eq(2), .fr-counter:eq(3)').removeAttr('style');
@@ -181,6 +197,8 @@
                 $('.fr-counter:eq(4)').css('border-right', '2px solid red');
             } else if (!isCheck) {
                 e.preventDefault();
+                $('#save-question').removeAttr('disabled');
+                $('#save-question').removeClass('disabled').removeClass('running');
                 $('<br><span style="color: red; margin-top: 5px">Please choose at least one correct answer</span>').insertAfter($('label[for="input"]'));
             }
         });
@@ -213,7 +231,6 @@
         //initialize editor
         $('#input').froalaEditor({
             height: 200,
-            iframe: true,
             quickInsertTags: [],
             toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough',
                 '|', 'fontFamily', 'fontSize', 'color', '|', 'paragraphFormat', 'align',
@@ -226,13 +243,18 @@
             htmlAllowedAttrs: ['.*']
         });
 
-        //Remove froala license
-        $('a[href^="https://www.froala.com/wysiwyg-editor?k=u"]').remove();
+        $('#answer-4').on('froalaEditor.initialized', function (e, editor) {
+            $('#loading-img').fadeOut();
+            $('#content').children().not('style, script').css('display', 'block');
+            $('.content-header').css('display', 'grid');
+        });
 
         $('.answer-textarea').froalaEditor({
             toolbarButtons: ['wirisEditor'],
             quickInsertTags: [],
-            placeholderText: ''
+            placeholderText: '',
+            htmlAllowedTags: ['.*'],
+            htmlAllowedAttrs: ['.*']
         });
 
         $('.answer-item .fr-counter').remove();

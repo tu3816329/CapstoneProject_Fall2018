@@ -7,6 +7,8 @@ import edu.fpt.capstone.entity.Chapter;
 public interface ChapterService {
 
 	public List<Chapter> getAllChapters();
+	
+	public List<Chapter> getChapterTreeData();
 		
 	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId);
 	
@@ -18,7 +20,9 @@ public interface ChapterService {
 	
 	public void saveChapter(Chapter chapter);
 	
-	public void saveChapters(List<Chapter> chapters);
+	public boolean saveChapters(List<Chapter> chapters);
+	
+	public boolean isDuplicateChapter(Chapter chapter);
 	
 	public List<Chapter> getNewChapters(int userVersion);
 }

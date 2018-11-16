@@ -1,4 +1,5 @@
 <%@ page session="false" contentType="text/html; charset=UTF-8" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a" %>
 
 <!-- Handsontable -->
 <script src="${pageContext.servletContext.contextPath}/resources/handsontable-master/handsontable.full.js"></script>
@@ -10,60 +11,53 @@
     }
 
     #add-version {
-        height: fit-content;
+        height: auto;
         width: fit-content;
+    }
+
+    #versions-table th,
+    #versions-table td {
+        text-align: center;
     }
 </style>
 
 <div class="content-header">
     <h3 class="content-title">Versions</h3>
-    <a id="add-version" class="btn content-button" href="add-version">Upgrade</a>
+    <div style="text-align: right">
+        <a id="add-version" class="btn content-button" href="add-version">Upgrade</a>
+    </div>
 </div>
-<div id="versions-table"></div>
+<table id="versions-table" class="table table-hover">
+    <thead>
+        <tr>
+            <th>Version number</th>
+            <th>Name</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <a:forEach items="${versions}" var="v">
+            <tr>
+                <td>${v.databaseVersion}</td>
+                <td>${v.versionName}</td>
+                <td>
+                    <a:if test="${v.isCurrent eq true}">
+                        Activated
+                    </a:if>
+                    <a:if test="${v.isCurrent eq false}">
+                        Deactivated
+                    </a:if>
+                </td>
+            </tr>
+        </a:forEach>
+    </tbody>
+</table>
 
 <script>
-    $(document).ready(function() {
-        versionsTableConfig();
+    $(window).on('load', function () {
+        $('#loading-img').fadeOut();
+        $('#content').children().not('style, script').css('display', 'block');
+        $('.content-header').css('display', 'grid');
+        $('#versions-table').css('display', 'table');
     });
-
-    function versionsTableConfig() {
-        var container = document.getElementById('versions-table');
-        var hstb = new Handsontable(container, {
-            startRows: 4,
-            rowHeaders: true,
-            colHeaders: ['Version number','Name','Status'],
-            columns: [{
-                data: 'databaseVersion',
-                readOnly: true
-            },{
-                data: 'versionName',
-                readOnly: true
-            },{
-                readOnly: true
-            }],
-            stretchH: 'all',
-            manualColumnResize: true,
-            className: 'htCenter htMiddle'
-        });
-
-        $.ajax ({
-            url: 'load-versions-table',
-            dataType: 'json',
-            contentType: 'application/json',
-            type: 'GET',
-            success: function(res) {
-                hstb.loadData(res);
-                for (var i = 0; i < res.length; i++) {
-                    if (res[i].isCurrent) {
-                        hstb.setDataAtCell(i, 2, 'Activated')
-                    } else {
-                        hstb.setDataAtCell(i, 2, 'Deactivated')
-                    }
-                }
-            },
-            error: function(res) {
-                alert('Some errors occured while loading data!');
-            }
-        });
-    }
 </script>

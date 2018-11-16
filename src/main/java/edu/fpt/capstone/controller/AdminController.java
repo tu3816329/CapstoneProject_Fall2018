@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.data.QuestionAnswer;
 import edu.fpt.capstone.data.Quizes;
 import edu.fpt.capstone.entity.Chapter;
@@ -39,6 +41,8 @@ import edu.fpt.capstone.service.VersionService;
  * Handles requests for the application home page.
  */
 @Controller
+@SessionAttributes(value = {"divisiontree", "gradetree", "chaptertree", "lessontree", "mathformtree", 
+		"currentversion"})
 public class AdminController {
 
 	@Autowired
@@ -80,6 +84,12 @@ public class AdminController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
+		model.addAttribute("gradetree", gradeService.getAllGrades());
+		model.addAttribute("divisiontree", divisionService.getAllDivisions());
+		model.addAttribute("chaptertree", chapterService.getChapterTreeData());
+		model.addAttribute("lessontree", lessonService.getLessonTreeData());
+		model.addAttribute("mathformtree", mathformService.getMathformTreeData());
+		model.addAttribute("currentversion", versionService.getCurrentVersion());
 		return "home";
 	}
 
@@ -91,21 +101,23 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "upgrade-version", method = RequestMethod.POST)
-	public String upgradeVersion(@ModelAttribute("version") Version version) {
+	public String upgradeVersion(@ModelAttribute("version") Version version, Model model) {
 		int latestVersionId = versionService.upgradeVersion(version).getId();
 		service.updateDataDbVersion(latestVersionId);
+		model.addAttribute("currentversion", versionService.getCurrentVersion());
 		return "redirect:show-versions";
 	}
 
 	@RequestMapping(value = "show-chapters", method = RequestMethod.GET)
-	public String showChapters() {
+	public String showChapters(Model model) {
+		model.addAttribute("chaptertree", chapterService.getChapterTreeData());
 		return "show-chapters";
 	}
 
 	@RequestMapping(value = "delete-chapter", method = RequestMethod.GET)
 	public String deleteChapter(@RequestParam("chapterId") int chapterId) {
 		chapterService.deleteChapter(chapterId);
-		return "show-chapters";
+		return "redirect:show-chapters";
 	}
 
 	@RequestMapping(value = "show-lessons", method = RequestMethod.GET)
@@ -114,8 +126,7 @@ public class AdminController {
 		model.addAttribute("chapter", chapter);
 		List<Lesson> lessons = lessonService.getLessonsByChapter(chapter);
 		model.addAttribute("LESSONS", lessons);
-		List<Division> divisions = divisionService.getAllDivisions();
-		model.addAttribute("DIVISIONS", divisions);
+		model.addAttribute("lessontree", lessonService.getLessonTreeData());
 		return "show-lessons";
 	}
 
@@ -130,12 +141,10 @@ public class AdminController {
 
 	@RequestMapping(value = "add-new-lesson", method = RequestMethod.GET)
 	public String addLesson(@RequestParam("chapterId") int chapterId, Model model) {
-		List<Division> divisions = divisionService.getAllDivisions();
 		Chapter chapter = chapterService.getChapterById(chapterId);
 		model.addAttribute("chapter", chapter);
 		Lesson lesson = new Lesson();
 		lesson.setChapterId(chapter);
-		model.addAttribute("DIVISIONS", divisions);
 		model.addAttribute("lesson", lesson);
 		return "add-lesson";
 	}
@@ -152,8 +161,6 @@ public class AdminController {
 
 	@RequestMapping(value = "edit-lesson", method = RequestMethod.GET)
 	public String editLesson(@RequestParam("lessonId") int lessonId, Model model) {
-		List<Division> divisions = divisionService.getAllDivisions();
-		model.addAttribute("DIVISIONS", divisions);
 		Lesson lesson = lessonService.getLessonById(lessonId);
 		model.addAttribute("lesson", lesson);
 		return "edit-lesson";
@@ -182,6 +189,11 @@ public class AdminController {
 	@RequestMapping(value = "show-mathforms", method = RequestMethod.GET)
 	public String showMathforms(@RequestParam("lessonId") int lessonId, Model model) {
 		model.addAttribute("LESSONID", lessonId);
+			Lesson lesson = lessonService.getLessonById(lessonId);
+			List<MathformTable> data = 
+					mathformService.getMathformTableDataByLesson(lesson);
+		model.addAttribute("mathformtree", mathformService.getMathformTreeData());
+		model.addAttribute("mathforms", data);
 		return "show-mathforms";
 	}
 
@@ -347,7 +359,8 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "show-versions", method = RequestMethod.GET)
-	public String showVersions() {
+	public String showVersions(Model model) {
+		model.addAttribute("versions", versionService.getAllVersion());
 		return "show-versions";
 	}
 

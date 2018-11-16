@@ -22,17 +22,17 @@ import edu.fpt.capstone.utils.WebAdminUtils;
 public class LessonServiceImpl implements LessonService {
 
 	@Autowired
-	MathFormulasAdminService service; 
-	
+	MathFormulasAdminService service;
+
 	@Autowired
 	LessonRepository lessonRepository;
-	
+
 	@Autowired
 	MathformService mathformService;
-	
+
 	@Autowired
 	QuestionService questionService;
-	
+
 	@Override
 	public List<Lesson> getAllLessons() {
 		Iterator<Lesson> lIterator = lessonRepository.findAll().iterator();
@@ -40,6 +40,17 @@ public class LessonServiceImpl implements LessonService {
 		for (Lesson lesson; lIterator.hasNext();) {
 			lesson = lIterator.next();
 			lessons.add(lesson);
+		}
+		return lessons;
+	}
+
+	@Override
+	public List<Lesson> getLessonTreeData() {
+		List<Lesson> lessons = getAllLessons();
+		int index = 0;
+		for (Lesson lesson : lessons) {
+			lesson = new Lesson(lesson.getId(), lesson.getLessonTitle(), lesson.getChapterId());
+			lessons.set(index++, lesson);
 		}
 		return lessons;
 	}

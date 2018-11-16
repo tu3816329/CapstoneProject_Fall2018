@@ -96,6 +96,12 @@
 <div id="pagination"></div>
 
 <script>
+    $(window).on('load', function () {
+        $('#loading-img').fadeOut();
+        $('#content').children().not('style, script').css('display', 'block');
+        $('.content-header').css('display', 'grid');
+    });
+
     $(document).ready(function () {
         $('#pageId').val('1');
         pagination();
@@ -218,13 +224,11 @@
     }
 
     $(document).on('click', '.firstPage', function () {
-        alert('first');
         $('#pageId').val('1');
         pagination();
     });
 
     $(document).on('click', '.lastPage', function () {
-        alert('last');
         var itemNum = $('.quiz-item[position]').length;
         var pageNum = ((itemNum / 5) | 0) + 1;
         $('#pageId').val(pageNum);

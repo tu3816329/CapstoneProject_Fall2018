@@ -2,19 +2,28 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="a" %>
 
 <style>
-	#add-exercise {
-		width: fit-content;
-		height: fit-content;
+    #add-exercise {
+		height: auto;
 	}
 
     #mathform-content {
-        border-bottom: 1px solid darkgray;
         margin-bottom: 15px;
+        padding-left: 10px;
         display: grid;
         grid-template-columns: 90% 5% 5%;
+        border: 1px solid black;
+    }
+
+    #mathform-content>span:nth-child(2), #mathform-content>span:nth-child(3) {
+        text-align: right;
+        margin-top: 5px;
     }
 
 	/* Exercises */
+    #exercises {
+        background-color: #fff;
+    }
+
     .exercise-item {
     	min-height: 100px;
         display: grid;
@@ -86,27 +95,33 @@
 </style>
 
 <div class="content-header">
-	<h3 class="content-title">${MATHFORM.mathformTitle}</h3>
-	<a id="add-exercise" href="add-exercise?mathformId=${MATHFORM.id}" class="btn content-button">
-			<i class="fas fa-plus-circle"></i> New exercise</a>
+    <h3 class="content-title">${MATHFORM.mathformTitle}</h3>
+    <div style="text-align: right">
+        <a id="add-exercise" href="add-exercise?mathformId=${MATHFORM.id}" class="btn content-button">
+            <i class="fas fa-plus-circle"></i> New exercise</a>
+    </div>
 </div>
 <div id="mathform-content">
     <span>${MATHFORM.mathformContent}</span>
     <span>
         <a href="edit-mathform?mathformId=${MATHFORM.id}">
-            <p><i style="color: #0084ff" class="fas fa-edit"></i></p></a>
+            <p><i style="color: #0084ff" class="fas fa-edit"></i></p>
+        </a>
     </span>
-    <span>
+    <span style="text-align: center">
         <a href="delete-mathform?mathformId=${MATHFORM.id}&lessonId=${MATHFORM.lessonId.id}">
-            <p><i style="color: red" class="fas fa-times"></i></p></a>
+            <p><i style="color: red" class="fas fa-times"></i></p>
+        </a>
     </span>
 </div>
 <input type="hidden" value="${MATHFORM.id}" class="m-id">
 <input type="hidden" value="${MATHFORM.mathformTitle}" class="m-title">
 <div id="exercises">
-	<a:forEach items="${exercises}" var="ex" varStatus="counter">
+    <a:forEach items="${exercises}" var="ex" varStatus="counter">
         <div class="exercise-item">
-            <div class="seq-no"><h1><span>${counter.count}</span></h1></div>
+            <div class="seq-no">
+                <h1><span>${counter.count}</span></h1>
+            </div>
             <div class="exercise-content">
                 <span style="font-weight: bold">${ex.topic}</span>
                 <span>
@@ -114,9 +129,27 @@
                 </span>
                 <span>
                     <a href="delete-exercise?exId=${ex.id}&mathformId=${ex.mathformId.id}"><i class="fas fa-times"></i></a>
-				</span>
-				<span>${ex.answer}</span>
+                </span>
+                <span><hr style="border-color: black; width: 50%">${ex.answer}</span>
             </div>
         </div>
-	</a:forEach>
+    </a:forEach>
 </div>
+
+<script>
+    $(window).on('load', function () {
+        $('#loading-img').fadeOut();
+        $('#content').children().not('style, script').css('display', 'block');
+        $('.content-header').css('display', 'grid');
+        $('#mathform-content').css('display', 'grid');
+    });
+
+    $(document).ready(function() {
+        $('#content').css({
+			'padding': 0,
+			'background-color': '#e9e9e9',
+			'box-shadow': 'none',
+			'overflow-y': 'hidden'
+		});
+    });
+</script>
