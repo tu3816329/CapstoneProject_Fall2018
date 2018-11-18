@@ -12,9 +12,8 @@
         width: 100%;
         white-space: nowrap;
         display: grid;
-        grid-template-columns: 30% 16%;
-        grid-column-gap: 54%;
-        z-index: 999;
+        grid-template-columns: 30% 1fr auto;
+        z-index: 8;
         position: fixed;
     }
 
@@ -29,10 +28,11 @@
     #right-column {
         display: grid;
         grid-template-columns: 50% 50%;
+        grid-column: 3 / span 1;
     }
 
     .right-item {
-        padding: 15px 10px;
+        padding: 15px;
         text-align: center;
         font-size: 14px;
         display: flex;

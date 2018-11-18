@@ -64,6 +64,7 @@
     }
 </style>
 
+<%@ include file="../modals/delete-modal.jsp" %>
 <div class="content-header">
     <h3 class="content-title">Chapters</h3>
     <input placeholder="Search chapter ..." id="search-bar">
@@ -114,10 +115,10 @@
                             '<td class="uneditable"></td>' +
                             '<td class="uneditable"></td>' +
                             '</tr>');
-                        
-                            var bgColor = $('.last').css('background-color');
-                            $('.last').find('.division-dropbtn').css('background-color', bgColor);
-                            $('.last').find('.grade-dropbtn').css('background-color', bgColor);
+
+                        var bgColor = $('.last').css('background-color');
+                        $('.last').find('.division-dropbtn').css('background-color', bgColor);
+                        $('.last').find('.grade-dropbtn').css('background-color', bgColor);
                         $('#chapter-table').editableTableWidget();
                     }
                 } else {
@@ -125,6 +126,19 @@
                 }
             }
             return true;
+        });
+
+        $(document).on('click', 'tr>td:nth-child(7)>a', function (e) {
+            e.preventDefault();
+            var deleteLink = $(this).attr('href');
+            $('.modal').css('height', '100%');
+            $('.modal button:eq(0)').click(function () {
+                $(this).addClass('disabled running');
+                window.location.href = deleteLink;
+            });
+            $('.modal button:eq(1)').click(function () {
+                $('.modal').css('height', '0');
+            });
         });
     });
 
@@ -199,10 +213,10 @@
                         $('tbody>tr').css('display', '');
                         var searchValue = removeVNeseSigns($(this).val()).trim().toLowerCase();
 
-                        $('tbody>tr').each(function() {
+                        $('tbody>tr').each(function () {
                             var chapterName = removeVNeseSigns($(this).children('td:eq(1)').text()).trim().toLowerCase();
                             console.log(chapterName);
-                            if(chapterName.indexOf(searchValue) === -1) {
+                            if (chapterName.indexOf(searchValue) === -1) {
                                 $(this).css('display', 'none');
                             }
                         });
@@ -352,7 +366,7 @@
                 error: function (res) {
                     alert('Some errors occured while saving');
                 },
-                complete: function(res) {
+                complete: function (res) {
                     window.location.replace('show-chapters');
                 }
             });

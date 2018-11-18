@@ -20,6 +20,7 @@
     }
 </style>
 
+<%@ include file="../modals/delete-modal.jsp" %>
 <div class="content-header">
     <h3 class="content-title">Math forms</h3>
     <div style="text-align: right">
@@ -57,4 +58,19 @@
         $('.content-header').css('display', 'grid');
         $('#mathforms-table').css('display', 'table');
     });
+
+    $(document).on('click', 'tr>td:nth-child(4)>a', function(e) {
+			e.preventDefault();
+			var deleteLink = $(this).attr('href');
+            $('.modal').css('height', '100%');
+            $('.message-modal-title').text('Delete math form');
+			$('.message-modal-body').text('Are you sure you want to delete this math form?');
+            $('.modal button:eq(0)').click(function () {
+                $(this).addClass('disabled running');
+                window.location.href = deleteLink;
+            });
+            $('.modal button:eq(1)').click(function () {
+                $('.modal').css('height', '0');
+            });
+		});
 </script>

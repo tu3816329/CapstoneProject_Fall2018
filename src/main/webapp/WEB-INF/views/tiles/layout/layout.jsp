@@ -164,6 +164,17 @@
         input[type="file"] {
             display: none !important;
         }
+
+        /* Responsive */
+        @media only screen and (max-width: 320px) {
+            #side-menu {
+                display: none;
+            }
+            
+            html {
+                zoom: 0.25;
+            }
+        }
     </style>
 </head>
 

@@ -157,6 +157,7 @@
     }
 </style>
 
+<%@ include file="../modals/delete-modal.jsp" %>
 <div id="lesson">
     <div class="quiz-image">
 
@@ -234,6 +235,21 @@
             'box-shadow': 'none',
             'overflow-y': 'hidden'
         });
+
+        $(document).on('click', '.question-content>span:nth-child(3)>a', function(e) {
+			e.preventDefault();
+			var deleteLink = $(this).attr('href');
+            $('.modal').css('height', '100%');
+            $('.message-modal-title').text('Delete question');
+			$('.message-modal-body').text('Are you sure you want to delete this question?');
+            $('.modal button:eq(0)').click(function () {
+                $(this).addClass('disabled running');
+                window.location.href = deleteLink;
+            });
+            $('.modal button:eq(1)').click(function () {
+                $('.modal').css('height', '0');
+            });
+		});
     });
 
     $('.question-item').click(function () {

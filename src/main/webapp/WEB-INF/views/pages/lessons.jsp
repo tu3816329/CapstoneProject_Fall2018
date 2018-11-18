@@ -28,19 +28,23 @@
         grid-template-columns: 22% 77.5%;
         grid-column-gap: 0.5%;
         height: 156px;
-		padding-bottom: 15px;
         margin-bottom: 20px;
     }
 
     .chap-image {
-		text-align: center;
         background: #ccc;
         border: 2px solid #fff;
+		cursor: pointer;
+		position: relative;
     }
     
     .chap-image img {
-		max-width: 100%;
-		max-height: 100%;
+		max-width: 70%;
+		max-height: 70%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
     }
 
     .chap-detail {
@@ -75,11 +79,6 @@
         font-size: 15px;
     }
 
-	.chap-image {
-		background: #ccc;
-		text-align: center;
-	}
-
     .fas {
         font-size: 19px;
     }
@@ -112,6 +111,7 @@
 	}
 </style>
 
+<%@ include file="../modals/delete-modal.jsp" %>
 <input type="hidden" value="${chapter.divisionId.divisionName}" id="divName">
 <input type="hidden" value="${chapter.chapterName}" id="chapName">
 <input type="hidden" value="${chapter.id}" id="chapId">
@@ -120,8 +120,11 @@
 	<div class="chap-item">
 		<input id="imgFile" name="imageFile" type="file" class="form-control-file" accept="image/*" style="display: none">
 		<div class="chap-image">
-			<input type="hidden" value="${chapter.chapterIcon}" class="chap-image">
+			<input type="hidden" value="${chapter.chapterIcon}" class="chap-icon">
 			<img id="preview" style="display: none" src="" alt="avatar preview" width="150px" height="150px">
+			<a:if test="${chapter.chapterIcon eq null}">
+				<img class="img sample" src="resources/images/image-icon.png">
+			</a:if>
 			<a:if test="${chapter.chapterIcon ne null}">
 				<img class="img" src="${pageContext.servletContext.contextPath}/load-photo?chapterId=${chapter.id}" alt="">
 			</a:if>
@@ -177,14 +180,26 @@
 		var chapterName = $('#chapName').val();
 		var chapterId = $('#chapId').val();
 
-		if ($('.chap-image').has('img').length) {
-			$('.chap-image').css('background', '#fff');
-		}
 		$('#content').css({
 			'padding': 0,
 			'background-color': '#e9e9e9',
 			'box-shadow': 'none',
 			'overflow-y': 'hidden'
+		});
+
+		$(document).on('click', '.lesson-item>a:nth-child(1)', function(e) {
+			e.preventDefault();
+			var deleteLink = $(this).attr('href');
+            $('.modal').css('height', '100%');
+			$('.message-modal-title').text('Delete lesson');
+			$('.message-modal-body').text('Are you sure you want to delete this lesson?');
+            $('.modal button:eq(0)').click(function () {
+                $(this).addClass('disabled running');
+                window.location.href = deleteLink;
+            });
+            $('.modal button:eq(1)').click(function () {
+                $('.modal').css('height', '0');
+            });
 		});
 	});
 

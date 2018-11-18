@@ -10,12 +10,12 @@
         margin-bottom: 15px;
         padding-left: 10px;
         display: grid;
-        grid-template-columns: 90% 5% 5%;
+        grid-template-columns: 95% 5%;
         border: 1px solid black;
     }
 
-    #mathform-content>span:nth-child(2), #mathform-content>span:nth-child(3) {
-        text-align: right;
+    #mathform-content>span:nth-child(2) {
+        text-align: center;
         margin-top: 5px;
     }
 
@@ -72,9 +72,9 @@
 		text-align: right;
     }
 
-	.exercise-content>span:nth-child(3) {
-		text-align: center;
-	}
+    .exercise-content>span:nth-child(3) {
+        text-align: center;
+    }
 
 	.exercise-content>span:nth-child(4)>p {
 		margin: 0 0 10px 0;
@@ -94,6 +94,7 @@
     }
 </style>
 
+<%@ include file="../modals/delete-modal.jsp" %>
 <div class="content-header">
     <h3 class="content-title">${MATHFORM.mathformTitle}</h3>
     <div style="text-align: right">
@@ -106,11 +107,6 @@
     <span>
         <a href="edit-mathform?mathformId=${MATHFORM.id}">
             <p><i style="color: #0084ff" class="fas fa-edit"></i></p>
-        </a>
-    </span>
-    <span style="text-align: center">
-        <a href="delete-mathform?mathformId=${MATHFORM.id}&lessonId=${MATHFORM.lessonId.id}">
-            <p><i style="color: red" class="fas fa-times"></i></p>
         </a>
     </span>
 </div>
@@ -150,6 +146,21 @@
 			'background-color': '#e9e9e9',
 			'box-shadow': 'none',
 			'overflow-y': 'hidden'
+		});
+
+        $(document).on('click', '.exercise-content>span:nth-child(3)>a', function(e) {
+			e.preventDefault();
+			var deleteLink = $(this).attr('href');
+            $('.modal').css('height', '100%');
+            $('.message-modal-title').text('Delete exercise');
+			$('.message-modal-body').text('Are you sure you want to delete this exercise?');
+            $('.modal button:eq(0)').click(function () {
+                $(this).addClass('disabled running');
+                window.location.href = deleteLink;
+            });
+            $('.modal button:eq(1)').click(function () {
+                $('.modal').css('height', '0');
+            });
 		});
     });
 </script>
