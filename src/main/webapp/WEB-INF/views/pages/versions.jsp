@@ -24,7 +24,7 @@
 <div class="content-header">
     <h3 class="content-title">Versions</h3>
     <div style="text-align: right">
-        <a id="add-version" class="btn content-button" href="add-version">Upgrade</a>
+        <a id="add-version" class="btn content-button" href="add-version">New version</a>
     </div>
 </div>
 <table id="versions-table" class="table table-hover">

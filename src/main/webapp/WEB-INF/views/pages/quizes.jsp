@@ -126,6 +126,7 @@
             });
             $('.hidden').css('display', 'none');
             $('#pagination').empty();
+            $('#pageId').val(1);
             pagination();
         }
     });

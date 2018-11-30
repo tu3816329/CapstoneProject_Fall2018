@@ -39,7 +39,7 @@
 </style>
 
 <div class="content-header">
-	<h3 class="content-title">Upgrade version</h3>
+	<h3 class="content-title">Release new version</h3>
 </div>
 <input type="hidden" value="${latest.databaseVersion}" id="latestDbVersion">
 <form:form method="post" action="upgrade-version" modelAttribute="version">
