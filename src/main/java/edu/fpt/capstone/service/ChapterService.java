@@ -25,4 +25,6 @@ public interface ChapterService {
 	public boolean isDuplicateChapter(Chapter chapter);
 	
 	public List<Chapter> getNewChapters(int userVersion);
+	
+	public List<Chapter> getNoneVersionChapters();
 }

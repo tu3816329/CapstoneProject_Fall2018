@@ -11,11 +11,13 @@ import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Mathform;
 import edu.fpt.capstone.entity.Question;
+import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.LessonRepository;
 import edu.fpt.capstone.service.LessonService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.MathformService;
 import edu.fpt.capstone.service.QuestionService;
+import edu.fpt.capstone.service.VersionService;
 import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
@@ -32,6 +34,9 @@ public class LessonServiceImpl implements LessonService {
 
 	@Autowired
 	QuestionService questionService;
+
+	@Autowired
+	VersionService versionService;
 
 	@Override
 	public List<Lesson> getAllLessons() {
@@ -84,5 +89,18 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public Lesson getLessonById(int id) {
 		return lessonRepository.findOne(id);
+	}
+
+	@Override
+	public List<Lesson> getNoneVersionLessons() {
+		Version noneVersion = versionService.getVersionById(0);
+		List<Lesson> lessons = lessonRepository.findByVersionId(noneVersion);
+
+		int index = 0;
+		for (Lesson lesson : lessons) {
+			lesson.setLessonContent(null);
+			lessons.set(index++, lesson);
+		}
+		return lessons;
 	}
 }

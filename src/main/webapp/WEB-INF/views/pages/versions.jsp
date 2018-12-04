@@ -6,10 +6,6 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.servletContext.contextPath}/resources/handsontable-master/handsontable.full.min.css">
 
 <style>
-    .handsontable th {
-        font-weight: bold
-    }
-
     #add-version {
         height: auto;
         width: fit-content;

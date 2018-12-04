@@ -11,10 +11,12 @@ import edu.fpt.capstone.data.MathformTable;
 import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.MathFormRepository;
 import edu.fpt.capstone.service.ExerciseService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
 import edu.fpt.capstone.service.MathformService;
+import edu.fpt.capstone.service.VersionService;
 import edu.fpt.capstone.utils.WebAdminUtils;
 
 @Service
@@ -28,6 +30,9 @@ public class MathformServiceImpl implements MathformService {
 
 	@Autowired
 	ExerciseService exerciseService;
+	
+	@Autowired
+	VersionService versionService;
 
 	public List<Mathform> getAllMathforms() {
 		Iterator<Mathform> iterator = mathFormRepository.findAll().iterator();
@@ -87,5 +92,18 @@ public class MathformServiceImpl implements MathformService {
 	@Override
 	public List<Mathform> getMathformByLesson(Lesson lesson) {
 		return mathFormRepository.findByLessonId(lesson);
+	}
+	
+	@Override
+	public List<Mathform> getNoneVersionMathforms() {
+		Version noneVersion = versionService.getVersionById(0);
+		List<Mathform> mathforms = mathFormRepository.findByVersionId(noneVersion);
+		
+		int index = 0;
+		for(Mathform mathform : mathforms) {
+			mathform.setMathformContent(null);
+			mathforms.set(index++, mathform);
+		}
+		return mathforms;
 	}
 }

@@ -90,6 +90,10 @@ public class AdminController {
 		model.addAttribute("lessontree", lessonService.getLessonTreeData());
 		model.addAttribute("mathformtree", mathformService.getMathformTreeData());
 		model.addAttribute("currentversion", versionService.getCurrentVersion());
+		model.addAttribute("newchapters", chapterService.getNoneVersionChapters());
+		model.addAttribute("newlessons", lessonService.getNoneVersionLessons());
+		model.addAttribute("newmathforms", mathformService.getNoneVersionMathforms());
+		model.addAttribute("versions", versionService.getAllVersion());
 		return "home";
 	}
 

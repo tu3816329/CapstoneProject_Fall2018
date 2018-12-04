@@ -21,4 +21,6 @@ public interface MathformService {
 	public List<Mathform> getMathformByLesson(Lesson lesson);
 	
 	public List<MathformTable> getMathformTableDataByLesson(Lesson lesson);
+	
+	public List<Mathform> getNoneVersionMathforms();
 }

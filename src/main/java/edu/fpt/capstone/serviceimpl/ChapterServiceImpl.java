@@ -141,4 +141,10 @@ public class ChapterServiceImpl implements ChapterService {
 	public List<Chapter> getNewChapters(int userVersion) {
 		return chapterRepository.getNewChapters(userVersion);
 	}
+	
+	@Override
+	public List<Chapter> getNoneVersionChapters() {
+		Version noneVersion = versionService.getVersionById(0);
+		return chapterRepository.findByVersionId(noneVersion);
+	}
 }

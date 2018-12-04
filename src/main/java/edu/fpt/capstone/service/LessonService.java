@@ -13,10 +13,11 @@ public interface LessonService {
 	
 	public void saveLesson(Lesson lesson);
 	
-	
 	public void deleteLesson(int lessonId);
 	
 	public List<Lesson> getLessonsByChapter(Chapter chapter);
 	
 	public Lesson getLessonById(int id);
+	
+	public List<Lesson> getNoneVersionLessons();
 }
