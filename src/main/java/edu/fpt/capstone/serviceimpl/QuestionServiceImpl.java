@@ -45,13 +45,13 @@ public class QuestionServiceImpl implements QuestionService {
 			List<Lesson> lessons = lessonService.getAllLessons();
 			for (Lesson lesson : lessons) {
 				int numOfQuestions = questionRepository.findByLessonId(lesson).size();
-				Quizes q = new Quizes(lesson.getId(), lesson.getLessonTitle(), numOfQuestions);
+				Quizes q = new Quizes(lesson.getId(), lesson.getTitle(), numOfQuestions);
 				data.add(q);
 			}
 		} else {
 			Lesson lesson = lessonService.getLessonById(lessonId);
 			int numOfQuestions = questionRepository.findByLessonId(lesson).size();
-			Quizes q = new Quizes(lesson.getId(), lesson.getLessonTitle(), numOfQuestions);
+			Quizes q = new Quizes(lesson.getId(), lesson.getTitle(), numOfQuestions);
 			data.add(q);
 		}
 		return data;

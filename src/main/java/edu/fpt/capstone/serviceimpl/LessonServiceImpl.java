@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.Lesson;
-import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Solution;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.LessonRepository;
 import edu.fpt.capstone.service.LessonService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
-import edu.fpt.capstone.service.MathformService;
+import edu.fpt.capstone.service.SolutionService;
 import edu.fpt.capstone.service.QuestionService;
 import edu.fpt.capstone.service.VersionService;
 import edu.fpt.capstone.utils.WebAdminUtils;
@@ -30,7 +30,7 @@ public class LessonServiceImpl implements LessonService {
 	LessonRepository lessonRepository;
 
 	@Autowired
-	MathformService mathformService;
+	SolutionService solutionService;
 
 	@Autowired
 	QuestionService questionService;
@@ -54,7 +54,7 @@ public class LessonServiceImpl implements LessonService {
 		List<Lesson> lessons = getAllLessons();
 		int index = 0;
 		for (Lesson lesson : lessons) {
-			lesson = new Lesson(lesson.getId(), lesson.getLessonTitle(), lesson.getChapterId());
+			lesson = new Lesson(lesson.getId(), lesson.getTitle(), lesson.getChapterId());
 			lessons.set(index++, lesson);
 		}
 		return lessons;
@@ -68,9 +68,9 @@ public class LessonServiceImpl implements LessonService {
 	@Override
 	public void deleteLesson(int lessonId) {
 		Lesson lesson = getLessonById(lessonId);
-		List<Mathform> mathforms = mathformService.getMathformByLesson(lesson);
-		for (Mathform m : mathforms) {
-			mathformService.deleteMathform(m.getId());
+		List<Solution> solutions = solutionService.getSolutionByLesson(lesson);
+		for (Solution s : solutions) {
+			solutionService.deleteSolution(s.getId());
 		}
 		List<Question> questions = questionService.getQuestionsByLesson(lessonId);
 		for (Question question : questions) {
@@ -98,7 +98,7 @@ public class LessonServiceImpl implements LessonService {
 
 		int index = 0;
 		for (Lesson lesson : lessons) {
-			lesson.setLessonContent(null);
+			lesson.setContent(null);
 			lessons.set(index++, lesson);
 		}
 		return lessons;

@@ -30,7 +30,7 @@
     <form:textarea path="topic" id="input" /><br>
     <label for="answer" style="margin-top: 20px">Answer</label>
     <form:textarea rows="1" path="answer" id="answer" />
-    <form:hidden path="mathformId.id" />
+    <form:hidden path="solutionId.id" />
     <button type="submit" class="btn btn-default ld-ext-right content-button" id="save-exercise">
         Save <div class="ld ld-ring ld-spin"></div>
     </button>

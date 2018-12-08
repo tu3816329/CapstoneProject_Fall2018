@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Lesson.findAll", query = "SELECT l FROM Lesson l")
     , @NamedQuery(name = "Lesson.findById", query = "SELECT l FROM Lesson l WHERE l.id = :id")
-    , @NamedQuery(name = "Lesson.findByLessonTitle", query = "SELECT l FROM Lesson l WHERE l.lessonTitle = :lessonTitle")})
+    , @NamedQuery(name = "Lesson.findByTitle", query = "SELECT l FROM Lesson l WHERE l.title = :title")})
 public class Lesson implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,18 +40,21 @@ public class Lesson implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "lesson_title", nullable = false, length = 100)
-    private String lessonTitle;
+    @Column(nullable = false, length = 100)
+    private String title;
     @Basic(optional = false)
     @Lob
-    @Column(name = "lesson_content", nullable = false, length = 2147483647)
-    private String lessonContent;
+    @Column(nullable = false, length = 2147483647)
+    private String content;
     @JoinColumn(name = "chapter_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Chapter chapterId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User createdBy;
 
     public Lesson() {
     }
@@ -60,15 +63,9 @@ public class Lesson implements Serializable {
         this.id = id;
     }
 
-    public Lesson(Integer id, String lessonTitle, String lessonContent) {
+    public Lesson(Integer id, String title, Chapter chapterId) {
         this.id = id;
-        this.lessonTitle = lessonTitle;
-        this.lessonContent = lessonContent;
-    }
-    
-    public Lesson(Integer id, String lessonTitle, Chapter chapterId) {
-        this.id = id;
-        this.lessonTitle = lessonTitle;
+        this.title = title;
         this.chapterId = chapterId;
     }
 
@@ -80,22 +77,22 @@ public class Lesson implements Serializable {
         this.id = id;
     }
 
-    public String getLessonTitle() {
-        return lessonTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLessonTitle(String lessonTitle) {
-        this.lessonTitle = lessonTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getLessonContent() {
-        return lessonContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setLessonContent(String lessonContent) {
-        this.lessonContent = lessonContent;
+    public void setContent(String content) {
+        this.content = content;
     }
-
+    
     public Chapter getChapterId() {
         return chapterId;
     }
@@ -112,9 +109,17 @@ public class Lesson implements Serializable {
         this.versionId = versionId;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+    
     @Override
     public String toString() {
-        return "entity.Lesson[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Lesson[ id=" + id + " ]";
     }
     
 }

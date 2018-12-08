@@ -10,7 +10,7 @@ public interface ChapterService {
 	
 	public List<Chapter> getChapterTreeData();
 		
-	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId);
+	public List<Chapter> getChaptersBySubjectAndGrade(int subjectId, int gradeId);
 	
 	public Chapter getChapterById(int id);
 	

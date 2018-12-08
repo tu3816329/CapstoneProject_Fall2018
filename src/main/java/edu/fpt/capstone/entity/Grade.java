@@ -70,18 +70,18 @@ public class Grade implements Serializable {
     public void setGradeName(String gradeName) {
         this.gradeName = gradeName;
     }
-
+    
     public Version getVersionId() {
-		return versionId;
-	}
+        return versionId;
+    }
 
-	public void setVersionId(Version versionId) {
-		this.versionId = versionId;
-	}
+    public void setVersionId(Version versionId) {
+        this.versionId = versionId;
+    }
 
-	@Override
+    @Override
     public String toString() {
-        return "entity.Grade[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Grade[ id=" + id + " ]";
     }
     
 }

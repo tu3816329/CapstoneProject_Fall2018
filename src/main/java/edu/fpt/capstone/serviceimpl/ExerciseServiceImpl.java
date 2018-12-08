@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.capstone.entity.Exercise;
-import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Solution;
 import edu.fpt.capstone.repository.ExerciseRepository;
 import edu.fpt.capstone.service.ExerciseService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
@@ -27,8 +27,8 @@ public class ExerciseServiceImpl implements ExerciseService {
 	}
 
 	@Override
-	public List<Exercise> getExercisesByMathform(Mathform mathform) {
-		return exerciseRepository.findByMathformId(mathform);
+	public List<Exercise> getExercisesBySolution(Solution solution) {
+		return exerciseRepository.findBySolutionId(solution);
 	}
 
 	@Override

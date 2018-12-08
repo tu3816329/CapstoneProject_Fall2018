@@ -1,4 +1,10 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
+
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -23,8 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Exercise.findAll", query = "SELECT e FROM Exercise e")
-    , @NamedQuery(name = "Exercise.findById", query = "SELECT e FROM Exercise e WHERE e.id = :id")
-    , @NamedQuery(name = "Exercise.findByAnswer", query = "SELECT e FROM Exercise e WHERE e.answer = :answer")})
+    , @NamedQuery(name = "Exercise.findById", query = "SELECT e FROM Exercise e WHERE e.id = :id")})
 public class Exercise implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -37,14 +42,18 @@ public class Exercise implements Serializable {
     @Lob
     @Column(nullable = false, length = 2147483647)
     private String topic;
-    @Column(length = 255)
+    @Lob
+    @Column(length = 2147483647)
     private String answer;
-    @JoinColumn(name = "mathform_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "solution_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
-    private Mathform mathformId;
+    private Solution solutionId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User createdBy;
 
     public Exercise() {
     }
@@ -82,12 +91,12 @@ public class Exercise implements Serializable {
         this.answer = answer;
     }
 
-    public Mathform getMathformId() {
-        return mathformId;
+    public Solution getSolutionId() {
+        return solutionId;
     }
 
-    public void setMathformId(Mathform mathformId) {
-        this.mathformId = mathformId;
+    public void setSolutionId(Solution solutionId) {
+        this.solutionId = solutionId;
     }
 
     public Version getVersionId() {
@@ -98,9 +107,17 @@ public class Exercise implements Serializable {
         this.versionId = versionId;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
-        return "entity.Exercise[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Exercise[ id=" + id + " ]";
     }
     
 }

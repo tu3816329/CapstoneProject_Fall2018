@@ -2,18 +2,18 @@ package edu.fpt.capstone.data;
 
 import edu.fpt.capstone.entity.Version;
 
-public class MathformTable {
+public class SolutionTable {
 	private int id;
-	private String mathformTitle;
+	private String title;
 	private int numOfExercises;
 	private Version versionId;
 	
-	public MathformTable() {}
+	public SolutionTable() {}
 	
-	public MathformTable(int id, String mathformTitle, int numOfExercises, Version versionId) {
+	public SolutionTable(int id, String title, int numOfExercises, Version versionId) {
 		super();
 		this.id = id;
-		this.mathformTitle = mathformTitle;
+		this.title = title;
 		this.numOfExercises = numOfExercises;
 		this.versionId = versionId;
 	}
@@ -26,12 +26,12 @@ public class MathformTable {
 		this.id = id;
 	}
 	
-	public String getMathformTitle() {
-		return mathformTitle;
+	public String getTitle() {
+		return title;
 	}
 	
-	public void setMathformTitle(String mathformTitle) {
-		this.mathformTitle = mathformTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	public int getNumOfExercises() {

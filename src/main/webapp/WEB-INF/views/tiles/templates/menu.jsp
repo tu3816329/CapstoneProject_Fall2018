@@ -44,7 +44,7 @@
 		white-space: nowrap;
 	}
 
-	ul.division-tree {
+	ul.subject-tree {
 		padding: 0 27px;
 	}
 
@@ -53,7 +53,7 @@
 	}
 
 	ul.lesson-tree,
-	ul.mathform-tree {
+	ul.solution-tree {
 		padding: 0 30px;
 	}
 
@@ -187,14 +187,14 @@
 			<li class="grade-item">
 				<i class="fas fa-plus-square"> </i><i class="fas fa-folder-open"></i>
 				${grade.gradeName}
-				<ul class="nested division-tree">
-					<a:forEach items="${divisiontree}" var="division">
-						<li class="division-item">
+				<ul class="nested subject-tree">
+					<a:forEach items="${subjecttree}" var="subject">
+						<li class="subject-item">
 							<i class="fas fa-plus-square"></i> <i class="fas fa-box"></i>
-							${division.divisionName}
+							${subject.subjectName}
 							<ul class="nested chapter-tree">
 								<a:forEach items="${chaptertree}" var="chapter">
-									<a:if test="${chapter.divisionId.id eq division.id and chapter.gradeId.id eq grade.id}">
+									<a:if test="${chapter.subjectId.id eq subject.id and chapter.gradeId.id eq grade.id}">
 										<li class="chapter-item">
 											<i class="fas fa-plus-square"></i> <i class="fas fa-book"></i>
 											<a href="show-lessons?chapterId=${chapter.id}">
@@ -204,15 +204,15 @@
 													<a:if test="${lesson.chapterId.id eq chapter.id}">
 														<li class="less-item">
 															<i class="fas fa-plus-square"></i> <i class="fas fa-file"></i>
-															<a href="show-mathforms?lessonId=${lesson.id}">
-																${lesson.lessonTitle}</a>
-															<ul class="nested mathform-tree">
-																<a:forEach items="${mathformtree}" var="mathform">
-																	<a:if test="${mathform.lessonId.id eq lesson.id}">
-																		<li class="mathform-item">
+															<a href="show-solutions?lessonId=${lesson.id}">
+																${lesson.title}</a>
+															<ul class="nested solution-tree">
+																<a:forEach items="${solutiontree}" var="solution">
+																	<a:if test="${solution.lessonId.id eq lesson.id}">
+																		<li class="solution-item">
 																			<i class="fas fa-caret-square-right"></i>
-																			<a href="mathform-detail?mathformId=${mathform.id}">
-																				${mathform.mathformTitle}</a>
+																			<a href="solution-detail?solutionId=${solution.id}">
+																				${solution.title}</a>
 																		</li>
 																	</a:if>
 																</a:forEach>

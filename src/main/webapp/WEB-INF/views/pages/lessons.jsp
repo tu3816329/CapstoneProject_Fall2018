@@ -112,7 +112,7 @@
 </style>
 
 <%@ include file="../modals/delete-modal.jsp" %>
-<input type="hidden" value="${chapter.divisionId.divisionName}" id="divName">
+<input type="hidden" value="${chapter.subjectId.subjectName}" id="divName">
 <input type="hidden" value="${chapter.chapterName}" id="chapName">
 <input type="hidden" value="${chapter.id}" id="chapId">
 
@@ -162,8 +162,8 @@
 			<a href="edit-lesson?lessonId=${l.id}">
 				<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 			</a>
-			<h4 style="margin-bottom: 10px"><a href="show-mathforms?lessonId=${l.id}">${l.lessonTitle}</a></h4>
-			${l.lessonContent}
+			<h4 style="margin-bottom: 10px"><a href="show-solutions?lessonId=${l.id}">${l.title}</a></h4>
+			${l.content}
 		</div>
 	</a:forEach>
 </div>
@@ -176,7 +176,7 @@
 	});
 
 	$(document).ready(function () {
-		var divisionName = $('#divName').val();
+		var subjectName = $('#divName').val();
 		var chapterName = $('#chapName').val();
 		var chapterId = $('#chapId').val();
 

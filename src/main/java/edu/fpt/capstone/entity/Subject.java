@@ -22,13 +22,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "division", catalog = "math_formulas")
+@Table(name = "subject", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Division.findAll", query = "SELECT d FROM Division d")
-    , @NamedQuery(name = "Division.findById", query = "SELECT d FROM Division d WHERE d.id = :id")
-    , @NamedQuery(name = "Division.findByDivisionName", query = "SELECT d FROM Division d WHERE d.divisionName = :divisionName")})
-public class Division implements Serializable {
+    @NamedQuery(name = "Subject.findAll", query = "SELECT s FROM Subject s")
+    , @NamedQuery(name = "Subject.findById", query = "SELECT s FROM Subject s WHERE s.id = :id")
+    , @NamedQuery(name = "Subject.findBySubjectName", query = "SELECT s FROM Subject s WHERE s.subjectName = :subjectName")})
+public class Subject implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -36,22 +36,22 @@ public class Division implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "division_name", nullable = false, length = 20)
-    private String divisionName;
+    @Column(name = "subject_name", nullable = false, length = 20)
+    private String subjectName;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
 
-    public Division() {
+    public Subject() {
     }
 
-    public Division(Integer id) {
+    public Subject(Integer id) {
         this.id = id;
     }
 
-    public Division(Integer id, String divisionName, Version versionId) {
+    public Subject(Integer id, String subjectName, Version versionId) {
         this.id = id;
-        this.divisionName = divisionName;
+        this.subjectName = subjectName;
         this.versionId = versionId;
     }
 
@@ -63,12 +63,12 @@ public class Division implements Serializable {
         this.id = id;
     }
 
-    public String getDivisionName() {
-        return divisionName;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setDivisionName(String divisionName) {
-        this.divisionName = divisionName;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public Version getVersionId() {
@@ -81,7 +81,7 @@ public class Division implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Division[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Subject[ id=" + id + " ]";
     }
     
 }

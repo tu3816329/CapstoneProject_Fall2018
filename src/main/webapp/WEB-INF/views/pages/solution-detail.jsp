@@ -6,7 +6,7 @@
 		height: auto;
 	}
 
-    #mathform-content {
+    #solution-content {
         margin-bottom: 15px;
         padding-left: 10px;
         display: grid;
@@ -14,7 +14,7 @@
         border: 1px solid black;
     }
 
-    #mathform-content>span:nth-child(2) {
+    #solution-content>span:nth-child(2) {
         text-align: center;
         margin-top: 5px;
     }
@@ -96,22 +96,22 @@
 
 <%@ include file="../modals/delete-modal.jsp" %>
 <div class="content-header">
-    <h3 class="content-title">${MATHFORM.mathformTitle}</h3>
+    <h3 class="content-title">${solution.title}</h3>
     <div style="text-align: right">
-        <a id="add-exercise" href="add-exercise?mathformId=${MATHFORM.id}" class="btn content-button">
+        <a id="add-exercise" href="add-exercise?solutionId=${solution.id}" class="btn content-button">
             <i class="fas fa-plus-circle"></i> New exercise</a>
     </div>
 </div>
-<div id="mathform-content">
-    <span>${MATHFORM.mathformContent}</span>
+<div id="solution-content">
+    <span>${solution.content}</span>
     <span>
-        <a href="edit-mathform?mathformId=${MATHFORM.id}">
+        <a href="edit-solution?solutionId=${solution.id}">
             <p><i style="color: #0084ff" class="fas fa-edit"></i></p>
         </a>
     </span>
 </div>
-<input type="hidden" value="${MATHFORM.id}" class="m-id">
-<input type="hidden" value="${MATHFORM.mathformTitle}" class="m-title">
+<input type="hidden" value="${solution.id}" class="m-id">
+<input type="hidden" value="${solution.title}" class="m-title">
 <div id="exercises">
     <a:forEach items="${exercises}" var="ex" varStatus="counter">
         <div class="exercise-item">
@@ -124,7 +124,7 @@
                     <a href="edit-exercise?exId=${ex.id}"><i class="fas fa-edit"></i></a>
                 </span>
                 <span>
-                    <a href="delete-exercise?exId=${ex.id}&mathformId=${ex.mathformId.id}"><i class="fas fa-times"></i></a>
+                    <a href="delete-exercise?exId=${ex.id}&solutionId=${ex.solutionId.id}"><i class="fas fa-times"></i></a>
                 </span>
                 <span><hr style="border-color: black; width: 50%">${ex.answer}</span>
             </div>
@@ -137,7 +137,7 @@
         $('#loading-img').fadeOut();
         $('#content').children().not('style, script').css('display', 'block');
         $('.content-header').css('display', 'grid');
-        $('#mathform-content').css('display', 'grid');
+        $('#solution-content').css('display', 'grid');
     });
 
     $(document).ready(function() {

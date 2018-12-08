@@ -26,7 +26,6 @@
 <table id="versions-table" class="table table-hover">
     <thead>
         <tr>
-            <th>Version number</th>
             <th>Name</th>
             <th>Status</th>
         </tr>
@@ -34,7 +33,6 @@
     <tbody>
         <a:forEach items="${versions}" var="v">
             <tr>
-                <td>${v.databaseVersion}</td>
                 <td>${v.versionName}</td>
                 <td>
                     <a:if test="${v.isCurrent eq true}">

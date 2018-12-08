@@ -21,20 +21,20 @@
     }
 
     /* Dropdowns */
-    .division-dropbtn,
+    .subject-dropbtn,
     .grade-dropbtn {
         padding: 0;
         border: none;
         cursor: pointer;
     }
 
-    .division-dropdown,
+    .subject-dropdown,
     .grade-dropdown {
         position: relative;
         display: inline-block;
     }
 
-    .division-dropdown-content,
+    .subject-dropdown-content,
     .grade-dropdown-content {
         display: none;
         position: absolute;
@@ -45,7 +45,7 @@
         border-radius: 3px;
     }
 
-    .division-dropdown-content a,
+    .subject-dropdown-content a,
     .grade-dropdown-content a {
         color: black;
         padding: 5px 10px;
@@ -53,12 +53,12 @@
         display: block;
     }
 
-    .division-dropdown-content a:hover,
+    .subject-dropdown-content a:hover,
     .grade-dropdown-content a:hover {
         background-color: #f1f1f1
     }
 
-    .division-dropdown:hover .division-dropdown-content,
+    .subject-dropdown:hover .subject-dropdown-content,
     .grade-dropdown:hover .grade-dropdown-content {
         display: block;
     }
@@ -74,7 +74,7 @@
         <tr>
             <th>ID</th>
             <th>Chapter Name</th>
-            <th>Division</th>
+            <th>Subject</th>
             <th>Grade</th>
             <th>Version</th>
             <th>Detail</th>
@@ -91,8 +91,8 @@
 <script>
     $(document).ready(function () {
         var gradeSource = getGradeSource();
-        var divisionSource = getDivisionSource();
-        chapterTableConfig(divisionSource, gradeSource);
+        var subjectSource = getSubjectSource();
+        chapterTableConfig(subjectSource, gradeSource);
 
         $(document).on('change', '#chapter-table td', function (evt, newValue) {
             if ($(this).hasClass('uneditable')) {
@@ -106,7 +106,7 @@
                             '<td class="uneditable chapter-id"></td>' +
                             '<td></td>' +
                             '<td class="uneditable">' +
-                            getDivisionDropdown(divisionSource, '', '') +
+                            getSubjectDropdown(subjectSource, '', '') +
                             '</td>' +
                             '<td class="uneditable">' +
                             getGradeDropdown(gradeSource, '', '') +
@@ -117,7 +117,7 @@
                             '</tr>');
 
                         var bgColor = $('.last').css('background-color');
-                        $('.last').find('.division-dropbtn').css('background-color', bgColor);
+                        $('.last').find('.subject-dropbtn').css('background-color', bgColor);
                         $('.last').find('.grade-dropbtn').css('background-color', bgColor);
                         $('#chapter-table').editableTableWidget();
                     }
@@ -142,19 +142,19 @@
         });
     });
 
-    function getDivisionDropdown(divisionSource, divisionId, divisionName) {
-        if (divisionName === '') {
-            divisionName = 'Select divison';
+    function getSubjectDropdown(subjectSource, subjectId, subjectName) {
+        if (subjectName === '') {
+            subjectName = 'Select divison';
         }
-        var divisionDropdown = '<div class="division-dropdown">' +
-            '<button division-id="' + divisionId + '" class="division-dropbtn">' + divisionName +
-            ' <i class="fas fa-caret-down"></i></button><div class="division-dropdown-content">';
-        for (var i = 0; i < divisionSource.length; i++) {
-            divisionDropdown += '<a href="#" class="division-option" division-id="' + divisionSource[i].id + '">'
-                + divisionSource[i].divisionName + '</a>';
+        var subjectDropdown = '<div class="subject-dropdown">' +
+            '<button subject-id="' + subjectId + '" class="subject-dropbtn">' + subjectName +
+            ' <i class="fas fa-caret-down"></i></button><div class="subject-dropdown-content">';
+        for (var i = 0; i < subjectSource.length; i++) {
+            subjectDropdown += '<a href="#" class="subject-option" subject-id="' + subjectSource[i].id + '">'
+                + subjectSource[i].subjectName + '</a>';
         }
-        divisionDropdown += '</div></div>';
-        return divisionDropdown;
+        subjectDropdown += '</div></div>';
+        return subjectDropdown;
     }
 
     function getGradeDropdown(gradeSource, gradeId, gradeName) {
@@ -172,7 +172,7 @@
         return gradeDropdown;
     }
 
-    function chapterTableConfig(divisionSource, gradeSource) {
+    function chapterTableConfig(subjectSource, gradeSource) {
         $.ajax({
             url: 'load-chapters-table',
             dataType: 'json',
@@ -184,7 +184,7 @@
                         '<td class="uneditable chapter-id">' + res[i].id + '</td>' +
                         '<td>' + res[i].chapterName + '</td>' +
                         '<td class="uneditable">' +
-                        getDivisionDropdown(divisionSource, res[i].divisionId.id, res[i].divisionId.divisionName) +
+                        getSubjectDropdown(subjectSource, res[i].subjectId.id, res[i].subjectId.subjectName) +
                         '</td>' +
                         '<td class="uneditable">' +
                         getGradeDropdown(gradeSource, res[i].gradeId.id, res[i].gradeId.gradeName) +
@@ -198,7 +198,7 @@
                     '<td class="uneditable" class="chapter-id"></td>' +
                     '<td></td>' +
                     '<td class="uneditable">' +
-                    getDivisionDropdown(divisionSource, '', '') +
+                    getSubjectDropdown(subjectSource, '', '') +
                     '</td>' +
                     '<td class="uneditable">' +
                     getGradeDropdown(gradeSource, '', '') +
@@ -233,17 +233,17 @@
                 $('.content-header').css('display', 'grid');
                 $('#chapter-table').css('display', 'table');
                 $('#content>input').css('display', '');
-                $('.division-dropbtn, .grade-dropbtn').each(function () {
+                $('.subject-dropbtn, .grade-dropbtn').each(function () {
                     var bgColor = $(this).parents('tr').css('background-color');
                     $(this).css('background-color', bgColor);
                 });
 
-                $(document).on('click', '.division-option', function () {
-                    var divisionId = $(this).attr('division-id');
-                    var divisionDropBtn = $(this).parent().siblings('.division-dropbtn');
-                    divisionDropBtn.text($(this).text());
-                    divisionDropBtn.append(' <i class="fas fa-caret-down"></i>');
-                    divisionDropBtn.attr('division-id', divisionId);
+                $(document).on('click', '.subject-option', function () {
+                    var subjectId = $(this).attr('subject-id');
+                    var subjectDropBtn = $(this).parent().siblings('.subject-dropbtn');
+                    subjectDropBtn.text($(this).text());
+                    subjectDropBtn.append(' <i class="fas fa-caret-down"></i>');
+                    subjectDropBtn.attr('subject-id', subjectId);
                     $(this).parent().css('display', 'none');
                     $(this).parents('tr').not('.new, .last').attr('class', 'edited');
                 });
@@ -258,8 +258,8 @@
                     $(this).parents('tr').not('.new, .last').attr('class', 'edited');
                 });
 
-                $(document).on('mouseover', '.division-dropdown', function () {
-                    $(this).children('.division-dropdown-content').removeAttr('style');
+                $(document).on('mouseover', '.subject-dropdown', function () {
+                    $(this).children('.subject-dropdown-content').removeAttr('style');
                 });
 
                 $(document).on('mouseover', '.grade-dropdown', function () {
@@ -287,11 +287,11 @@
                 var id = parseInt(chapterObj.children('td:eq(0)').text());
                 var chapterName = chapterObj.children('td:eq(1)').text();
 
-                var divisionId = parseInt(chapterObj.find('.division-dropbtn').attr('division-id'));
-                var divisionIdObj = {};
-                for (var i = 0; i < divisionSource.length; i++) {
-                    if (divisionSource[i].id === divisionId) {
-                        divisionIdObj = divisionSource[i];
+                var subjectId = parseInt(chapterObj.find('.subject-dropbtn').attr('subject-id'));
+                var subjectIdObj = {};
+                for (var i = 0; i < subjectSource.length; i++) {
+                    if (subjectSource[i].id === subjectId) {
+                        subjectIdObj = subjectSource[i];
                     }
                 }
 
@@ -303,12 +303,12 @@
                     }
                 }
 
-                var isEmpty = (Object.keys(divisionIdObj).length === 0) || (Object.keys(gradeIdObj).length === 0);
+                var isEmpty = (Object.keys(subjectIdObj).length === 0) || (Object.keys(gradeIdObj).length === 0);
                 if ($.trim(chapterName) !== '' && !isEmpty) {
                     var json = {
                         'id': id,
                         'chapterName': chapterName,
-                        'divisionId': divisionIdObj,
+                        'subjectId': subjectIdObj,
                         'gradeId': gradeIdObj
                     };
                     saveData.push(json);
@@ -321,11 +321,11 @@
                 var id = 0;
                 var chapterName = chapterObj.children('td:eq(1)').text();
 
-                var divisionId = parseInt(chapterObj.find('.division-dropbtn').attr('division-id'));
-                var divisionIdObj = {};
-                for (var i = 0; i < divisionSource.length; i++) {
-                    if (divisionSource[i].id === divisionId) {
-                        divisionIdObj = divisionSource[i];
+                var subjectId = parseInt(chapterObj.find('.subject-dropbtn').attr('subject-id'));
+                var subjectIdObj = {};
+                for (var i = 0; i < subjectSource.length; i++) {
+                    if (subjectSource[i].id === subjectId) {
+                        subjectIdObj = subjectSource[i];
                     }
                 }
 
@@ -337,12 +337,12 @@
                     }
                 }
 
-                var isEmpty = (Object.keys(divisionIdObj).length === 0) || (Object.keys(gradeIdObj).length === 0);
+                var isEmpty = (Object.keys(subjectIdObj).length === 0) || (Object.keys(gradeIdObj).length === 0);
                 if ($.trim(chapterName) !== '' && !isEmpty) {
                     var json = {
                         'id': id,
                         'chapterName': chapterName,
-                        'divisionId': divisionIdObj,
+                        'subjectId': subjectIdObj,
                         'gradeId': gradeIdObj
                     };
                     saveData.push(json);
@@ -373,24 +373,24 @@
         });
     }
 
-    function getDivisionSource() {
-        var divisionSource = [];
+    function getSubjectSource() {
+        var subjectSource = [];
         $.ajax({
-            url: 'get-divisions',
+            url: 'get-subjects',
             dataType: 'json',
             contentType: 'application/json',
             type: 'GET',
             async: false,
             success: function (res) {
                 for (var i = 0; i < res.length; i++) {
-                    divisionSource.push(res[i]);
+                    subjectSource.push(res[i]);
                 }
             },
             error: function (res) {
                 alert('Load data failed');
             }
         });
-        return divisionSource;
+        return subjectSource;
     }
 
     function getGradeSource() {

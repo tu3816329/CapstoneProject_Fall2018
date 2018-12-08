@@ -10,12 +10,12 @@
         font-weight: bold
     }
 
-    #add-mathform {
+    #add-solution {
         height: auto;
     }
 
-    #mathforms-table td:nth-child(n+2),
-    #mathforms-table th:nth-child(n+2) {
+    #solutions-table td:nth-child(n+2),
+    #solutions-table th:nth-child(n+2) {
         text-align: center;
     }
 </style>
@@ -24,11 +24,11 @@
 <div class="content-header">
     <h3 class="content-title">Math forms</h3>
     <div style="text-align: right">
-        <a id="add-mathform" class="btn content-button" href="add-mathform?lessonId=${LESSONID}">
+        <a id="add-solution" class="btn content-button" href="add-solution?lessonId=${LESSONID}">
             <i class="fas fa-plus-circle"></i> New math form</a>
     </div>
 </div>
-<table id="mathforms-table" class="table table-hover">
+<table id="solutions-table" class="table table-hover">
     <thead>
         <tr>
             <th>Name</th>
@@ -39,13 +39,13 @@
         </tr>
     </thead>
     <tbody>
-        <a:forEach items="${mathforms}" var="m">
+        <a:forEach items="${solutions}" var="m">
             <tr>
-                <td>${m.mathformTitle}</td>
+                <td>${m.title}</td>
                 <td>${m.numOfExercises}</td>
                 <td>${m.versionId.versionName}</td>
-                <td><a style="color: #0084ff" href="delete-mathform?mathformId=${m.id}&lessonId=${LESSONID}">Delete</a></td>
-                <td><a style="color: #0084ff" href="mathform-detail?mathformId=${m.id}">View</a></td>
+                <td><a style="color: #0084ff" href="delete-solution?solutionId=${m.id}&lessonId=${LESSONID}">Delete</a></td>
+                <td><a style="color: #0084ff" href="solution-detail?solutionId=${m.id}">View</a></td>
             </tr>
         </a:forEach>
     </tbody>
@@ -56,7 +56,7 @@
         $('#loading-img').fadeOut();
         $('#content').children().not('style, script').css('display', 'block');
         $('.content-header').css('display', 'grid');
-        $('#mathforms-table').css('display', 'table');
+        $('#solutions-table').css('display', 'table');
     });
 
     $(document).on('click', 'tr>td:nth-child(4)>a', function(e) {

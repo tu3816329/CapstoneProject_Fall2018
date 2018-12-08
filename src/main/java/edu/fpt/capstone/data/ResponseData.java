@@ -4,21 +4,21 @@ import java.util.List;
 
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.DeleteQuery;
-import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Subject;
 import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Lesson;
-import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Solution;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.QuestionChoice;
 
 public class ResponseData {
 	
 	private List<Grade> grades;
-	private List<Division> divisions;
+	private List<Subject> subjects;
 	private List<Chapter> chapters;
 	private List<Lesson> lessons;
-	private List<Mathform> mathforms;
+	private List<Solution> solutions;
 	private List<Exercise> exercises;
 	private List<Question> questions;
 	private List<QuestionChoice> choices;
@@ -27,15 +27,15 @@ public class ResponseData {
 	public ResponseData() {
 	}
 
-	public ResponseData(List<Grade> grades, List<Division> divisions, List<Chapter> chapters, List<Lesson> lessons,
-			List<Mathform> mathforms, List<Exercise> exercises, List<Question> questions,
+	public ResponseData(List<Grade> grades, List<Subject> subjects, List<Chapter> chapters, List<Lesson> lessons,
+			List<Solution> solutions, List<Exercise> exercises, List<Question> questions,
 			List<QuestionChoice> choices, List<DeleteQuery> queries) {
 		super();
 		this.grades = grades;
-		this.divisions = divisions;
+		this.subjects = subjects;
 		this.chapters = chapters;
 		this.lessons = lessons;
-		this.mathforms = mathforms;
+		this.solutions = solutions;
 		this.exercises = exercises;
 		this.questions = questions;
 		this.choices = choices;
@@ -50,12 +50,12 @@ public class ResponseData {
 		this.grades = grades;
 	}
 	
-	public List<Division> getDivisions() {
-		return divisions;
+	public List<Subject> getSubjects() {
+		return subjects;
 	}
 	
-	public void setDivisions(List<Division> divisions) {
-		this.divisions = divisions;
+	public void setSubjects(List<Subject> subjects) {
+		this.subjects = subjects;
 	}
 	
 	public List<Chapter> getChapters() {
@@ -74,12 +74,12 @@ public class ResponseData {
 		this.lessons = lessons;
 	}
 	
-	public List<Mathform> getMathforms() {
-		return mathforms;
+	public List<Solution> getSolutions() {
+		return solutions;
 	}
 	
-	public void setMathforms(List<Mathform> mathforms) {
-		this.mathforms = mathforms;
+	public void setSolutions(List<Solution> solutions) {
+		this.solutions = solutions;
 	}
 	
 	public List<Exercise> getExercises() {

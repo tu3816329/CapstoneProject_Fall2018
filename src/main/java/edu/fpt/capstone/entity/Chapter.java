@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -35,20 +40,23 @@ public class Chapter implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "chapter_name", nullable = false, length = 45)
+    @Column(name = "chapter_name", nullable = false, length = 255)
     private String chapterName;
     @Lob
     @Column(name = "chapter_icon")
     private byte[] chapterIcon;
-    @JoinColumn(name = "division_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private Division divisionId;
     @JoinColumn(name = "grade_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Grade gradeId;
+    @JoinColumn(name = "subject_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Subject subjectId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User createdBy;
 
     public Chapter() {
     }
@@ -86,20 +94,20 @@ public class Chapter implements Serializable {
         this.chapterIcon = chapterIcon;
     }
 
-    public Division getDivisionId() {
-        return divisionId;
-    }
-
-    public void setDivisionId(Division divisionId) {
-        this.divisionId = divisionId;
-    }
-
     public Grade getGradeId() {
         return gradeId;
     }
 
     public void setGradeId(Grade gradeId) {
         this.gradeId = gradeId;
+    }
+
+    public Subject getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Subject subjectId) {
+        this.subjectId = subjectId;
     }
 
     public Version getVersionId() {
@@ -110,8 +118,17 @@ public class Chapter implements Serializable {
         this.versionId = versionId;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
-        return "entity.Chapter[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Chapter[ id=" + id + " ]";
     }
+    
 }

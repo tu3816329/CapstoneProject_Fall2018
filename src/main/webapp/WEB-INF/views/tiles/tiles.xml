@@ -59,16 +59,16 @@
 		<put-attribute name="body" value="/WEB-INF/views/pages/lessons.jsp"/>
 	</definition>
 
-	<!-- Show mathforms -->
-	<definition name="show-mathforms" extends="base-layout">
+	<!-- Show solutions -->
+	<definition name="show-solutions" extends="base-layout">
 		<put-attribute name="title" value="Math forms"/>
-		<put-attribute name="body" value="/WEB-INF/views/pages/mathforms.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/solutions.jsp"/>
 	</definition>
 
-	<!-- Mathform detail -->
-	<definition name="mathform-detail" extends="base-layout">
+	<!-- Solution detail -->
+	<definition name="solution-detail" extends="base-layout">
 		<put-attribute name="title" value="Math form detail"/>
-		<put-attribute name="body" value="/WEB-INF/views/pages/mathform-detail.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/solution-detail.jsp"/>
 	</definition>
 	
 	<!-- Add new formula -->
@@ -83,16 +83,16 @@
 		<put-attribute name="body" value="/WEB-INF/views/pages/edit-lesson.jsp"/>
 	</definition>
 
-	<!-- Add mathform -->
-	<definition name="add-mathform" extends="base-layout">
+	<!-- Add solution -->
+	<definition name="add-solution" extends="base-layout">
 		<put-attribute name="title" value="New math form"/>
-		<put-attribute name="body" value="/WEB-INF/views/pages/add-mathform.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/add-solution.jsp"/>
 	</definition>
 
-	<!-- Edit mathform -->
-	<definition name="edit-mathform" extends="base-layout">
+	<!-- Edit solution -->
+	<definition name="edit-solution" extends="base-layout">
 		<put-attribute name="title" value="Edit math form"/>
-		<put-attribute name="body" value="/WEB-INF/views/pages/edit-mathform.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/views/pages/edit-solution.jsp"/>
 	</definition>
 
 	<!-- Add new exercise -->

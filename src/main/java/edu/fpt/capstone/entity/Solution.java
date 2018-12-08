@@ -25,13 +25,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Chip Caber
  */
 @Entity
-@Table(name = "mathform", catalog = "math_formulas")
+@Table(name = "solution", catalog = "math_formulas")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Mathform.findAll", query = "SELECT m FROM Mathform m")
-    , @NamedQuery(name = "Mathform.findById", query = "SELECT m FROM Mathform m WHERE m.id = :id")
-    , @NamedQuery(name = "Mathform.findByTitle", query = "SELECT m FROM Mathform m WHERE m.mathformTitle = :mathformTitle")})
-public class Mathform implements Serializable {
+    @NamedQuery(name = "Solution.findAll", query = "SELECT s FROM Solution s")
+    , @NamedQuery(name = "Solution.findById", query = "SELECT s FROM Solution s WHERE s.id = :id")
+    , @NamedQuery(name = "Solution.findByTitle", query = "SELECT s FROM Solution s WHERE s.title = :title")})
+public class Solution implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,35 +40,32 @@ public class Mathform implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "mathform_title", nullable = false, length = 255)
-    private String mathformTitle;
+    @Column(nullable = false, length = 255)
+    private String title;
     @Basic(optional = false)
     @Lob
-    @Column(name = "mathform_content", nullable = false, length = 2147483647)
-    private String mathformContent;
+    @Column(nullable = false, length = 2147483647)
+    private String content;
     @JoinColumn(name = "lesson_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Lesson lessonId;
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User createdBy;
 
-    public Mathform() {
+    public Solution() {
     }
 
-    public Mathform(Integer id) {
+    public Solution(Integer id) {
         this.id = id;
     }
 
-    public Mathform(Integer id, String mathformTitle, String mathformContent) {
+    public Solution(Integer id, String title, Lesson lessonId) {
         this.id = id;
-        this.mathformTitle = mathformTitle;
-        this.mathformContent = mathformContent;
-    }
-    
-    public Mathform(Integer id, String mathformTitle, Lesson lessonId) {
-        this.id = id;
-        this.mathformTitle = mathformTitle;
+        this.title = title;
         this.lessonId = lessonId;
     }
 
@@ -80,31 +77,31 @@ public class Mathform implements Serializable {
         this.id = id;
     }
 
-    public String getMathformTitle() {
-        return mathformTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMathformTitle(String mathformTitle) {
-        this.mathformTitle = mathformTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getMathformContent() {
-        return mathformContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setMathformContent(String mathformContent) {
-        this.mathformContent = mathformContent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Lesson getLessonId() {
-		return lessonId;
-	}
+        return lessonId;
+    }
 
-	public void setLessonId(Lesson lessonId) {
-		this.lessonId = lessonId;
-	}
+    public void setLessonId(Lesson lessonId) {
+        this.lessonId = lessonId;
+    }
 
-	public Version getVersionId() {
+    public Version getVersionId() {
         return versionId;
     }
 
@@ -112,9 +109,17 @@ public class Mathform implements Serializable {
         this.versionId = versionId;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
-        return "entity.Mathform[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.Solution[ id=" + id + " ]";
     }
     
 }

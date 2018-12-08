@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package edu.fpt.capstone.entity;
 
 import java.io.Serializable;
@@ -39,6 +44,9 @@ public class DeleteQuery implements Serializable {
     @JoinColumn(name = "version_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Version versionId;
+    @JoinColumn(name = "created_by", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private User createdBy;
 
     public DeleteQuery() {
     }
@@ -76,9 +84,17 @@ public class DeleteQuery implements Serializable {
         this.versionId = versionId;
     }
 
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
     @Override
     public String toString() {
-        return "entity.DeleteQuery[ id=" + id + " ]";
+        return "edu.fpt.capstone.entity.DeleteQuery[ id=" + id + " ]";
     }
     
 }

@@ -24,7 +24,7 @@
         padding: 5px;
     }
 
-    #save-mathform {
+    #save-solution {
         margin-top: 10px;
 		border: none;
 		background: #0084ff;
@@ -36,15 +36,15 @@
 <div class="content-header">
     <h3 class="content-title">Add math form</h3>
 </div>
-<form:form method="post" action="save-new-mathform" modelAttribute="mathform" acceptCharset="UTF-8">
+<form:form method="post" action="save-new-solution" modelAttribute="solution" acceptCharset="UTF-8">
     <div class="form-title">
-        <label for="mathformTitle">Title</label>
-        <form:input path="mathformTitle" id="mathformTitle" />
+        <label for="title">Title</label>
+        <form:input path="title" id="title" />
     </div><br>
     <label for="input">Content</label>
-    <form:textarea path="mathformContent" id="input" />
+    <form:textarea path="content" id="input" />
     <form:hidden path="lessonId.id" />
-    <button class="btn btn-default ld-ext-right content-button" id="save-mathform">
+    <button class="btn btn-default ld-ext-right content-button" id="save-solution">
         Save <div class="ld ld-ring ld-spin"></div>
     </button>
 </form:form>
@@ -54,30 +54,30 @@
     $(document).ready(function () {
         // Validation
         $('form').submit(function (e) {
-            $('#save-mathform').prop('disabled', true);
-            $('#save-mathform').addClass('disabled running');
-            var mathformTitle = $('#mathformTitle').val().trim();
-            var mathformContent = $('#input').val().replace(
+            $('#save-solution').prop('disabled', true);
+            $('#save-solution').addClass('disabled running');
+            var title = $('#title').val().trim();
+            var content = $('#input').val().replace(
                 /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
             ).trim();
-            if (mathformTitle === '' || mathformTitle === null) {
+            if (title === '' || title === null) {
                 e.preventDefault();
-                $('#save-mathform').removeAttr('disabled');
-                $('#save-mathform').removeClass('disabled').removeClass('running');
+                $('#save-solution').removeAttr('disabled');
+                $('#save-solution').removeClass('disabled').removeClass('running');
                 $('.form-title>span').remove();
                 $('form>span').remove();
                 $('.fr-wrapper').removeAttr('style');
                 $('.fr-counter').removeAttr('style');
-                $('#mathformTitle').css('border', '1px solid red');
+                $('#title').css('border', '1px solid red');
                 $('.form-title').append('<span></span><span style="color: red; margin-top: 5px">Title field is required</span>')
-            } else if (mathformContent === '' || mathformContent === null) {
+            } else if (content === '' || content === null) {
                 e.preventDefault();
-                $('#save-mathform').removeAttr('disabled');
-                $('#save-mathform').removeClass('disabled').removeClass('running');
+                $('#save-solution').removeAttr('disabled');
+                $('#save-solution').removeClass('disabled').removeClass('running');
                 $('.form-title>span').remove();
                 $('form>span').remove();
                 $('label[for="input"]').next('br').remove();
-                $('#mathformTitle').removeAttr('style');
+                $('#title').removeAttr('style');
                 $('<br><span style="color: red; margin-top: 5px">Content is required</span>').insertAfter($('label[for="input"]'));
                 $('.fr-wrapper').css('border', '2px solid red');
                 $('.fr-counter').css('border-bottom', '2px solid red');

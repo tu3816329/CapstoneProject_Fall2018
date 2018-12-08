@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="CapstoneProject_Fall2018_API">
-		<class>edu.fpt.capstone.entity.Division</class>
+		<class>edu.fpt.capstone.entity.Subject</class>
 		<class>edu.fpt.capstone.entity.Question</class>
 		<class>edu.fpt.capstone.entity.Lesson</class>
 		<class>edu.fpt.capstone.entity.Version</class>
 		<class>edu.fpt.capstone.entity.Grade</class>
-		<class>edu.fpt.capstone.entity.Mathform</class>
+		<class>edu.fpt.capstone.entity.Solution</class>
 		<class>edu.fpt.capstone.entity.Exercise</class>
 		<class>edu.fpt.capstone.entity.QuestionChoice</class>
 		<class>edu.fpt.capstone.entity.Chapter</class>
 		<class>edu.fpt.capstone.entity.DeleteQuery</class>
+		<class>edu.fpt.capstone.entity.User</class>
 	</persistence-unit>
 </persistence>

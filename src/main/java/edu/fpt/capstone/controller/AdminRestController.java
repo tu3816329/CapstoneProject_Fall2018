@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.fpt.capstone.entity.Chapter;
-import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Subject;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.service.ChapterService;
-import edu.fpt.capstone.service.DivisionService;
+import edu.fpt.capstone.service.SubjectService;
 import edu.fpt.capstone.service.GradeService;
 import edu.fpt.capstone.service.LessonService;
 import edu.fpt.capstone.service.MathFormulasAdminService;
-import edu.fpt.capstone.service.MathformService;
+import edu.fpt.capstone.service.SolutionService;
 import edu.fpt.capstone.service.VersionService;
 
 @RestController
@@ -34,7 +34,7 @@ public class AdminRestController {
 	ChapterService chapterService;
 	
 	@Autowired
-	DivisionService divisionService;
+	SubjectService subjectService;
 	
 	@Autowired
 	GradeService gradeService;
@@ -43,7 +43,7 @@ public class AdminRestController {
 	LessonService lessonService;
 	
 	@Autowired
-	MathformService mathformService;
+	SolutionService solutionService;
 	
 	@Autowired
 	VersionService versionService;
@@ -57,10 +57,10 @@ public class AdminRestController {
 		return gradeService.getAllGrades();
 	}
 	
-	@RequestMapping(value = "get-divisions", method = RequestMethod.GET)
+	@RequestMapping(value = "get-subjects", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Division> getAllDivision() {
-		return divisionService.getAllDivisions();
+	public List<Subject> getAllSubject() {
+		return subjectService.getAllSubjects();
 	}
 	
 	@RequestMapping(value = "load-chapters-table", method = RequestMethod.GET)

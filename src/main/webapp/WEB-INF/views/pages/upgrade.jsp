@@ -32,7 +32,7 @@
 		color: white;
 	}
 
-	.error {
+	span.error {
 		color: red;
 		margin-left: 10px;
 	}
@@ -41,16 +41,10 @@
 <div class="content-header">
 	<h3 class="content-title">Release new version</h3>
 </div>
-<input type="hidden" value="${latest.databaseVersion}" id="latestDbVersion">
 <form:form method="post" action="upgrade-version" modelAttribute="version">
 	<div class="form-item">
 		<label for="currentVersion">Current version</label>
-		<input id="currentVersion" type="text" disabled="disabled" value="${latest.databaseVersion} - ${latest.versionName}">
-	</div>
-	<div class="form-item">
-		<label for="databaseVersion">Version number</label>
-		<form:input path="databaseVersion" />
-		<span class="error"></span>
+		<input id="currentVersion" type="text" disabled="disabled" value="${latest.id} - ${latest.versionName}">
 	</div>
 	<div class="form-item">
 		<label for="versionName">Version name</label>
@@ -69,19 +63,9 @@
 
 	// Validation
 	$('form').submit(function (e) {
-		$('#databaseVersion').removeAttr('style');
 		$('#versionName').removeAttr('style');
-		var databaseVersion = $('#databaseVersion').val().trim();
 		var versionName = $('#versionName').val().trim();
-		if (databaseVersion === '' || databaseVersion === null) {
-			e.preventDefault();
-			$('#databaseVersion').css('border', '1px solid red');
-			$('span.error:eq(0)').text('Please input database version');
-		} else if(databaseVersion < $('#latestDbVersion').val()) {
-			e.preventDefault();
-			$('#databaseVersion').css('border', '1px solid red');
-			$('span.error:eq(0)').text('New database version must be greater than current database version');
-		} else if (versionName === '' || versionName === null) {
+		if (versionName === '' || versionName === null) {
 			e.preventDefault();
 			$('#versionName').css('border', '1px solid red');
 			$('span.error:eq(1)').text('Please input version name');

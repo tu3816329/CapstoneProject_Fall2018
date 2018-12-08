@@ -44,11 +44,11 @@
 </div>
 <form:form method="post" action="save-new-lesson" modelAttribute="lesson" acceptCharset="UTF-8">
     <div class="form-title">
-        <label for="lessonTitle">Title</label>
-        <form:input path="lessonTitle" id="lessonTitle" />
+        <label for="title">Title</label>
+        <form:input path="title" id="title" />
     </div><br>
     <label for="input">Content</label>
-    <form:textarea path="lessonContent" id="input" />
+    <form:textarea path="content" id="input" />
     <form:hidden path="chapterId.id" />
     <button class="btn btn-default ld-ext-right content-button" id="save-lesson">
         Save <div class="ld ld-ring ld-spin"></div>
@@ -61,11 +61,11 @@
         $('form').submit(function (e) {
             $('#save-lesson').prop('disabled', true);
             $('#save-lesson').addClass('disabled running');
-            var lessonTitle = $('#lessonTitle').val().trim();
-            var lessonContent = $('#input').val().replace(
+            var title = $('#title').val().trim();
+            var content = $('#input').val().replace(
                 /<br>|<p>|<h1>|<h2>|<h3>|<h4>|<h5>|<h6>|&nbsp;|<\/p>|<\/h1>|<\/h2>|<\/h3>|<\/h4>|<\/h5>|<\/h6>/g, ''
             ).trim();
-            if (lessonTitle === '' || lessonTitle === null) {
+            if (title === '' || title === null) {
                 e.preventDefault();
                 $('#save-lesson').removeAttr('disabled');
                 $('#save-lesson').removeClass('disabled').removeClass('running');
@@ -73,16 +73,16 @@
                 $('form>span').remove();
                 $('.fr-wrapper').removeAttr('style');
                 $('.fr-counter').removeAttr('style');
-                $('#lessonTitle').css('border', '1px solid red');
+                $('#title').css('border', '1px solid red');
                 $('.form-title').append('<span></span><span style="color: red; margin-top: 5px">Title field is required</span>')
-            } else if (lessonContent === '' || lessonContent === null) {
+            } else if (content === '' || content === null) {
                 e.preventDefault();
                 $('#save-lesson').removeAttr('disabled');
                 $('#save-lesson').removeClass('disabled').removeClass('running');
                 $('.form-title>span').remove();
                 $('form>span').remove();
                 $('label[for="input"]').next('br').remove();
-                $('#lessonTitle').removeAttr('style');
+                $('#title').removeAttr('style');
                 $('<br><span style="color: red; margin-top: 5px">Content is required</span>').insertAfter($('label[for="input"]'));
                 $('.fr-wrapper').css('border', '2px solid red');
                 $('.fr-counter').css('border-bottom', '2px solid red');

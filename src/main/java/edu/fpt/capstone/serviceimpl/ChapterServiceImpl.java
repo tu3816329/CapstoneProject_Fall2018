@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.fpt.capstone.entity.Chapter;
-import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Subject;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.ChapterRepository;
-import edu.fpt.capstone.repository.DivisionRepository;
+import edu.fpt.capstone.repository.SubjectRepository;
 import edu.fpt.capstone.repository.GradeRepository;
 import edu.fpt.capstone.service.ChapterService;
 import edu.fpt.capstone.service.LessonService;
@@ -37,7 +37,7 @@ public class ChapterServiceImpl implements ChapterService {
 	LessonService lessonService;
 	
 	@Autowired
-	DivisionRepository divisionRepository;
+	SubjectRepository subjectRepository;
 	
 	@Autowired
 	GradeRepository gradeRepository;
@@ -66,10 +66,10 @@ public class ChapterServiceImpl implements ChapterService {
 	}
 	
 	@Override
-	public List<Chapter> getChaptersByDivisionAndGrade(int divisionId, int gradeId) {
-		Division division = divisionRepository.findOne(divisionId);
+	public List<Chapter> getChaptersBySubjectAndGrade(int subjectId, int gradeId) {
+		Subject subject = subjectRepository.findOne(subjectId);
 		Grade grade = gradeRepository.findOne(gradeId);
-		return chapterRepository.findByDivisionIdAndGradeId(division, grade);
+		return chapterRepository.findBySubjectIdAndGradeId(subject, grade);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class ChapterServiceImpl implements ChapterService {
 	@Override
 	public boolean isEqualChapter(Chapter oldChapter, Chapter newChapter) {
 		return (oldChapter.getChapterName().equals(newChapter.getChapterName().trim()))
-				&& (oldChapter.getDivisionId().getId() == newChapter.getDivisionId().getId())
+				&& (oldChapter.getSubjectId().getId() == newChapter.getSubjectId().getId())
 				&& (oldChapter.getGradeId().getId() == newChapter.getGradeId().getId());
 	}
 
@@ -92,9 +92,11 @@ public class ChapterServiceImpl implements ChapterService {
 			if (newChapter.getId() != 0) {
 				Chapter oldChapter = getChapterById(newChapter.getId());
 				if (!isEqualChapter(oldChapter, newChapter)) {
-					newChapter.setChapterIcon(oldChapter.getChapterIcon());
-					newChapter.setVersionId(noneVersion);
-					chapterRepository.save(newChapter);
+					if(!isDuplicateChapter(newChapter)) {
+						newChapter.setChapterIcon(oldChapter.getChapterIcon());
+						newChapter.setVersionId(noneVersion);
+						chapterRepository.save(newChapter);
+					}
 				}
 			} else {
 				if(!isDuplicateChapter(newChapter)) {

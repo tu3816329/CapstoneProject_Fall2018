@@ -8,16 +8,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.capstone.entity.Lesson;
-import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Solution;
 import edu.fpt.capstone.entity.Version;
 
-public interface MathFormRepository extends CrudRepository<Mathform, Integer> {
+public interface SolutionRepository extends CrudRepository<Solution, Integer> {
 	
-	public List<Mathform> findByVersionId(Version version);
+	public List<Solution> findByVersionId(Version version);
 	
-	public List<Mathform> findByLessonId(Lesson lesson);
+	public List<Solution> findByLessonId(Lesson lesson);
 	
 	@Transactional
-	@Query("select m from Mathform m where m.versionId.id > :userVersion")
-	public List<Mathform> getNewMathforms(@Param("userVersion") int userVersion);
+	@Query("select s from Solution s where s.versionId.id > :userVersion")
+	public List<Solution> getNewSolutions(@Param("userVersion") int userVersion);
 }

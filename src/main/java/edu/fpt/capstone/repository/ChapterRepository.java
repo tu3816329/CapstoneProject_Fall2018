@@ -9,17 +9,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.fpt.capstone.entity.Chapter;
-import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Subject;
 import edu.fpt.capstone.entity.Grade;
 import edu.fpt.capstone.entity.Version;
 
 public interface ChapterRepository extends CrudRepository<Chapter, Integer> {
 	
-	public List<Chapter> findByDivisionId(Division division);
+	public List<Chapter> findBySubjectId(Subject subject);
 	
 	@Transactional
 	@Modifying
-	@Query("update Chapter c set c.versionId =:latestVersionId where c.versionId =0")
+	@Query("update Chapter c set c.versionId =:latestVersionId where c.versionId = 0")
 	public int updateChapterVersion(@Param("latestVersionId") int latestVersionId);
 	
 	@Transactional
@@ -32,5 +32,5 @@ public interface ChapterRepository extends CrudRepository<Chapter, Integer> {
 	@Query("select c from Chapter c where c.chapterName = :chapterName")
 	public List<Chapter> getByChapterName(@Param("chapterName") String chapterName);
 	
-	public List<Chapter> findByDivisionIdAndGradeId(Division division, Grade grade);
+	public List<Chapter> findBySubjectIdAndGradeId(Subject subject, Grade grade);
 }

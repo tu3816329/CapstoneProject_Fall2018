@@ -44,7 +44,7 @@
 		background-color: #00BCD4;
 	}
 
-	.new-mathform-list {
+	.new-solution-list {
 		background-color: #009688;
 	}
 
@@ -76,7 +76,7 @@
 		<ul class="new-data-list">
 			<a:if test="${not empty newlessons}">
 				<a:forEach var="nl" items="${newlessons}">
-					<li class=" new-data-list-item">${nl.lessonTitle}</li>
+					<li class=" new-data-list-item">${nl.title}</li>
 				</a:forEach>
 			</a:if>
 			<a:if test="${empty newlessons}">
@@ -84,15 +84,15 @@
 			</a:if>
 		</ul>
 	</div>
-	<div class="new-data new-mathform-list">
+	<div class="new-data new-solution-list">
 		<p class="new-data-title">New math forms</p>
 		<ul class="new-data-list">
-			<a:if test="${not empty newmathforms}">
-				<a:forEach var="nm" items="${newmathforms}">
-					<li class=" new-data-list-item">${nm.mathformTitle}</li>
+			<a:if test="${not empty newsolutions}">
+				<a:forEach var="nm" items="${newsolutions}">
+					<li class=" new-data-list-item">${nm.title}</li>
 				</a:forEach>
 			</a:if>
-			<a:if test="${empty newmathforms}">
+			<a:if test="${empty newsolutions}">
 				<li class="new-data-list-item">No new math form</li>
 			</a:if>
 		</ul>
@@ -102,7 +102,6 @@
 	<table id="versions-table" class="table table-hover">
 		<thead>
 			<tr>
-				<th>Version number</th>
 				<th>Name</th>
 				<th>Status</th>
 			</tr>
@@ -110,7 +109,6 @@
 		<tbody>
 			<a:forEach items="${versions}" var="v">
 				<tr>
-					<td>${v.databaseVersion}</td>
 					<td>${v.versionName}</td>
 					<td>
 						<a:if test="${v.isCurrent eq true}">

@@ -8,21 +8,23 @@ import org.springframework.stereotype.Service;
 import edu.fpt.capstone.data.ResponseData;
 import edu.fpt.capstone.entity.Chapter;
 import edu.fpt.capstone.entity.DeleteQuery;
-import edu.fpt.capstone.entity.Division;
+import edu.fpt.capstone.entity.Subject;
+import edu.fpt.capstone.entity.User;
 import edu.fpt.capstone.entity.Exercise;
 import edu.fpt.capstone.entity.Lesson;
 import edu.fpt.capstone.entity.Grade;
-import edu.fpt.capstone.entity.Mathform;
+import edu.fpt.capstone.entity.Solution;
 import edu.fpt.capstone.entity.Question;
 import edu.fpt.capstone.entity.QuestionChoice;
 import edu.fpt.capstone.entity.Version;
 import edu.fpt.capstone.repository.ChapterRepository;
 import edu.fpt.capstone.repository.DeleteQueryRepository;
-import edu.fpt.capstone.repository.DivisionRepository;
+import edu.fpt.capstone.repository.SubjectRepository;
+import edu.fpt.capstone.repository.UserRepository;
 import edu.fpt.capstone.repository.ExerciseRepository;
 import edu.fpt.capstone.repository.LessonRepository;
 import edu.fpt.capstone.repository.GradeRepository;
-import edu.fpt.capstone.repository.MathFormRepository;
+import edu.fpt.capstone.repository.SolutionRepository;
 import edu.fpt.capstone.repository.QuestionChoiceRepository;
 import edu.fpt.capstone.repository.QuestionRepository;
 import edu.fpt.capstone.repository.VersionRepository;
@@ -38,11 +40,11 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	@Autowired
 	GradeRepository gradeRepository;
 	@Autowired
-	DivisionRepository divisionRepository;
+	SubjectRepository subjectRepository;
 	@Autowired
 	LessonRepository lessonRepository;
 	@Autowired
-	MathFormRepository mathFormRepository;
+	SolutionRepository solutionRepository;
 	@Autowired
 	ExerciseRepository exerciseRepository;
 	@Autowired
@@ -55,10 +57,13 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	DeleteQueryRepository deleteQueryRepository;
 	@Autowired
 	DeleteQueryService deleteQueryService;
+	@Autowired
+	UserRepository userRepository;
 
 	@Override
 	public void initializeData() {
-		Version version = new Version(0, 0, "None Version", true);
+		User user = userRepository.findOne(1);
+		Version version = new Version(0, "None Version", true, user);
 		version = versionRepository.save(version);
 		Grade grade10 = new Grade(1, "Lớp 10", version);
 		Grade grade11 = new Grade(2, "Lớp 11", version);
@@ -66,10 +71,10 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 		gradeRepository.save(grade10);
 		gradeRepository.save(grade11);
 		gradeRepository.save(grade12);
-		Division division1 = new Division(1, "Đại số", version);
-		Division division2 = new Division(2, "Hình học", version);
-		divisionRepository.save(division1);
-		divisionRepository.save(division2);
+		Subject division1 = new Subject(1, "Đại số", version);
+		Subject division2 = new Subject(2, "Hình học", version);
+		subjectRepository.save(division1);
+		subjectRepository.save(division2);
 	}
 
 	@Override
@@ -81,10 +86,10 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 			grade.setVersionId(latestVersion);
 			gradeRepository.save(grade);
 		}
-		List<Division> divisions = divisionRepository.findByVersionId(noneVersion);
-		for (Division division : divisions) {
-			division.setVersionId(latestVersion);
-			divisionRepository.save(division);
+		List<Subject> subjects = subjectRepository.findByVersionId(noneVersion);
+		for (Subject subject : subjects) {
+			subject.setVersionId(latestVersion);
+			subjectRepository.save(subject);
 		}
 		List<Chapter> chapters = chapterRepository.findByVersionId(noneVersion);
 		for (Chapter chapter : chapters) {
@@ -96,10 +101,10 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 			lesson.setVersionId(latestVersion);
 			lessonRepository.save(lesson);
 		}
-		List<Mathform> mathforms = mathFormRepository.findByVersionId(noneVersion);
-		for (Mathform mathform : mathforms) {
-			mathform.setVersionId(latestVersion);
-			mathFormRepository.save(mathform);
+		List<Solution> solutions = solutionRepository.findByVersionId(noneVersion);
+		for (Solution solution : solutions) {
+			solution.setVersionId(latestVersion);
+			solutionRepository.save(solution);
 		}
 		List<Exercise> exercises = exerciseRepository.findByVersionId(noneVersion);
 		for (Exercise exercise : exercises) {
@@ -136,15 +141,15 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	@Override
 	public ResponseData getNewData(int userVersion) {
 		List<Grade> grades = gradeRepository.getNewGrades(userVersion);
-		List<Division> divisions = divisionRepository.getNewDivisions(userVersion);
+		List<Subject> subjects = subjectRepository.getNewSolutions(userVersion);
 		List<Chapter> chapters = chapterRepository.getNewChapters(userVersion);
 		List<Lesson> lessons = lessonRepository.getNewLessons(userVersion);
-		List<Mathform> mathforms = mathFormRepository.getNewMathforms(userVersion);
+		List<Solution> solutions = solutionRepository.getNewSolutions(userVersion);
 		List<Exercise> exercises = exerciseRepository.getNewExercises(userVersion);
 		List<Question> questions = questionRepository.getNewQuestions(userVersion);
 		List<QuestionChoice> choices = questionChoiceRepository.getNewQuestionChoices(userVersion);
 		List<DeleteQuery> queries = deleteQueryRepository.getNewDeleteQueries(userVersion);
-		ResponseData data = new ResponseData(grades, divisions, chapters, lessons, mathforms, 
+		ResponseData data = new ResponseData(grades, subjects, chapters, lessons, solutions, 
 				exercises, questions, choices, queries);
 		return data;
 	}
