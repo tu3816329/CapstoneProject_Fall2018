@@ -16,12 +16,12 @@ public interface SubjectRepository extends CrudRepository<Subject, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query("update Solution s set s.versionId = :latestVersionId where s.versionId = 0")
-	public int updateSolutionVersion(@Param("latestVersionId") int latestVersionId);
+	@Query("update Subject s set s.versionId = :latestVersionId where s.versionId = 0")
+	public int updateSubjectVersion(@Param("latestVersionId") int latestVersionId);
 	
 	@Transactional
-	@Query("select s from Solution s where s.versionId.id > :userVersion")
-	public List<Subject> getNewSolutions(@Param("userVersion") int userVersion);
+	@Query("select s from Subject s where s.versionId.id > :userVersion")
+	public List<Subject> getNewSubjects(@Param("userVersion") int userVersion);
 	
 	public List<Subject> findByVersionId(Version version);
 }

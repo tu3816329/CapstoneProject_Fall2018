@@ -141,7 +141,7 @@ public class MathFormulasAdminServiceImpl implements MathFormulasAdminService {
 	@Override
 	public ResponseData getNewData(int userVersion) {
 		List<Grade> grades = gradeRepository.getNewGrades(userVersion);
-		List<Subject> subjects = subjectRepository.getNewSolutions(userVersion);
+		List<Subject> subjects = subjectRepository.getNewSubjects(userVersion);
 		List<Chapter> chapters = chapterRepository.getNewChapters(userVersion);
 		List<Lesson> lessons = lessonRepository.getNewLessons(userVersion);
 		List<Solution> solutions = solutionRepository.getNewSolutions(userVersion);
